@@ -14,14 +14,35 @@ namespace NetCoreSample.Controllers
         IMongoDatabase _db = _mongodbRepository._database;
         public ActionResult Index()
         {
-            var users = _db.GetCollection<User>("User");
-
+            //var users = _db.GetCollection<User>("User");
+            
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View(new User());
+        }
+
+        [HttpPost]
+        public ActionResult Login(User user)
+        {
+            var users = _db.GetCollection<User>("User");
+            try {
+                //users.InsertOne(user);
+            }
+            catch(Exception ex) {
+
+            }
+            
+            return View(user);
         }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

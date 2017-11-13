@@ -1,0 +1,13 @@
+﻿@{
+    if (TempData["ErrorMessage"] != null)
+    {
+        var ErrorMessages = (List<string>)TempData["ErrorMessage"];
+        foreach (var errorMessage in ErrorMessages)
+        {
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Warning!</strong> @errorMessage
+            </div>
+        }
+    }
+}

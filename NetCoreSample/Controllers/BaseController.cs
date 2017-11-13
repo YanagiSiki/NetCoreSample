@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreSample.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace NetCoreSample.Controllers
 {
@@ -14,34 +15,31 @@ namespace NetCoreSample.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var x = context.ActionDescriptor.AttributeRouteInfo;
             if (!context.ModelState.IsValid)
             {
-                throw new SampleException(context.ModelState);
+                var controller = context.Controller as Controller;
+                var errorMessage =  ErrorHandle(context.ModelState);
+                TempData["ErrorMessage"] = errorMessage;
+                context.Result = controller.View(context.ActionArguments.Values.First());
             }
 
         }
 
-        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        protected List<string> ErrorHandle(ModelStateDictionary modelState)
         {
-            if (filterContext.Exception != null)
+            return modelState.Keys
+            .SelectMany(key => modelState[key].Errors.Select(x => x.ErrorMessage)).ToList();
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            if (context.Exception != null)
             {
-                Console.WriteLine(filterContext.Exception);
-                filterContext.ExceptionHandled = true;
-
-                ViewBag.ss = "12";
-                var controller = filterContext.Controller as Controller;
-
-                controller.ViewBag.Exception = "Foo message";
-
-                filterContext.Result = controller.View();
-
-                //filterContext.Result = new ViewResult
-                //{
-                //    ViewName = Url.Action((string)filterContext.RouteData.Values["Controller"], (string)filterContext.RouteData.Values["action"]),
-                //    ViewData =
-                //    //{ {"Exception", filterContext.Exception } },
-                //};
+                Console.WriteLine(context.Exception);
+                context.ExceptionHandled = true;
+                var controller = context.Controller as Controller;
+                TempData["ErrorMessage"] = new List<string>() { context.Exception.Message };
+                context.Result = controller.View();
             }
 
         }
