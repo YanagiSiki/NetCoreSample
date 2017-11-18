@@ -7,6 +7,7 @@
     "target": "es5",
     "lib": [ "es6", "dom" ]
   },
+  "compileOnSave": true,
   "exclude": [
     "node_modules"
   ]

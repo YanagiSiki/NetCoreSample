@@ -15,7 +15,6 @@ namespace NetCoreSample.Controllers
         public ActionResult Index()
         {
             //var users = _db.GetCollection<User>("User");
-            
             return View();
         }
 
@@ -29,13 +28,22 @@ namespace NetCoreSample.Controllers
         public ActionResult Login(User user)
         {
             var users = _db.GetCollection<User>("User");
-            try {
-                //users.InsertOne(user);
-            }
-            catch(Exception ex) {
-
-            }
             
+            
+            return View(user);
+        }
+
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View(new User());
+        }
+
+        [HttpPost]
+        public ActionResult Register(User user)
+        {
+            var users = _db.GetCollection<User>("User");
+            users.InsertOneAsync(user);
             return View(user);
         }
 

@@ -60,6 +60,13 @@ a, a:hover, a:focus {
     color: #fff;
     transition: all 0.3s;
 }
+    #sidebar.noAction {
+        min-width: 250px;
+        max-width: 250px;
+        background: #7386D5;
+        color: #fff;
+        transition: all 0s;
+    }
 
     #sidebar.active {
         margin-left: -250px;
