@@ -15,12 +15,13 @@ namespace NetCoreSample.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            TempData["CurrentModel"] = context.ActionArguments.Values.FirstOrDefault();
             if (!context.ModelState.IsValid)
             {
                 var controller = context.Controller as Controller;
                 var errorMessage =  ErrorHandle(context.ModelState);
                 TempData["ErrorMessage"] = errorMessage;
-                context.Result = controller.View(context.ActionArguments.Values.First());
+                context.Result = controller.View(TempData["CurrentModel"]);
             }
 
         }
@@ -39,7 +40,7 @@ namespace NetCoreSample.Controllers
                 context.ExceptionHandled = true;
                 var controller = context.Controller as Controller;
                 TempData["ErrorMessage"] = new List<string>() { context.Exception.Message };
-                context.Result = controller.View();
+                context.Result = controller.View(TempData["CurrentModel"]);
             }
 
         }

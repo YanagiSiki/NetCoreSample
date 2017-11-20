@@ -28,9 +28,13 @@ namespace NetCoreSample.Controllers
         public ActionResult Login(User user)
         {
             var users = _db.GetCollection<User>("User");
-            
-            
-            return View(user);
+            var dbUser = users.Find(i => i.Email == user.Email).FirstOrDefault();
+            if (dbUser == null) {
+                throw new Exception("查無使用者");
+            }
+            if(user.Password.ValidatePassword(dbUser.Password))
+                return View(user);
+            throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
@@ -43,7 +47,10 @@ namespace NetCoreSample.Controllers
         public ActionResult Register(User user)
         {
             var users = _db.GetCollection<User>("User");
-            users.InsertOneAsync(user);
+            user.Password = user.Password.HashPassword();
+            users.InsertOneAsync(user, new InsertOneOptions() {
+
+            });
             return View(user);
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace NetCoreSample.Models
 {
+    [BsonIgnoreExtraElements]
     public class User
     {        
         [Required]
