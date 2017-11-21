@@ -1,0 +1,9 @@
+/.vs
+/NetCoreSample/obj
+/NetCoreSample/*.user
+/NetCoreSample/.vscode
+/NetCoreSample/bin
+/*.gitignore
+*.gitattributes
+/NetCoreSample/node_modules
+/NetCoreSample/package-lock.json
