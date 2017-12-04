@@ -9,12 +9,14 @@ namespace NetCoreSample.Models
 {
     [BsonIgnoreExtraElements]
     public class User
-    {        
-        [Required]
+    {
+        [Key]
+        public int UserId { get; set; }
+        [Required, BsonRequired]
         public string Email { get; set; }
-        [Required]
+        [Required, BsonRequired]
         public string Name { get; set; }
-        [Required]
+        [Required, BsonRequired]
         public string Password { get; set; }
         public DateTime? LoginedAt { get; set; }
     }

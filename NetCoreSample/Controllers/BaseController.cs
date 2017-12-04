@@ -12,10 +12,11 @@ namespace NetCoreSample.Controllers
     public class BaseController : Controller
     {
         protected static MongodbRepository _mongodbRepository = new MongodbRepository();
+        protected static MSSQLDbContext _MSSQLDbContext = new MSSQLDbContext();
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            TempData["CurrentModel"] = context.ActionArguments.Values.FirstOrDefault();
+            TempData["CurrentModel"] = context.ActionArguments.Values.Count == 1 ? context.ActionArguments.Values.FirstOrDefault() : null;
             if (!context.ModelState.IsValid)
             {
                 var controller = context.Controller as Controller;
@@ -42,7 +43,7 @@ namespace NetCoreSample.Controllers
                 TempData["ErrorMessage"] = new List<string>() { context.Exception.Message };
                 context.Result = controller.View(TempData["CurrentModel"]);
             }
-
+            TempData["CurrentModel"] = null;
         }
     }
 }

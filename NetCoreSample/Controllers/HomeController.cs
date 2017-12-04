@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreSample.Models;
 using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreSample.Controllers
 {
+    [AllowAnonymousAttribute]
     public class HomeController : BaseController
     {
-        IMongoDatabase _db = _mongodbRepository._database;
+        IMongoDatabase _mongoDb = _mongodbRepository._database;
+        //MSSQLDbContext _MSSQLDb = _MSSQLDbContext;
+
         public ActionResult Index()
         {
             //var users = _db.GetCollection<User>("User");
@@ -27,8 +33,14 @@ namespace NetCoreSample.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-            var users = _db.GetCollection<User>("User");
+            //*** for mongodb ***
+            var users = _mongoDb.GetCollection<User>("User");
             var dbUser = users.Find(i => i.Email == user.Email).FirstOrDefault();
+
+            //*** for MSSQL ***
+            //var users = _MSSQLDb.User;
+            //var dbUser = users.Where(i => i.Email == user.Email).FirstOrDefault();
+
             if (dbUser == null) {
                 throw new Exception("查無使用者");
             }
@@ -46,11 +58,16 @@ namespace NetCoreSample.Controllers
         [HttpPost]
         public ActionResult Register(User user)
         {
-            var users = _db.GetCollection<User>("User");
+            //*** for mongodb ***
+            var users = _mongoDb.GetCollection<User>("User");
             user.Password = user.Password.HashPassword();
-            users.InsertOneAsync(user, new InsertOneOptions() {
+            users.InsertOneAsync(user);
 
-            });
+            //*** for MSSQL ***
+            //_MSSQLDb.Set<User>().Add(user);
+            //_MSSQLDb.User.Add(user);
+            //_MSSQLDb.SaveChanges();
+
             return View(user);
         }
 
