@@ -23,7 +23,33 @@ namespace NetCoreSample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-           
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("BadgeEntry",
+            //        policy => policy.RequireAssertion(context =>
+            //                context.User.HasClaim(c =>
+            //                    (c.Type == "Admin" ||
+            //                    c.Type == "User")
+            //                    && c.Issuer == "https://microsoftsecurity"));
+            //}));
+            services.AddAuthorization(options => {
+                options.AddPolicy("NotLogin", policy => {
+                    policy.RequireAssertion(context => {
+                        return !context.User.HasClaim(c => {
+                            return c.Type == "Role";
+                        });
+                    });
+                });
+                //*** Admin ***
+                options.AddPolicy("Admin", policy => {
+                    policy.RequireAssertion(context => {
+                        return context.User.HasClaim(c => {
+                            return c.Type == "Role" && c.Value == "Admin";
+                        });
+                    });
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

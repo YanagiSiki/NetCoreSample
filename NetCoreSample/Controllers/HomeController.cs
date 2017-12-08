@@ -9,10 +9,11 @@ using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace NetCoreSample.Controllers
 {
-    [AllowAnonymousAttribute]
+    [AllowAnonymous]
     public class HomeController : BaseController
     {
         IMongoDatabase _mongoDb = _mongodbRepository._database;
@@ -25,12 +26,14 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpGet]
+        [Authorize(policy: "NotLogin")]
         public ActionResult Login()
         {
             return View(new User());
         }
 
         [HttpPost]
+        [Authorize(policy: "NotLogin")]
         public ActionResult Login(User user)
         {
             //*** for mongodb ***
@@ -44,18 +47,25 @@ namespace NetCoreSample.Controllers
             if (dbUser == null) {
                 throw new Exception("查無使用者");
             }
-            if(user.Password.ValidatePassword(dbUser.Password))
+            
+            if (user.Password.ValidatePassword(dbUser.Password)) {
+                User.AddIdentity(new ClaimsIdentity(new Claim[] {
+                    new Claim(Roles.Role, Roles.Admin)
+                }));
                 return View(user);
+            }
             throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
+        [Authorize(policy: "NotLogin")]
         public ActionResult Register()
         {
             return View(new User());
         }
 
         [HttpPost]
+        [Authorize(policy: "NotLogin")]
         public ActionResult Register(User user)
         {
             //*** for mongodb ***
