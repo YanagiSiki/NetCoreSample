@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using NetCoreSample.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace NetCoreSample
 {
@@ -32,11 +33,20 @@ namespace NetCoreSample
             //                    c.Type == "User")
             //                    && c.Issuer == "https://microsoftsecurity"));
             //}));
+            services.AddAuthentication("UserLog")
+            .AddCookie("UserLog", options => {
+                options.AccessDeniedPath = "/Error";
+                options.LoginPath = "/Login";
+            });
             services.AddAuthorization(options => {
+                //options.AddPolicy("NotLogin", policy => {
+                //    policy.RequireClaim(Roles.Role, Roles.Admin);
+                //});
+                //*** NotLogin ***
                 options.AddPolicy("NotLogin", policy => {
                     policy.RequireAssertion(context => {
                         return !context.User.HasClaim(c => {
-                            return c.Type == "Role";
+                            return c.Type == Roles.Role;
                         });
                     });
                 });
@@ -44,7 +54,7 @@ namespace NetCoreSample
                 options.AddPolicy("Admin", policy => {
                     policy.RequireAssertion(context => {
                         return context.User.HasClaim(c => {
-                            return c.Type == "Role" && c.Value == "Admin";
+                            return c.Type == Roles.Role && c.Value == Roles.Admin;
                         });
                     });
                 });
@@ -66,7 +76,7 @@ namespace NetCoreSample
             }
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

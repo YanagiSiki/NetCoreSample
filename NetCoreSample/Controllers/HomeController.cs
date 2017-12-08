@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using NetCoreSample.Models;
+using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using NetCoreSample.Models;
-using MongoDB.Driver;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace NetCoreSample.Controllers
 {
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class HomeController : BaseController
     {
         IMongoDatabase _mongoDb = _mongodbRepository._database;
@@ -26,15 +25,15 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpGet]
-        [Authorize(policy: "NotLogin")]
+        [Authorize("NotLogin")]
         public ActionResult Login()
         {
             return View(new User());
         }
 
         [HttpPost]
-        [Authorize(policy: "NotLogin")]
-        public ActionResult Login(User user)
+        [Authorize("NotLogin")]
+        public async Task<ActionResult> Login(User user)
         {
             //*** for mongodb ***
             var users = _mongoDb.GetCollection<User>("User");
@@ -52,20 +51,22 @@ namespace NetCoreSample.Controllers
                 User.AddIdentity(new ClaimsIdentity(new Claim[] {
                     new Claim(Roles.Role, Roles.Admin)
                 }));
+
+                await HttpContext.SignInAsync("UserLog", User);
                 return View(user);
             }
             throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
-        [Authorize(policy: "NotLogin")]
+        [Authorize("NotLogin")]
         public ActionResult Register()
         {
             return View(new User());
         }
 
         [HttpPost]
-        [Authorize(policy: "NotLogin")]
+        [Authorize("NotLogin")]
         public ActionResult Register(User user)
         {
             //*** for mongodb ***
@@ -86,5 +87,9 @@ namespace NetCoreSample.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Authorize("Admin")]
+        public ActionResult About() {
+            return View();
+        }
     }
 }
