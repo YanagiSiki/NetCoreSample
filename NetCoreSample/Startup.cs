@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreSample.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace NetCoreSample
 {
@@ -24,36 +27,34 @@ namespace NetCoreSample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("BadgeEntry",
-            //        policy => policy.RequireAssertion(context =>
-            //                context.User.HasClaim(c =>
-            //                    (c.Type == "Admin" ||
-            //                    c.Type == "User")
-            //                    && c.Issuer == "https://microsoftsecurity"));
-            //}));
-            services.AddAuthentication("UserLog")
-            .AddCookie("UserLog", options => {
-                options.AccessDeniedPath = "/Error";
-                options.LoginPath = "/Login";
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.AccessDeniedPath = new PathString("/Home/Error");
+                options.LoginPath = new PathString("/Home/Login");
+                options.LogoutPath = new PathString("/Home/Logout");
             });
-            services.AddAuthorization(options => {
-                //options.AddPolicy("NotLogin", policy => {
-                //    policy.RequireClaim(Roles.Role, Roles.Admin);
-                //});
+            services.AddAuthorization(options =>
+            {
                 //*** NotLogin ***
-                options.AddPolicy("NotLogin", policy => {
-                    policy.RequireAssertion(context => {
-                        return !context.User.HasClaim(c => {
-                            return c.Type == Roles.Role;
-                        });
-                    });
-                });
+                //options.AddPolicy("NotLogin", policy =>
+                //{
+                //    policy.RequireAssertion(context =>
+                //    {
+                //        return !context.User.HasClaim(c =>
+                //        {
+                //            return c.Type == Roles.Role;
+                //        });
+                //    });
+                //});
                 //*** Admin ***
-                options.AddPolicy("Admin", policy => {
-                    policy.RequireAssertion(context => {
-                        return context.User.HasClaim(c => {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim(c =>
+                        {
                             return c.Type == Roles.Role && c.Value == Roles.Admin;
                         });
                     });
