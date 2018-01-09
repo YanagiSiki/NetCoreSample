@@ -25,7 +25,7 @@ namespace NetCoreSample.Models
             }
             catch (Exception e)
             {
-
+                Console.Write(e.Message);
             }
         }
     }

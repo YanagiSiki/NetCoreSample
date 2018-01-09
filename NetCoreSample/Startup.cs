@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace NetCoreSample
 {
@@ -35,19 +38,10 @@ namespace NetCoreSample
                 options.LoginPath = new PathString("/Home/Login");
                 options.LogoutPath = new PathString("/Home/Logout");
             });
+
+
             services.AddAuthorization(options =>
             {
-                //*** NotLogin ***
-                //options.AddPolicy("NotLogin", policy =>
-                //{
-                //    policy.RequireAssertion(context =>
-                //    {
-                //        return !context.User.HasClaim(c =>
-                //        {
-                //            return c.Type == Roles.Role;
-                //        });
-                //    });
-                //});
                 //*** Admin ***
                 options.AddPolicy("Admin", policy =>
                 {
@@ -60,7 +54,6 @@ namespace NetCoreSample
                     });
                 });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +71,9 @@ namespace NetCoreSample
 
             app.UseStaticFiles();
             app.UseAuthentication();
+
+           
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

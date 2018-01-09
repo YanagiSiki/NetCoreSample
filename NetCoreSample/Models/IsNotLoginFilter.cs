@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NetCoreSample.Models
 {
+    /// <summary>
+    /// 未登入才可看見
+    /// </summary>
     public class IsNotLoginFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)

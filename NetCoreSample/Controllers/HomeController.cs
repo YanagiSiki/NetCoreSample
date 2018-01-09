@@ -12,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace NetCoreSample.Controllers
 {
@@ -28,7 +29,6 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpGet]
-        //[Authorize("NotLogin")]
         [IsNotLoginFilter]
         public ActionResult Login()
         {
@@ -36,7 +36,6 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpPost]
-        //[Authorize("NotLogin")]
         [IsNotLoginFilter]
         public async Task<ActionResult> Login(User user)
         {
@@ -62,13 +61,13 @@ namespace NetCoreSample.Controllers
                 HttpContext.User = ClaimPriciple;
                 //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, User);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
-                return View(user);
+                //return View(user);
+                return Redirect("/Home");
             }
             throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
-        //[Authorize("NotLogin")]
         [IsNotLoginFilter]
         public ActionResult Register()
         {
@@ -76,7 +75,6 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpPost]
-        //[Authorize("NotLogin")]
         [IsNotLoginFilter]
         public ActionResult Register(User user)
         {
@@ -98,7 +96,7 @@ namespace NetCoreSample.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize("Admin")]
+        [Authorize(Roles.Admin)]
         public ActionResult About() {
             return View();
         }
