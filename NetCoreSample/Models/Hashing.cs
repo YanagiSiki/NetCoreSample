@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography;
-using System.Web.Helpers;
 
 namespace NetCoreSample.Models
 {
@@ -11,8 +10,9 @@ namespace NetCoreSample.Models
     {
         private static string GetRandomSalt()
         {
-            
-            return Crypto.GenerateSalt(10);
+
+            //return Crypto.GenerateSalt(10);
+            return "";
         }
 
         /// <summary>
@@ -22,7 +22,8 @@ namespace NetCoreSample.Models
         /// <returns>hash 過的密碼</returns>
         public static string HashPassword(this string password)
         {
-            return Crypto.HashPassword(password);
+            return "";
+            //return Crypto.HashPassword(password);
         }
 
         /// <summary>
@@ -33,7 +34,21 @@ namespace NetCoreSample.Models
         /// <returns></returns>
         public static bool ValidatePassword(this string password, string hashedPassword)
         {
-            return Crypto.VerifyHashedPassword(hashedPassword, password);
+            return true;
+            //return Crypto.VerifyHashedPassword(hashedPassword, password);
+        }
+
+        public const string Alphabet ="abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        public static string GenerateString(int size)
+        {
+            Random rand = new Random();
+            char[] chars = new char[size];
+            for (int i = 0; i < size; i++)
+            {
+                chars[i] = Alphabet[rand.Next(Alphabet.Length)];
+            }
+            return new string(chars);
         }
     }
 }

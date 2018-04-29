@@ -30,7 +30,7 @@ namespace NetCoreSample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddEntityFrameworkNpgsql();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {

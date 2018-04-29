@@ -1,23 +1,23 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreSample.Models
 {
-    [BsonIgnoreExtraElements]
     public class User
     {
-        [Key]
-        public int UserId { get; set; }
-        [Required, BsonRequired]
+        //https://stackoverflow.com/questions/36155429/auto-increment-on-partial-primary-key-with-entity-framework-core
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; } = 0;
+        [Required]
         public string Email { get; set; }
-        [Required, BsonRequired]
+        [Required]
         public string Name { get; set; }
-        [Required, BsonRequired]
+        [Required]
         public string Password { get; set; }
-        public DateTime? LoginedAt { get; set; }
+        public DateTime? LoginAt { get; set; }
+
+        public List<InterviewExperience>  InterviewExperience { get; set; } = new List<InterviewExperience>();
     }
 }
