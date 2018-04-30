@@ -118,7 +118,7 @@ namespace NetCoreSample.Controllers
             };
             _Npgsql.InterviewExperience.Add(ie);
             _Npgsql.SaveChanges();
-            return View("index");
+            return View("Index");
         }
     }
 }

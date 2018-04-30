@@ -50,7 +50,7 @@ namespace NetCoreSample.Controllers
                 var viewEngine = services.GetRequiredService<ICompositeViewEngine>();
                 var thisView = viewEngine.GetView(null, controller.RouteData.Values["action"].ToString(), true);
                 if (!thisView.Success)
-                    context.Result = controller.View("~/index",TempData["CurrentModel"]);
+                    context.Result = controller.View("Index",TempData["CurrentModel"]);
                 else
                 context.Result = controller.View(TempData["CurrentModel"]);
             }
