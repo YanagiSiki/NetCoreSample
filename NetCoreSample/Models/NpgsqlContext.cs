@@ -27,8 +27,11 @@ namespace NetCoreSample.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper();
-            Console.WriteLine(configurationHelper.GetValue("connectionStrings:postgresql"));
-            optionsBuilder.UseNpgsql(configurationHelper.GetValue("connectionStrings:postgresql"));
+            var dbUrl = configurationHelper.GetValue("connectionStrings:postgresql");
+            Console.WriteLine(dbUrl);
+            if (dbUrl.isNullOrEmpty())
+                dbUrl = Environment.GetEnvironmentVariable("dbUrl");
+            optionsBuilder.UseNpgsql(dbUrl);
             base.OnConfiguring(optionsBuilder);
         }
 

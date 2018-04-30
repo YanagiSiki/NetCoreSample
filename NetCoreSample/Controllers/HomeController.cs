@@ -99,9 +99,9 @@ namespace NetCoreSample.Controllers
 
         public ActionResult TestInser() {
             var user = new User() {
-                Name = Hashing.GenerateString(3),
-                Email = Hashing.GenerateString(3),
-                Password = Hashing.GenerateString(3)
+                Name = StringTool.GenerateString(3),
+                Email = StringTool.GenerateString(3),
+                Password = StringTool.GenerateString(3)
             };
 
             if (_Npgsql.User.Where(u => u.Email == user.Email).Any())
@@ -112,7 +112,7 @@ namespace NetCoreSample.Controllers
             user = _Npgsql.User.Where(u => u.Email == user.Email).FirstOrDefault();
             var ie = new InterviewExperience()
             {
-                Experience = Hashing.GenerateString(10),
+                Experience = StringTool.GenerateString(10),
                 InterviewDate = DateTime.UtcNow.AddHours(08),
                 UserId = user.UserId,
             };

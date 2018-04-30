@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Cryptography;
 
 namespace NetCoreSample.Models
 {
-    public static class Hashing
+    public static class StringTool
     {
         private static string GetRandomSalt()
         {
@@ -49,6 +49,10 @@ namespace NetCoreSample.Models
                 chars[i] = Alphabet[rand.Next(Alphabet.Length)];
             }
             return new string(chars);
+        }
+
+        public static bool isNullOrEmpty(this string str) {
+            return str == null || str == string.Empty;
         }
     }
 }
