@@ -10,3 +10,4 @@
 .vscode/launch.json
 .vscode/tasks.json
 NetCoreSample/appsettings.json
+NetCoreSample/Postgresql.json

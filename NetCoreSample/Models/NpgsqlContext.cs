@@ -22,7 +22,7 @@ namespace NetCoreSample.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            ConfigurationHelper configurationHelper = new ConfigurationHelper();
+            ConfigurationHelper configurationHelper = new ConfigurationHelper("Postgresql");
             var dbUrl = configurationHelper.GetValue("connectionStrings:postgresql");
 
             if (dbUrl.isNullOrEmpty())

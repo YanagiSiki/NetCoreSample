@@ -18,6 +18,25 @@ namespace NetCoreSample.Helper
             .Build();
         }
 
+        public ConfigurationHelper(string jsonName)
+        {
+            try
+            {
+                _configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile($"{jsonName}.json")
+                .Build();
+            }
+            catch(Exception e)
+            {
+                _configuration = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json")
+               .Build();
+            }
+            
+        }
+
         public string GetValue(string key)
         {
             return _configuration.GetSection(key).Value ?? string.Empty;
