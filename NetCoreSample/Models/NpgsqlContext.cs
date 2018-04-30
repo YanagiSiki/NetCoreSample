@@ -20,17 +20,14 @@ namespace NetCoreSample.Models
         public DbSet<User> User { get; set; }
         public DbSet<InterviewExperience> InterviewExperience { get; set; }
 
-        public NpgsqlContext() {
-            Database.EnsureCreated();   // Create the database
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper();
             var dbUrl = configurationHelper.GetValue("connectionStrings:postgresql");
-            Console.WriteLine(dbUrl);
+            
             if (dbUrl.isNullOrEmpty())
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
+            Console.WriteLine(dbUrl);
             optionsBuilder.UseNpgsql(dbUrl);
             base.OnConfiguring(optionsBuilder);
         }
