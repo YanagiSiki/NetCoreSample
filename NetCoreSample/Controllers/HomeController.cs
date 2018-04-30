@@ -97,7 +97,7 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
-        public ActionResult TestInser() {
+        public ActionResult TestInsert() {
             var user = new User() {
                 Name = StringTool.GenerateString(3),
                 Email = StringTool.GenerateString(3),
