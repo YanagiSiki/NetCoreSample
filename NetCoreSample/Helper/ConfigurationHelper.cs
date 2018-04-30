@@ -20,7 +20,7 @@ namespace NetCoreSample.Helper
 
         public string GetValue(string key)
         {
-            return _configuration.GetSection(key).Value.ToString();
+            return _configuration.GetSection(key).Value ?? string.Empty;
         }
     }
 }
