@@ -12,12 +12,10 @@ namespace NetCoreSample.Models
         public int UserId { get; set; } = 0;
         [Required]
         public string Email { get; set; }
-        [Required]
         public string Name { get; set; }
         [Required]
         public string Password { get; set; }
         public DateTime? LoginAt { get; set; }
 
-        public List<InterviewExperience>  InterviewExperience { get; set; } = new List<InterviewExperience>();
     }
 }

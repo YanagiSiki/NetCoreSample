@@ -31,6 +31,8 @@ namespace NetCoreSample
         {
             services.AddMvc();
             services.AddEntityFrameworkNpgsql();
+            services.AddDbContext<NpgsqlContext>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {

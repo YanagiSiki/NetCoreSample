@@ -20,4 +20,18 @@ namespace NetCoreSample.Components
             return View("NotLoginNavBar");
         }
     }
+
+    /// <summary>
+    /// NavBar Component
+    /// </summary>
+    [ViewComponent(Name = "SideBar")]
+    public class SideBarComponent : ViewComponent
+    {
+        public IViewComponentResult Invoke(HttpContext httpContext)
+        {
+            if (httpContext.User.Identity.IsAuthenticated)
+                return View("LoginSideBar");
+            return View("NotLoginSideBar");
+        }
+    }
 }

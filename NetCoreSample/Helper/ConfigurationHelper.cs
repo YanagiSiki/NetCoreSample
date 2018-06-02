@@ -12,13 +12,16 @@ namespace NetCoreSample.Helper
         static IConfiguration _configuration;
         public ConfigurationHelper()
         {
-            _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+            GetJson("appsettings.json");
         }
 
         public ConfigurationHelper(string jsonName)
+        {
+            GetJson(jsonName);
+
+        }
+
+        private static void GetJson(string jsonName)
         {
             try
             {
@@ -27,14 +30,13 @@ namespace NetCoreSample.Helper
                 .AddJsonFile($"{jsonName}.json")
                 .Build();
             }
-            catch(Exception e)
+            catch
             {
                 _configuration = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("appsettings.json")
                .Build();
             }
-            
         }
 
         public string GetValue(string key)

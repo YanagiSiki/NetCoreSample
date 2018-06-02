@@ -13,8 +13,13 @@ namespace NetCoreSample.Controllers
 {
     public class BaseController : Controller
     {
-        //protected static MongodbRepository _mongodbRepository = new MongodbRepository();
-        protected static NpgsqlContext _MSSQLDbContext = new NpgsqlContext();
+        //protected static MongodbRepository _mongodbRepository = new MongodbRepository();        
+        protected NpgsqlContext _Npgsql;
+
+        public BaseController(NpgsqlContext npgsql)
+        {
+            _Npgsql = npgsql;
+        }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -22,7 +27,7 @@ namespace NetCoreSample.Controllers
             if (!context.ModelState.IsValid)
             {
                 var controller = context.Controller as Controller;
-                var errorMessage =  ErrorHandle(context.ModelState);
+                var errorMessage = ErrorHandle(context.ModelState);
                 TempData["ErrorMessage"] = errorMessage;
                 context.Result = controller.View(TempData["CurrentModel"]);
             }
@@ -50,9 +55,9 @@ namespace NetCoreSample.Controllers
                 var viewEngine = services.GetRequiredService<ICompositeViewEngine>();
                 var thisView = viewEngine.GetView(null, controller.RouteData.Values["action"].ToString(), true);
                 if (!thisView.Success)
-                    context.Result = controller.View("Index",TempData["CurrentModel"]);
+                    context.Result = controller.Redirect("/Home/Index");
                 else
-                context.Result = controller.View(TempData["CurrentModel"]);
+                    context.Result = controller.View(TempData["CurrentModel"]);
             }
             TempData["CurrentModel"] = null;
         }
