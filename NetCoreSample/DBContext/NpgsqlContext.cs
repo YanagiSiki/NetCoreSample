@@ -25,7 +25,7 @@ namespace NetCoreSample.Models
             ConfigurationHelper configurationHelper = new ConfigurationHelper("Postgresql");
             var dbUrl = configurationHelper.GetValue("connectionStrings:postgresql");
 
-            if (dbUrl.isNullOrEmpty())
+            if (dbUrl.IsNullOrEmpty())
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
             Console.WriteLine(dbUrl);
             optionsBuilder.UseNpgsql(dbUrl);

@@ -16,6 +16,8 @@ namespace NetCoreSample.Models
         [Required]
         public string Password { get; set; }
         public DateTime? LoginAt { get; set; }
+        public string VerifyCode { get; set; }
+        public bool Active { get; set; }
 
     }
 }

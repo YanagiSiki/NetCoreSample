@@ -16,6 +16,10 @@ namespace NetCoreSample.Controllers
         //protected static MongodbRepository _mongodbRepository = new MongodbRepository();        
         protected NpgsqlContext _Npgsql;
 
+        /*** Sucess、Warning可自定；Error會直接抓Exception ***/
+        protected List<string> SucessMessages = new List<string>();
+        protected List<string> WarningMessages = new List<string>();
+
         public BaseController(NpgsqlContext npgsql)
         {
             _Npgsql = npgsql;
@@ -23,6 +27,8 @@ namespace NetCoreSample.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            SucessMessages = new List<string>();
+            WarningMessages = new List<string>();
             TempData["CurrentModel"] = context.ActionArguments.Values.Count == 1 ? context.ActionArguments.Values.FirstOrDefault() : null;
             if (!context.ModelState.IsValid)
             {
@@ -47,7 +53,7 @@ namespace NetCoreSample.Controllers
                 Console.WriteLine(context.Exception);
                 context.ExceptionHandled = true;
                 var controller = context.Controller as Controller;
-                TempData["ErrorMessage"] = new List<string>() { context.Exception.Message };
+                TempData["ErrorMessage"] = new string[] { context.Exception.Message };
 
                 // https://gist.github.com/ygrenier/4e46b5de3e4a77ea62fe5f0d6488fa2a
                 /*** 若此Action沒有對應的View，就回到首頁，並顯示 Exception Message ***/
@@ -60,6 +66,8 @@ namespace NetCoreSample.Controllers
                     context.Result = controller.View(TempData["CurrentModel"]);
             }
             TempData["CurrentModel"] = null;
+            if (SucessMessages.Any()) TempData["SucessMessage"] = SucessMessages.ToArray();
+            if (WarningMessages.Any()) TempData["WarningMessage"] = WarningMessages.ToArray();
         }
     }
 }

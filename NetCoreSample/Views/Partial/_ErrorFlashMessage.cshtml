@@ -1,12 +1,36 @@
 ﻿@{
     if (TempData["ErrorMessage"] != null)
     {
-        var ErrorMessages = (List<string>)TempData["ErrorMessage"];
+        var ErrorMessages = (string[])TempData["ErrorMessage"];
         foreach (var errorMessage in ErrorMessages)
+        {
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error!</strong> @errorMessage
+            </div>
+        }
+    }
+
+    if (TempData["WarningMessage"] != null)
+    {
+        var WarningMessages = (string[])TempData["WarningMessage"];
+        foreach (var warningMessage in WarningMessages)
         {
             <div class="alert alert-warning">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <strong>Warning!</strong> @errorMessage
+                <strong>Warning!</strong> @warningMessage
+            </div>
+        }
+    }
+
+    if (TempData["SucessMessage"] != null)
+    {
+        var SucessMessage = (string[])TempData["SucessMessage"];
+        foreach (var sucessMessage in SucessMessage)
+        {
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Sucess!</strong> @sucessMessage
             </div>
         }
     }

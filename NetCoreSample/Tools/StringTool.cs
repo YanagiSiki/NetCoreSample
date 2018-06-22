@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography;
+using BCrypt.Net;
 
 namespace NetCoreSample.Models
 {
     public static class StringTool
-    {
-        private static string GetRandomSalt()
-        {
-
-            //return Crypto.GenerateSalt(10);
-            return "";
-        }
-
+    { 
         /// <summary>
         /// Password To hash
         /// </summary>
@@ -22,8 +16,8 @@ namespace NetCoreSample.Models
         /// <returns>hash 過的密碼</returns>
         public static string HashPassword(this string password)
         {
-            return "";
-            //return Crypto.HashPassword(password);
+            password = BCrypt.Net.BCrypt.HashPassword(password);
+            return password;
         }
 
         /// <summary>
@@ -34,11 +28,10 @@ namespace NetCoreSample.Models
         /// <returns></returns>
         public static bool ValidatePassword(this string password, string hashedPassword)
         {
-            return true;
-            //return Crypto.VerifyHashedPassword(hashedPassword, password);
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
-        public const string Alphabet ="abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const string Alphabet = "abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         public static string GenerateString(int size)
         {
@@ -51,7 +44,8 @@ namespace NetCoreSample.Models
             return new string(chars);
         }
 
-        public static bool isNullOrEmpty(this string str) {
+        public static bool IsNullOrEmpty(this string str)
+        {
             return str == null || str == string.Empty;
         }
     }
