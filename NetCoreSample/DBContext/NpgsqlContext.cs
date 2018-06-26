@@ -15,6 +15,14 @@ namespace NetCoreSample.Models
         /*** CLI 參考 https://docs.microsoft.com/zh-tw/ef/core/managing-schemas/migrations/  ***/
         //  Add-Migration InitialCreate
         //  Update-Database
+        //  Remove-Migration
+        #endregion
+
+        ##region dotnet cli
+        //read https://github.com/aspnet/EntityFrameworkCore/issues/8996#issuecomment-326849252
+        //  dotnet ef migrations add InitialCreate
+        //  dotnet ef database update
+        //  dotnet ef migrations remove
         #endregion
 
         public DbSet<User> User { get; set; }

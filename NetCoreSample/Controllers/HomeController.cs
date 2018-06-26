@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreSample.Helper;
 using NetCoreSample.Models;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace NetCoreSample.Controllers
 {
@@ -17,9 +17,8 @@ namespace NetCoreSample.Controllers
     //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
     //[AllowAnonymous]
     public class HomeController : BaseController
-    { 
-        public HomeController(NpgsqlContext npgsql)
-           : base(npgsql)
+    {
+        public HomeController(NpgsqlContext npgsql): base(npgsql)
         {
 
         }
@@ -71,7 +70,6 @@ namespace NetCoreSample.Controllers
             return Redirect("/Home");
         }
 
-
         [HttpGet]
         [IsNotLoginFilter]
         public ActionResult Register()
@@ -83,7 +81,8 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public ActionResult Register(User user)
         {
-            if (_Npgsql.User.Where(u => u.Email == user.Email).Any()) {
+            if (_Npgsql.User.Where(u => u.Email == user.Email).Any())
+            {
                 WarningMessages.Add("Email已註冊過！");
                 throw new Exception("Email已註冊過！");
             }
@@ -107,7 +106,8 @@ namespace NetCoreSample.Controllers
             if (dbusers.Any())
             {
                 var dbuser = dbusers.First();
-                if (dbuser.Active) {
+                if (dbuser.Active)
+                {
                     WarningMessages.Add("已啟用");
                     return Redirect("/Home");
                 }
@@ -127,7 +127,8 @@ namespace NetCoreSample.Controllers
         }
 
         [Authorize(Roles.Admin)]
-        public ActionResult About() {
+        public ActionResult About()
+        {
             return View();
         }
 
@@ -137,8 +138,10 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
-        public ActionResult TestInsert() {
-            var user = new User() {
+        public ActionResult TestInsert()
+        {
+            var user = new User()
+            {
                 Name = StringTool.GenerateString(3),
                 Email = StringTool.GenerateString(3),
                 Password = StringTool.GenerateString(3).HashPassword()
