@@ -90,7 +90,7 @@ namespace NetCoreSample.Controllers
             user.Active = false;
             user.VerifyCode = StringTool.GenerateString(10);
             //SendGridHelper.SendEmailAsync();
-            SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
+            //SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
 
             _Npgsql.User.Add(user);
             _Npgsql.SaveChanges();
@@ -166,7 +166,7 @@ namespace NetCoreSample.Controllers
 
         public ActionResult TestSengrid()
         {
-            SendGridHelper.SendEmailAsync();
+            //SendGridHelper.SendEmailAsync();
             return Ok();
         }
     }
