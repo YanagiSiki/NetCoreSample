@@ -18,7 +18,7 @@ namespace NetCoreSample.Models
         //  Remove-Migration
         #endregion
 
-        ##region dotnet cli
+        #region dotnet cli
         //read https://github.com/aspnet/EntityFrameworkCore/issues/8996#issuecomment-326849252
         //  dotnet ef migrations add InitialCreate
         //  dotnet ef database update
