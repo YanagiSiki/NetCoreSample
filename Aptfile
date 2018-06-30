@@ -1,0 +1,4 @@
+# Aptfile
+libc6-dev
+libgdiplus
+libunwind
