@@ -1,12 +1,12 @@
-﻿//using MongoDB.Driver;
-//using NetCoreSample.Helper;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
+﻿// using MongoDB.Driver;
+// using NetCoreSample.Helper;
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
 
-//namespace NetCoreSample.Models
-//{
+// namespace NetCoreSample.Models
+// {
 //    public class MongodbRepository
 //    {
 //        public IMongoClient _client;
@@ -29,4 +29,4 @@
 //            }
 //        }
 //    }
-//}
+// }

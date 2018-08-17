@@ -11,9 +11,10 @@ using System;
 namespace NetCoreSample.Migrations
 {
     [DbContext(typeof(NpgsqlContext))]
-    partial class NpgsqlContextModelSnapshot : ModelSnapshot
+    [Migration("20180817030156_AddInterviewExperience")]
+    partial class AddInterviewExperience
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

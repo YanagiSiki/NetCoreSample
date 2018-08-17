@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Helper;
 using NetCoreSample.Models;
 
@@ -140,27 +141,16 @@ namespace NetCoreSample.Controllers
 
         public ActionResult TestInsert()
         {
-            var user = new User()
+            //var user = _Npgsql.User.Where(u => u.Email == "QQ").First();
+            var user = _Npgsql.User.Include(u => u.InterviewExperience).Where(u => u.Email == "QQ").First();
+            var ie = new InterviewExperience()
             {
-                Name = StringTool.GenerateString(3),
-                Email = StringTool.GenerateString(3),
-                Password = StringTool.GenerateString(3).HashPassword()
+                Experience = StringTool.GenerateString(10),
+                InterviewDate = DateTime.UtcNow.AddHours(08),
+                UserId = user.UserId,
             };
-
-            if (_Npgsql.User.Where(u => u.Email == user.Email).Any())
-                throw new Exception("Email已註冊過！");
-
-            _Npgsql.User.Add(user);
+            _Npgsql.InterviewExperience.Add(ie);
             _Npgsql.SaveChanges();
-            //user = _Npgsql.User.Where(u => u.Email == user.Email).FirstOrDefault();
-            //var ie = new InterviewExperience()
-            //{
-            //    Experience = StringTool.GenerateString(10),
-            //    InterviewDate = DateTime.UtcNow.AddHours(08),
-            //    UserId = user.UserId,
-            //};
-            //_Npgsql.InterviewExperience.Add(ie);
-            //_Npgsql.SaveChanges();
             return View("Index");
         }
 

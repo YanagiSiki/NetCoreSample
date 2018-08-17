@@ -19,5 +19,7 @@ namespace NetCoreSample.Models
         public string VerifyCode { get; set; }
         public bool Active { get; set; }
 
+
+        public List<InterviewExperience> InterviewExperience { get; set; }
     }
 }
