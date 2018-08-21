@@ -11,19 +11,19 @@ namespace NetCoreSample.Tools
         {  
             //*** Admin ***
             services.AddAuthorization(options =>
+            {
+                //*** Admin ***
+                options.AddPolicy("Admin", policy =>
                 {
-                    //*** Admin ***
-                    options.AddPolicy("Admin", policy =>
+                    policy.RequireAssertion(context =>
                     {
-                        policy.RequireAssertion(context =>
+                        return context.User.HasClaim(c =>
                         {
-                            return context.User.HasClaim(c =>
-                            {
-                                return c.Type == Roles.Role && c.Value == Roles.Admin;
-                            });
+                            return c.Type == Roles.Role && c.Value == Roles.Admin;
                         });
                     });
                 });
+            });
             return services;
         }
     }

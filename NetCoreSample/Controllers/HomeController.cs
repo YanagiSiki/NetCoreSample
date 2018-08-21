@@ -35,6 +35,7 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public ActionResult Login()
         {
+            return Ok();
             return View(new User());
         }
 
