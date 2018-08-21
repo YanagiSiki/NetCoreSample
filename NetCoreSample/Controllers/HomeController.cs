@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Helper;
 using NetCoreSample.Models;
+using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers
 {
@@ -47,7 +48,7 @@ namespace NetCoreSample.Controllers
             if (dbUser == null)
                 throw new Exception("查無使用者");
 
-            if (user.Password.ValidatePassword(dbUser.Password))
+            if (user.Password.VerifyPassword(dbUser.Password))
             {
                 var ClaimPriciple = new ClaimsPrincipal();
                 var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using NetCoreSample.Tools;
 
 namespace NetCoreSample
 {
@@ -42,20 +43,21 @@ namespace NetCoreSample
             });
 
 
-            services.AddAuthorization(options =>
-            {
-                //*** Admin ***
-                options.AddPolicy("Admin", policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim(c =>
-                        {
-                            return c.Type == Roles.Role && c.Value == Roles.Admin;
-                        });
-                    });
-                });
-            });
+            // services.AddAuthorization(options =>
+            // {
+            //     //*** Admin ***
+            //     options.AddPolicy("Admin", policy =>
+            //     {
+            //         policy.RequireAssertion(context =>
+            //         {
+            //             return context.User.HasClaim(c =>
+            //             {
+            //                 return c.Type == Roles.Role && c.Value == Roles.Admin;
+            //             });
+            //         });
+            //     });
+            // });
+            services.AddCustomConfigureExtend();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

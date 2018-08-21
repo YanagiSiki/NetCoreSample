@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Helper;
+using NetCoreSample.Tools;
 
 namespace NetCoreSample.Models
 {

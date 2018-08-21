@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography;
-using BCrypt.Net;
+using CryptoHelper;
 
-namespace NetCoreSample.Models
+namespace NetCoreSample.Tools
 {
     public static class StringTool
     { 
@@ -16,8 +16,7 @@ namespace NetCoreSample.Models
         /// <returns>hash 過的密碼</returns>
         public static string HashPassword(this string password)
         {
-            password = BCrypt.Net.BCrypt.HashPassword(password);
-            return password;
+            return Crypto.HashPassword(password);
         }
 
         /// <summary>
@@ -26,9 +25,9 @@ namespace NetCoreSample.Models
         /// <param name="password"></param>
         /// <param name="hashedPassword">Hash過的密碼(DB來ㄉ)</param>
         /// <returns></returns>
-        public static bool ValidatePassword(this string password, string hashedPassword)
+        public static bool VerifyPassword(this string password, string hashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            return Crypto.VerifyHashedPassword(hashedPassword, password);
         }
 
         public const string Alphabet = "abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
