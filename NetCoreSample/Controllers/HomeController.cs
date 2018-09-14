@@ -20,7 +20,7 @@ namespace NetCoreSample.Controllers
     //[AllowAnonymous]
     public class HomeController : BaseController
     {
-        public HomeController(NpgsqlContext npgsql) : base(npgsql)
+        public HomeController(NpgsqlContext npgsql): base(npgsql)
         {
 
         }
@@ -35,6 +35,7 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public ActionResult Login()
         {
+            return Ok();
             return View(new User());
         }
 
@@ -140,5 +141,25 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        public ActionResult TestInsert()
+        {
+            //var user = _Npgsql.User.Where(u => u.Email == "QQ").First();
+            var user = _Npgsql.User.Include(u => u.InterviewExperience).Where(u => u.Email == "QQ").First();
+            var ie = new InterviewExperience()
+            {
+                Experience = StringTool.GenerateString(10),
+                InterviewDate = DateTime.UtcNow.AddHours(08),
+                UserId = user.UserId,
+            };
+            _Npgsql.InterviewExperience.Add(ie);
+            _Npgsql.SaveChanges();
+            return View("Index");
+        }
+
+        public ActionResult TestSengrid()
+        {
+            //SendGridHelper.SendEmailAsync();
+            return Ok();
+        }
     }
 }

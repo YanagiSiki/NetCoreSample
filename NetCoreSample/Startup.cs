@@ -1,13 +1,20 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreSample.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using NetCoreSample.Tools;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace NetCoreSample
 {
@@ -22,27 +29,19 @@ namespace NetCoreSample
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
-            /*
-             * https://stackoverflow.com/questions/34892509/controller-json-set-serialization-referenceloophandling/36633265
-             * 防止RelationShip include之後無限循環參考
-             */
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+        {
+            services.AddMvc();
             services.AddEntityFrameworkNpgsql();
             services.AddDbContext<NpgsqlContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                {
-                    options.AccessDeniedPath = new PathString("/Home/Error");
-                    options.LoginPath = new PathString("/Home/Login");
-                    options.LogoutPath = new PathString("/Home/Logout");
-                });
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.AccessDeniedPath = new PathString("/Home/Error");
+                options.LoginPath = new PathString("/Home/Login");
+                options.LogoutPath = new PathString("/Home/Logout");
+            });
+
 
             // services.AddAuthorization(options =>
             // {
@@ -76,6 +75,8 @@ namespace NetCoreSample
 
             app.UseStaticFiles();
             app.UseAuthentication();
+
+           
 
             app.UseMvc(routes =>
             {
