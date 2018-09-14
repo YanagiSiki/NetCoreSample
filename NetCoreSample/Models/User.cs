@@ -20,6 +20,6 @@ namespace NetCoreSample.Models
         public bool Active { get; set; }
 
 
-        public List<InterviewExperience> InterviewExperience { get; set; }
+        public IEnumerable<InterviewExperience> InterviewExperience { get; set; }
     }
 }

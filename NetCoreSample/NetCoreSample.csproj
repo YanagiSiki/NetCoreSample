@@ -5,10 +5,6 @@
     <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Shared\_Layout2.cshtml" />
-    <Content Remove="wwwroot\js\site.ts" />
-  </ItemGroup>
 
   <ItemGroup>
     <!-- <PackageReference Include="BCrypt.Net-Next" Version="2.1.3" /> -->

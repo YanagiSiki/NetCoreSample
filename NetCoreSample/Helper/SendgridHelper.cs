@@ -8,8 +8,8 @@ namespace NetCoreSample.Helper
     {
 
 
-        //public static async void SendVerifyCodeAsync(string email, string userName, string code)
-        //{
+        // public static async void SendVerifyCodeAsync(string email, string userName, string code)
+        // {
         //    var client = new SendGridClient("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");
         //    var msg = new SendGridMessage()
         //    {
@@ -19,10 +19,10 @@ namespace NetCoreSample.Helper
         //    };
         //    msg.AddTo(new EmailAddress("ce678013@gmail.com", "Test User"));
         //    var response = await client.SendEmailAsync(msg);
-        //}
+        // }
 
 
-        //public static async void SendEmailAsync () {
+        // public static async void SendEmailAsync () {
         //    var client = new SendGridClient("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");
         //    var msg = new SendGridMessage()
         //    {
@@ -33,6 +33,6 @@ namespace NetCoreSample.Helper
         //    };
         //    msg.AddTo(new EmailAddress("ce678013@gmail.com", "Test User"));
         //    var response = await client.SendEmailAsync(msg);
-        //}
+        // }
     }
 }
