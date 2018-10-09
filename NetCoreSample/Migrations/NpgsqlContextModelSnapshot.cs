@@ -21,23 +21,47 @@ namespace NetCoreSample.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
-            modelBuilder.Entity("NetCoreSample.Models.InterviewExperience", b =>
+            modelBuilder.Entity("NetCoreSample.Models.Post", b =>
                 {
-                    b.Property<int>("ExperienceId")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Experience")
-                        .IsRequired();
+                    b.Property<string>("PostTitle");
 
-                    b.Property<DateTime>("InterviewDate");
+                    b.Property<int?>("TagId");
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("ExperienceId");
+                    b.HasKey("PostId");
+
+                    b.HasIndex("TagId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InterviewExperience");
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("NetCoreSample.Models.PostTag", b =>
+                {
+                    b.Property<int>("PostId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTag");
+                });
+
+            modelBuilder.Entity("NetCoreSample.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("NetCoreSample.Models.User", b =>
@@ -64,11 +88,28 @@ namespace NetCoreSample.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("NetCoreSample.Models.InterviewExperience", b =>
+            modelBuilder.Entity("NetCoreSample.Models.Post", b =>
                 {
+                    b.HasOne("NetCoreSample.Models.Tag")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagId");
+
                     b.HasOne("NetCoreSample.Models.User", "User")
-                        .WithMany("InterviewExperience")
+                        .WithMany("Posts")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NetCoreSample.Models.PostTag", b =>
+                {
+                    b.HasOne("NetCoreSample.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("NetCoreSample.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

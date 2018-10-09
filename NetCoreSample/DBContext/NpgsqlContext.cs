@@ -27,7 +27,7 @@ namespace NetCoreSample.Models
         #endregion
 
         public DbSet<User> User { get; set; }
-        public DbSet<InterviewExperience> InterviewExperience { get; set; }
+        // public DbSet<InterviewExperience> InterviewExperience { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,11 +43,8 @@ namespace NetCoreSample.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("public");
-            modelBuilder.Entity<InterviewExperience>()
-                .HasOne(ie => ie.User)
-                .WithMany(u => u.InterviewExperience);
-
+            modelBuilder.HasDefaultSchema("public");            
+            modelBuilder.ApplyConfiguration(new PostTagConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

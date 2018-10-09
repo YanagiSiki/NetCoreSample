@@ -25,7 +25,7 @@ namespace NetCoreSample.Controllers
 
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var users = _Npgsql.User.ToAsyncEnumerable();
             return View();
@@ -33,7 +33,7 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [IsNotLoginFilter]
-        public ActionResult Login()
+        public IActionResult Login()
         {
             return Ok();
             return View(new User());
@@ -41,7 +41,7 @@ namespace NetCoreSample.Controllers
 
         [HttpPost]
         [IsNotLoginFilter]
-        public async Task<ActionResult> Login(User user)
+        public async Task<IActionResult> Login(User user)
         {
             var users = _Npgsql.User;
             var dbUser = users.Where(_ => _.Email == user.Email).FirstOrDefault();
@@ -67,7 +67,7 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [Authorize(Roles.Admin)]
-        public async Task<ActionResult> Logout()
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/Home");
@@ -75,14 +75,14 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [IsNotLoginFilter]
-        public ActionResult Register()
+        public IActionResult Register()
         {
             return View(new User());
         }
 
         [HttpPost]
         [IsNotLoginFilter]
-        public ActionResult Register(User user)
+        public IActionResult Register(User user)
         {
             if (_Npgsql.User.Where(u => u.Email == user.Email).Any())
             {
@@ -103,7 +103,7 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [IsNotLoginFilter]
-        public ActionResult VerifyAccount(string email, string userName, string code)
+        public IActionResult VerifyAccount(string email, string userName, string code)
         {
             var dbusers = _Npgsql.User.Where(u => u.Email == email && u.Name == userName);
             if (dbusers.Any())
@@ -130,33 +130,33 @@ namespace NetCoreSample.Controllers
         }
 
         [Authorize(Roles.Admin)]
-        public ActionResult About()
+        public IActionResult About()
         {
             return View();
         }
 
         [Authorize(Roles.Admin)]
-        public ActionResult Contact()
+        public IActionResult Contact()
         {
             return View();
         }
 
-        public ActionResult TestInsert()
-        {
-            //var user = _Npgsql.User.Where(u => u.Email == "QQ").First();
-            var user = _Npgsql.User.Include(u => u.InterviewExperience).Where(u => u.Email == "QQ").First();
-            var ie = new InterviewExperience()
-            {
-                Experience = StringTool.GenerateString(10),
-                InterviewDate = DateTime.UtcNow.AddHours(08),
-                UserId = user.UserId,
-            };
-            _Npgsql.InterviewExperience.Add(ie);
-            _Npgsql.SaveChanges();
-            return View("Index");
-        }
+        // public ActionResult TestInsert()
+        // {
+        //     //var user = _Npgsql.User.Where(u => u.Email == "QQ").First();
+        //     var user = _Npgsql.User.Include(u => u.InterviewExperience).Where(u => u.Email == "QQ").First();
+        //     var ie = new InterviewExperience()
+        //     {
+        //         Experience = StringTool.GenerateString(10),
+        //         InterviewDate = DateTime.UtcNow.AddHours(08),
+        //         UserId = user.UserId,
+        //     };
+        //     _Npgsql.InterviewExperience.Add(ie);
+        //     _Npgsql.SaveChanges();
+        //     return View("Index");
+        // }
 
-        public ActionResult TestSengrid()
+        public IActionResult TestSengrid()
         {
             //SendGridHelper.SendEmailAsync();
             return Ok();

@@ -8,7 +8,7 @@ using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers.WebApi
 {
-    [Route("api/[action]")]
+    [Route("UserApi/[action]")]
     [AllowAnonymous]
     public class UserController: Controller
     {
@@ -19,9 +19,10 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpGet]
-        public IActionResult GetUser(string id1, string id2, string id3)
+        public IActionResult GetUser()
         {
-            return Ok(new string[]{id1, id2, id3});
+            var users = _npgsql.User.ToList();
+            return Ok(users);
         }
 
         [HttpPost]
