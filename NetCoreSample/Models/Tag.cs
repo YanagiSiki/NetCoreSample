@@ -11,7 +11,7 @@ namespace NetCoreSample.Models
         public int TagId { get; set; }
         public string TagName { get; set; }
 
-        public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<PostTag> PostTags { get; set; }
 
     }
 

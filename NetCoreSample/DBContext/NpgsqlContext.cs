@@ -19,7 +19,7 @@ namespace NetCoreSample.Models
         //  Remove-Migration
         #endregion
 
-        #region dotnet cli
+        #region dotnet ef cli
         //read https://github.com/aspnet/EntityFrameworkCore/issues/8996#issuecomment-326849252
         //  dotnet ef migrations add InitialCreate
         //  dotnet ef database update
@@ -27,6 +27,11 @@ namespace NetCoreSample.Models
         #endregion
 
         public DbSet<User> User { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<PostTag> PostTag { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+
         // public DbSet<InterviewExperience> InterviewExperience { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -21,6 +21,22 @@ namespace NetCoreSample.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
+            modelBuilder.Entity("NetCoreSample.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CommentContent");
+
+                    b.Property<int>("PostId");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("NetCoreSample.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
@@ -28,13 +44,9 @@ namespace NetCoreSample.Migrations
 
                     b.Property<string>("PostTitle");
 
-                    b.Property<int?>("TagId");
-
                     b.Property<int>("UserId");
 
                     b.HasKey("PostId");
-
-                    b.HasIndex("TagId");
 
                     b.HasIndex("UserId");
 
@@ -58,6 +70,8 @@ namespace NetCoreSample.Migrations
                 {
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TagName");
 
                     b.HasKey("TagId");
 
@@ -88,12 +102,16 @@ namespace NetCoreSample.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("NetCoreSample.Models.Comment", b =>
+                {
+                    b.HasOne("NetCoreSample.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("NetCoreSample.Models.Post", b =>
                 {
-                    b.HasOne("NetCoreSample.Models.Tag")
-                        .WithMany("Posts")
-                        .HasForeignKey("TagId");
-
                     b.HasOne("NetCoreSample.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
@@ -103,12 +121,12 @@ namespace NetCoreSample.Migrations
             modelBuilder.Entity("NetCoreSample.Models.PostTag", b =>
                 {
                     b.HasOne("NetCoreSample.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("PostTags")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NetCoreSample.Models.Tag", "Tag")
-                        .WithMany()
+                        .WithMany("PostTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

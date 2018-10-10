@@ -19,6 +19,14 @@ using Newtonsoft.Json.Serialization;
 
 namespace NetCoreSample
 {
+    /* 
+     * 建置專案
+     * dotnet build
+     * 執行專案
+     * dotnet run
+     * 發布專案
+     * dotnet publish -o ../Publish
+     */
     public class Startup
     {
         public Startup(IConfiguration configuration)

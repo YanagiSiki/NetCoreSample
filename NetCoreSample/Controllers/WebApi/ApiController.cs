@@ -12,6 +12,30 @@ namespace NetCoreSample.Controllers.WebApi
     [AllowAnonymous]
     public class ApiController : Controller
     {
+        private NpgsqlContext _npgsql;
+        public ApiController(NpgsqlContext npgsql)
+        {
+            if (_npgsql == null)_npgsql = npgsql;
+        }
+
+        public IActionResult InsertPost()
+        {
+            var users = _npgsql.User.ToList();
+
+            for (var i = 0; i < 5; i++)
+            {
+                var user = users.GetRandomItem();
+                var post = new Post()
+                {
+                    PostTitle = StringTool.GenerateString(5),
+                    UserId = user.UserId
+                };
+                _npgsql.Post.Add(post);
+            }
+            _npgsql.SaveChanges();
+
+            return Ok();
+        }
 
     }
 
