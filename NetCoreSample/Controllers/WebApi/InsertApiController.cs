@@ -10,22 +10,22 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("Api/[action]")]
     [AllowAnonymous]
-    public class ApiController : Controller
+    public class InsertApiController : Controller
     {
         private NpgsqlContext _npgsql;
-        public ApiController(NpgsqlContext npgsql)
+        public InsertApiController(NpgsqlContext npgsql)
         {
-            if (_npgsql == null)_npgsql = npgsql;
+            _npgsql = _npgsql?? npgsql;
         }
 
         [HttpPost]
         public IActionResult InsertPost()
         {
-            var users = _npgsql.User.ToList();
+            var Users = _npgsql.User.ToList();
 
             for (var i = 0; i < 5; i++)
             {
-                var user = users.GetRandomItem();
+                var user = Users.GetRandomItem();
                 var post = new Post()
                 {
                     PostTitle = StringTool.GenerateString(5),
@@ -43,24 +43,25 @@ namespace NetCoreSample.Controllers.WebApi
         {
             for (var i = 0; i < 3; i++)
             {
-                var tag = new Tag() { TagName = StringTool.GenerateString(3) };
-                _npgsql.Tag.Add(tag);
+                var Tag = new Tag() { TagName = StringTool.GenerateString(3) };
+                _npgsql.Tag.Add(Tag);
             }
             _npgsql.SaveChanges();
+
             return Ok();
         }
 
         [HttpPost]
         public IActionResult InsertPostTag()
         {
-            var posts = _npgsql.Post.ToList();
-            var tags = _npgsql.Tag.ToList();
+            var Posts = _npgsql.Post.ToList();
+            var Tags = _npgsql.Tag.ToList();
             var PostTags = _npgsql.PostTag.ToList();
 
             for (var i = 0; i < 3; i++)
             {
-                var post = posts.GetRandomItem();
-                var tag = tags.GetRandomItem();
+                var post = Posts.GetRandomItem();
+                var tag = Tags.GetRandomItem();
                 var postTag = new PostTag() { PostId = post.PostId, TagId = tag.TagId };
                 if (PostTags.Any(_ => _.PostId == postTag.PostId && _.TagId == postTag.TagId))
                     continue;

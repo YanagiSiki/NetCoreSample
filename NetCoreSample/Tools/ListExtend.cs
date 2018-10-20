@@ -11,5 +11,10 @@ namespace NetCoreSample.Tools
             int r = rnd.Next(list.Count);
             return list[r];
         }
+
+        public static bool IsNotNull<T>(this IEnumerable<T> list){
+            if(list != null) return true;
+            return false;
+        }
     }
 }

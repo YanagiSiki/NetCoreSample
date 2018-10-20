@@ -16,52 +16,52 @@ namespace NetCoreSample.Controllers.WebApi
         private NpgsqlContext _npgsql;
         public UserController(NpgsqlContext npgsql)
         {
-            if (_npgsql == null)_npgsql = npgsql;
+            _npgsql = _npgsql ?? npgsql;
         }
 
         [HttpGet]
         public IActionResult GetUser()
         {
-            var users = _npgsql.User.ToList();
-            return Ok(users);
+            var Users = _npgsql.User.ToList();
+            return Ok(Users);
         }
 
         [HttpPost]
         public IActionResult AddUser()
         {
-            var user = new User()
+            var User = new User()
             {
                 Email = $"{StringTool.GenerateString(8)}@gmail.com",
                 Name = StringTool.GenerateString(5),
                 Password = "p@ssWord"
 
             };
-            _npgsql.User.Add(user);
+            _npgsql.User.Add(User);
             _npgsql.SaveChanges();
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("{userId:int}")]
         public IActionResult GetPostOfUser(int userId = 0)
         {
             if (_npgsql.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
-            var user = _npgsql.User.Include("Posts.PostTags.Tag").SingleOrDefault(_ => _.UserId == userId);
-            return Ok(user);
+            var User = _npgsql.User.Include("Posts.PostTags.Tag").SingleOrDefault(_ => _.UserId == userId);
+            return Ok(User);
         }
 
-        [HttpPost]
+        [HttpPost("{userId:int}")]
         public IActionResult GetTagOfUser(int userId = 0)
         {
             if (_npgsql.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
-            var tags = _npgsql.User.Include("Posts.PostTags.Tag").Where(_ => _.UserId == userId)
+            var Tags = _npgsql.User.Include("Posts.PostTags.Tag").Where(_ => _.UserId == userId)
                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
                 .Distinct().ToList();
 
-            return Ok(tags);
+            return Ok(Tags);
         }
     }
 }

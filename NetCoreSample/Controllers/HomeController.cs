@@ -27,7 +27,7 @@ namespace NetCoreSample.Controllers
 
         public IActionResult Index()
         {
-            var users = _Npgsql.User.ToAsyncEnumerable();
+            var Users = _npgsql.User.ToAsyncEnumerable();
             return View();
         }
 
@@ -43,19 +43,19 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public async Task<IActionResult> Login(User user)
         {
-            var users = _Npgsql.User;
-            var dbUser = users.Where(_ => _.Email == user.Email).FirstOrDefault();
+            var Users = _npgsql.User;
+            var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
 
-            if (dbUser == null)
+            if (DbUser == null)
                 throw new Exception("查無使用者");
 
-            if (user.Password.VerifyPassword(dbUser.Password))
+            if (user.Password.VerifyPassword(DbUser.Password))
             {
                 var ClaimPriciple = new ClaimsPrincipal();
                 var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserName", dbUser.Name, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserEmail", dbUser.Email, ClaimValueTypes.Email));
+                Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                Identity.AddClaim(new Claim("UserEmail", DbUser.Email, ClaimValueTypes.Email));
                 ClaimPriciple.AddIdentity(Identity);
                 HttpContext.User = ClaimPriciple;
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
@@ -82,21 +82,21 @@ namespace NetCoreSample.Controllers
 
         [HttpPost]
         [IsNotLoginFilter]
-        public IActionResult Register(User user)
+        public IActionResult Register(User User)
         {
-            if (_Npgsql.User.Where(u => u.Email == user.Email).Any())
+            if (_npgsql.User.Where(u => u.Email == User.Email).Any())
             {
                 WarningMessages.Add("Email已註冊過！");
                 throw new Exception("Email已註冊過！");
             }
-            user.Password = user.Password.HashPassword();
-            user.Active = false;
-            user.VerifyCode = StringTool.GenerateString(10);
+            User.Password = User.Password.HashPassword();
+            User.Active = false;
+            User.VerifyCode = StringTool.GenerateString(10);
             //SendGridHelper.SendEmailAsync();
             //SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
 
-            _Npgsql.User.Add(user);
-            _Npgsql.SaveChanges();
+            _npgsql.User.Add(User);
+            _npgsql.SaveChanges();
             SucessMessages.Add("成功註冊La！");
             return Redirect("/Home");
         }
@@ -105,18 +105,18 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public IActionResult VerifyAccount(string email, string userName, string code)
         {
-            var dbusers = _Npgsql.User.Where(u => u.Email == email && u.Name == userName);
-            if (dbusers.Any())
+            var Dbusers = _npgsql.User.Where(u => u.Email == email && u.Name == userName);
+            if (Dbusers.Any())
             {
-                var dbuser = dbusers.First();
-                if (dbuser.Active)
+                var Dbuser = Dbusers.First();
+                if (Dbuser.Active)
                 {
                     WarningMessages.Add("已啟用");
                     return Redirect("/Home");
                 }
-                dbuser.Active = true;
-                _Npgsql.User.Update(dbuser);
-                _Npgsql.SaveChanges();
+                Dbuser.Active = true;
+                _npgsql.User.Update(Dbuser);
+                _npgsql.SaveChanges();
                 SucessMessages.Add("成功啟用");
                 return Redirect("/Home");
 
