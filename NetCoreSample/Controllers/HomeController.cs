@@ -20,14 +20,14 @@ namespace NetCoreSample.Controllers
     //[AllowAnonymous]
     public class HomeController : BaseController
     {
-        public HomeController(NpgsqlContext npgsql): base(npgsql)
+        public HomeController(BaseContext dbContext): base(dbContext)
         {
 
         }
 
         public IActionResult Index()
         {
-            var Users = _npgsql.User.ToAsyncEnumerable();
+            var Users = _dbContext.User.ToAsyncEnumerable();
             return View();
         }
 
@@ -43,7 +43,7 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public async Task<IActionResult> Login(User user)
         {
-            var Users = _npgsql.User;
+            var Users = _dbContext.User;
             var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
 
             if (DbUser == null)
@@ -84,7 +84,7 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public IActionResult Register(User User)
         {
-            if (_npgsql.User.Where(u => u.Email == User.Email).Any())
+            if (_dbContext.User.Where(u => u.Email == User.Email).Any())
             {
                 WarningMessages.Add("Email已註冊過！");
                 throw new Exception("Email已註冊過！");
@@ -95,8 +95,8 @@ namespace NetCoreSample.Controllers
             //SendGridHelper.SendEmailAsync();
             //SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
 
-            _npgsql.User.Add(User);
-            _npgsql.SaveChanges();
+            _dbContext.User.Add(User);
+            _dbContext.SaveChanges();
             SucessMessages.Add("成功註冊La！");
             return Redirect("/Home");
         }
@@ -105,7 +105,7 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public IActionResult VerifyAccount(string email, string userName, string code)
         {
-            var Dbusers = _npgsql.User.Where(u => u.Email == email && u.Name == userName);
+            var Dbusers = _dbContext.User.Where(u => u.Email == email && u.Name == userName);
             if (Dbusers.Any())
             {
                 var Dbuser = Dbusers.First();
@@ -115,8 +115,8 @@ namespace NetCoreSample.Controllers
                     return Redirect("/Home");
                 }
                 Dbuser.Active = true;
-                _npgsql.User.Update(Dbuser);
-                _npgsql.SaveChanges();
+                _dbContext.User.Update(Dbuser);
+                _dbContext.SaveChanges();
                 SucessMessages.Add("成功啟用");
                 return Redirect("/Home");
 

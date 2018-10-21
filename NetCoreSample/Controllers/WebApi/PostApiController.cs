@@ -11,32 +11,32 @@ namespace NetCoreSample.Controllers.WebApi
     [AllowAnonymous]
     public class PostApiController : Controller
     {
-        private NpgsqlContext _npgsql;
-        public PostApiController(NpgsqlContext npgsql)
+        private BaseContext _dbContext;
+        public PostApiController(BaseContext dbContext)
         {
-            _npgsql = _npgsql?? npgsql;
+            _dbContext = _dbContext?? dbContext;
         }
 
         [HttpGet]
         public IActionResult GetPost()
         {
-            var posts = _npgsql.Post.ToList();
+            var posts = _dbContext.Post.ToList();
             return Ok(posts);
         }
 
         [HttpPost]
         public IActionResult UpdatePost([FromBody] Post post)
         {
-            var Post = _npgsql.Post.AsNoTracking().SingleOrDefault(_ => _.PostId == post.PostId);
+            var Post = _dbContext.Post.AsNoTracking().SingleOrDefault(_ => _.PostId == post.PostId);
             if (Post == null)return Ok("Post Not Found");
 
-            var PostTag = _npgsql.PostTag.AsNoTracking().Where(_ => _.PostId == post.PostId).ToList();
+            var PostTag = _dbContext.PostTag.AsNoTracking().Where(_ => _.PostId == post.PostId).ToList();
             if (PostTag.IsNotNull())
-                _npgsql.PostTag.RemoveRange(PostTag);
+                _dbContext.PostTag.RemoveRange(PostTag);
             if (post.PostTags.IsNotNull())
-                _npgsql.PostTag.AddRange(post.PostTags.ToList());
-            _npgsql.Post.Update(post);
-            _npgsql.SaveChanges();
+                _dbContext.PostTag.AddRange(post.PostTags.ToList());
+            _dbContext.Post.Update(post);
+            _dbContext.SaveChanges();
 
             return Ok();
         }

@@ -12,16 +12,16 @@ namespace NetCoreSample.Controllers.WebApi
     [AllowAnonymous]
     public class InsertApiController : Controller
     {
-        private NpgsqlContext _npgsql;
-        public InsertApiController(NpgsqlContext npgsql)
+        private BaseContext _dbContext;
+        public InsertApiController(BaseContext dbContext)
         {
-            _npgsql = _npgsql?? npgsql;
+            _dbContext = _dbContext?? dbContext;
         }
 
         [HttpPost]
         public IActionResult InsertPost()
         {
-            var Users = _npgsql.User.ToList();
+            var Users = _dbContext.User.ToList();
 
             for (var i = 0; i < 5; i++)
             {
@@ -31,9 +31,9 @@ namespace NetCoreSample.Controllers.WebApi
                     PostTitle = StringTool.GenerateString(5),
                     UserId = user.UserId
                 };
-                _npgsql.Post.Add(post);
+                _dbContext.Post.Add(post);
             }
-            _npgsql.SaveChanges();
+            _dbContext.SaveChanges();
 
             return Ok();
         }
@@ -44,9 +44,9 @@ namespace NetCoreSample.Controllers.WebApi
             for (var i = 0; i < 3; i++)
             {
                 var Tag = new Tag() { TagName = StringTool.GenerateString(3) };
-                _npgsql.Tag.Add(Tag);
+                _dbContext.Tag.Add(Tag);
             }
-            _npgsql.SaveChanges();
+            _dbContext.SaveChanges();
 
             return Ok();
         }
@@ -54,9 +54,9 @@ namespace NetCoreSample.Controllers.WebApi
         [HttpPost]
         public IActionResult InsertPostTag()
         {
-            var Posts = _npgsql.Post.ToList();
-            var Tags = _npgsql.Tag.ToList();
-            var PostTags = _npgsql.PostTag.ToList();
+            var Posts = _dbContext.Post.ToList();
+            var Tags = _dbContext.Tag.ToList();
+            var PostTags = _dbContext.PostTag.ToList();
 
             for (var i = 0; i < 3; i++)
             {
@@ -65,10 +65,10 @@ namespace NetCoreSample.Controllers.WebApi
                 var postTag = new PostTag() { PostId = post.PostId, TagId = tag.TagId };
                 if (PostTags.Any(_ => _.PostId == postTag.PostId && _.TagId == postTag.TagId))
                     continue;
-                _npgsql.PostTag.Add(postTag);
+                _dbContext.PostTag.Add(postTag);
             }
 
-            _npgsql.SaveChanges();
+            _dbContext.SaveChanges();
             return Ok();
         }
     }

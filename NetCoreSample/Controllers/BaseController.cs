@@ -14,15 +14,15 @@ namespace NetCoreSample.Controllers
     public class BaseController : Controller
     {
         //protected static MongodbRepository _mongodbRepository = new MongodbRepository();        
-        protected NpgsqlContext _npgsql;
+        protected BaseContext _dbContext;
 
         /*** Sucess、Warning可自定；Error會直接抓Exception ***/
         protected List<string> SucessMessages = new List<string>();
         protected List<string> WarningMessages = new List<string>();
 
-        public BaseController(NpgsqlContext npgsql)
+        public BaseController(BaseContext dbContext)
         {
-            _npgsql = _npgsql ?? npgsql;
+            _dbContext = _dbContext ?? dbContext;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

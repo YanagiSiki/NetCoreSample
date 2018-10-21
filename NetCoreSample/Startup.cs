@@ -47,7 +47,8 @@ namespace NetCoreSample
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             services.AddEntityFrameworkNpgsql();
-            services.AddDbContext<NpgsqlContext>();
+            services.AddEntityFrameworkMySql();
+            services.AddSingleton<BaseContext, MySQLContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
@@ -57,20 +58,7 @@ namespace NetCoreSample
                     options.LogoutPath = new PathString("/Home/Logout");
                 });
 
-            // services.AddAuthorization(options =>
-            // {
-            //     //*** Admin ***
-            //     options.AddPolicy("Admin", policy =>
-            //     {
-            //         policy.RequireAssertion(context =>
-            //         {
-            //             return context.User.HasClaim(c =>
-            //             {
-            //                 return c.Type == Roles.Role && c.Value == Roles.Admin;
-            //             });
-            //         });
-            //     });
-            // });
+           
             services.AddCustomConfigureExtend();
         }
 
@@ -80,7 +68,7 @@ namespace NetCoreSample
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                // app.UseBrowserLink();
             }
             else
             {

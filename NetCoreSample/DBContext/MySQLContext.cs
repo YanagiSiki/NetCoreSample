@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,23 +8,22 @@ using NetCoreSample.Tools;
 
 namespace NetCoreSample.Models
 {
-    public class NpgsqlContext : BaseContext
+    public class MySQLContext : BaseContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
-            var dbUrl = configurationHelper.GetValue("Postgresql");
+            var dbUrl = configurationHelper.GetValue("MySQL");
 
             if (dbUrl.IsNullOrEmpty())
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
             Console.WriteLine(dbUrl);
-            optionsBuilder.UseNpgsql(dbUrl);
+            optionsBuilder.UseMySql(dbUrl);
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("public");            
             modelBuilder.ApplyConfiguration(new PostTagConfiguration());
 
             base.OnModelCreating(modelBuilder);

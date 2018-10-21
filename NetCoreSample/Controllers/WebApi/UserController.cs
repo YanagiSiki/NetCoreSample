@@ -13,16 +13,16 @@ namespace NetCoreSample.Controllers.WebApi
     [AllowAnonymous]
     public class UserController : Controller
     {
-        private NpgsqlContext _npgsql;
-        public UserController(NpgsqlContext npgsql)
+        private BaseContext _dbContext;
+        public UserController(BaseContext dbContext)
         {
-            _npgsql = _npgsql ?? npgsql;
+            _dbContext = _dbContext ?? dbContext;
         }
 
         [HttpGet]
         public IActionResult GetUser()
         {
-            var Users = _npgsql.User.ToList();
+            var Users = _dbContext.User.ToList();
             return Ok(Users);
         }
 
@@ -36,30 +36,33 @@ namespace NetCoreSample.Controllers.WebApi
                 Password = "p@ssWord"
 
             };
-            _npgsql.User.Add(User);
-            _npgsql.SaveChanges();
+            _dbContext.User.Add(User);
+            _dbContext.SaveChanges();
             return Ok();
         }
 
         [HttpPost("{userId:int}")]
         public IActionResult GetPostOfUser(int userId = 0)
         {
-            if (_npgsql.User.All(_ => _.UserId != userId))
+            if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
-            var User = _npgsql.User.Include("Posts.PostTags.Tag").SingleOrDefault(_ => _.UserId == userId);
-            return Ok(User);
+            // var User = _dbContext.User.Include("Posts").Select(_ => new { _.UserId, _.Posts})
+            //             .SingleOrDefault(_ => _.UserId == userId);
+            var posts = _dbContext.Post.Where(_ => _.UserId == userId).ToList();
+
+            return Ok(posts);
         }
 
         [HttpPost("{userId:int}")]
         public IActionResult GetTagOfUser(int userId = 0)
         {
-            if (_npgsql.User.All(_ => _.UserId != userId))
+            if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
-            var Tags = _npgsql.User.Include("Posts.PostTags.Tag").Where(_ => _.UserId == userId)
+            var Tags = _dbContext.User.Include("Posts.PostTags.Tag").Where(_ => _.UserId == userId)
                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
-                .Distinct().ToList();
+                .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList();
 
             return Ok(Tags);
         }
