@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NetCoreSample.Helper;
 using NetCoreSample.Tools;
 
@@ -11,7 +12,6 @@ namespace NetCoreSample.Models
 {
     public class BaseContext : DbContext
     {
-        
         #region Migrations 說明
         //https://dotblogs.com.tw/wuanunet/2016/02/26/entity-framework-code-first-postgresql
         /*** Migrations資料夾的東西皆由Power shell產出  ***/
@@ -42,6 +42,5 @@ namespace NetCoreSample.Models
         public DbSet<Tag> Tag { get; set; }
         public DbSet<Comment> Comment { get; set; }
 
-        
     }
 }

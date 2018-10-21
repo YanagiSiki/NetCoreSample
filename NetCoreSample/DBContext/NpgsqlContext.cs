@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NetCoreSample.Helper;
 using NetCoreSample.Tools;
 
@@ -19,6 +20,7 @@ namespace NetCoreSample.Models
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
             Console.WriteLine(dbUrl);
             optionsBuilder.UseNpgsql(dbUrl);
+            optionsBuilder.UseLoggerFactory(MyLogger.MyLoggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
 

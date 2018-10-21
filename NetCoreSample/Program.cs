@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace NetCoreSample
 {
@@ -19,7 +20,14 @@ namespace NetCoreSample
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            .UseStartup<Startup>()
+            .Build();
+    }
+
+    public static class MyLogger
+    {
+        public static readonly LoggerFactory MyLoggerFactory
+            = new LoggerFactory(new [] { new ConsoleLoggerProvider((_, __) => true, true) });
+
     }
 }
