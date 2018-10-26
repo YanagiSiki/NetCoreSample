@@ -21,7 +21,7 @@ namespace NetCoreSample.Controllers.WebApi
         [HttpPost]
         public IActionResult InsertPost()
         {
-            var Users = _dbContext.User.ToList();
+            var Users = _dbContext.User.Take(10).ToList();
 
             for (var i = 0; i < 5; i++)
             {
@@ -54,9 +54,9 @@ namespace NetCoreSample.Controllers.WebApi
         [HttpPost]
         public IActionResult InsertPostTag()
         {
-            var Posts = _dbContext.Post.ToList();
-            var Tags = _dbContext.Tag.ToList();
-            var PostTags = _dbContext.PostTag.ToList();
+            var Posts = _dbContext.Post.Take(5).ToList();
+            var Tags = _dbContext.Tag.Take(5).ToList();
+            var PostTags = _dbContext.PostTag.Take(5).ToList();
 
             for (var i = 0; i < 3; i++)
             {

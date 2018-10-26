@@ -48,7 +48,7 @@ namespace NetCoreSample
             });
             services.AddEntityFrameworkNpgsql();
             services.AddEntityFrameworkMySql();
-            services.AddSingleton<BaseContext, MySQLContext>();
+            services.AddSingleton<BaseContext, NpgsqlContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
