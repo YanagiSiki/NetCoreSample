@@ -23,11 +23,4 @@ namespace NetCoreSample
             .UseStartup<Startup>()
             .Build();
     }
-
-    public static class MyLogger
-    {
-        public static readonly LoggerFactory MyLoggerFactory
-            = new LoggerFactory(new [] { new ConsoleLoggerProvider((_, __) => true, true) });
-
-    }
 }

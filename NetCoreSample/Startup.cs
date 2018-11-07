@@ -46,20 +46,13 @@ namespace NetCoreSample
                 //json字首固定大寫
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
+            
             services.AddEntityFrameworkNpgsql();
             services.AddEntityFrameworkMySql();
             services.AddSingleton<BaseContext, NpgsqlContext>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                {
-                    options.AccessDeniedPath = new PathString("/Home/Error");
-                    options.LoginPath = new PathString("/Home/Login");
-                    options.LogoutPath = new PathString("/Home/Logout");
-                });
-
-           
-            services.AddCustomConfigureExtend();
+            services.AddCustomPolicyExtend();
+            services.AddCustomAuthExtend();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
