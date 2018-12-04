@@ -34,7 +34,7 @@ namespace NetCoreSample.Controllers
             {
                 var controller = context.Controller as Controller;
                 var errorMessage = ErrorHandle(context.ModelState);
-                TempData["ErrorMessage"] = errorMessage;
+                TempData["ErrorMessage"] = errorMessage.ToArray();
                 context.Result = controller.View(TempData["CurrentModel"]);
             }
 

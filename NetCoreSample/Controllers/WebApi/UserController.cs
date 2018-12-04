@@ -31,7 +31,7 @@ namespace NetCoreSample.Controllers.WebApi
         {
             var User = new User()
             {
-                Email = $"{StringTool.GenerateString(8)}@gmail.com",
+                // Email = $"{StringTool.GenerateString(8)}@gmail.com",
                 Name = StringTool.GenerateString(5),
                 Password = "p@ssWord"
 

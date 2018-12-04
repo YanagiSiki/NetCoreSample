@@ -3,12 +3,10 @@
 /NetCoreSample/*.user
 /NetCoreSample/.vscode
 /NetCoreSample/bin
-/*.gitignore
 *.gitattributes
 /NetCoreSample/node_modules
 /NetCoreSample/package-lock.json
-.vscode/launch.json
-.vscode/tasks.json
+.vscode/*
 NetCoreSample/Postgresql.json
 /NetCoreSample/Migrations
 /NetCoreSample/DBconnection.json

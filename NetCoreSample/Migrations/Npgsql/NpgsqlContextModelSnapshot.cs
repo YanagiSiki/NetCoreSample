@@ -83,19 +83,11 @@ namespace NetCoreSample.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<DateTime?>("LoginAt");
-
-                    b.Property<string>("Name");
 
                     b.Property<string>("Password")
                         .IsRequired();
-
-                    b.Property<string>("VerifyCode");
 
                     b.HasKey("UserId");
 

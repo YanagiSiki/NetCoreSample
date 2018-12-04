@@ -20,7 +20,7 @@ namespace NetCoreSample.Controllers
     //[AllowAnonymous]
     public class HomeController : BaseController
     {
-        public HomeController(BaseContext dbContext): base(dbContext)
+        public HomeController(BaseContext dbContext) : base(dbContext)
         {
 
         }
@@ -35,7 +35,6 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public IActionResult Login()
         {
-            return Ok();
             return View(new User());
         }
 
@@ -44,8 +43,8 @@ namespace NetCoreSample.Controllers
         public async Task<IActionResult> Login(User user)
         {
             var Users = _dbContext.User;
-            var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
-
+            // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
+            var DbUser = Users.Where(_ => _.Name == user.Name).FirstOrDefault();
             if (DbUser == null)
                 throw new Exception("查無使用者");
 
@@ -55,11 +54,10 @@ namespace NetCoreSample.Controllers
                 var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
                 Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserEmail", DbUser.Email, ClaimValueTypes.Email));
+                // Identity.AddClaim(new Claim("UserEmail", DbUser.Email, ClaimValueTypes.Email));
                 ClaimPriciple.AddIdentity(Identity);
                 HttpContext.User = ClaimPriciple;
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
-                //return Redirect("/Home");
                 return RedirectToAction("index", "Home");
             }
             throw new Exception("密碼錯誤");
@@ -71,57 +69,6 @@ namespace NetCoreSample.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/Home");
-        }
-
-        [HttpGet]
-        [IsNotLoginFilter]
-        public IActionResult Register()
-        {
-            return View(new User());
-        }
-
-        [HttpPost]
-        [IsNotLoginFilter]
-        public IActionResult Register(User User)
-        {
-            if (_dbContext.User.Where(u => u.Email == User.Email).Any())
-            {
-                WarningMessages.Add("Email已註冊過！");
-                throw new Exception("Email已註冊過！");
-            }
-            User.Password = User.Password.HashPassword();
-            User.Active = false;
-            User.VerifyCode = StringTool.GenerateString(10);
-            //SendGridHelper.SendEmailAsync();
-            //SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
-
-            _dbContext.User.Add(User);
-            _dbContext.SaveChanges();
-            SucessMessages.Add("成功註冊La！");
-            return Redirect("/Home");
-        }
-
-        [HttpGet]
-        [IsNotLoginFilter]
-        public IActionResult VerifyAccount(string email, string userName, string code)
-        {
-            var Dbusers = _dbContext.User.Where(u => u.Email == email && u.Name == userName);
-            if (Dbusers.Any())
-            {
-                var Dbuser = Dbusers.First();
-                if (Dbuser.Active)
-                {
-                    WarningMessages.Add("已啟用");
-                    return Redirect("/Home");
-                }
-                Dbuser.Active = true;
-                _dbContext.User.Update(Dbuser);
-                _dbContext.SaveChanges();
-                SucessMessages.Add("成功啟用");
-                return Redirect("/Home");
-
-            }
-            throw new Exception("Code有誤");
         }
 
         public IActionResult Error()
@@ -141,25 +88,57 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
-        // public ActionResult TestInsert()
+        // [HttpGet]
+        // [IsNotLoginFilter]
+        // public IActionResult Register()
         // {
-        //     //var user = _Npgsql.User.Where(u => u.Email == "QQ").First();
-        //     var user = _Npgsql.User.Include(u => u.InterviewExperience).Where(u => u.Email == "QQ").First();
-        //     var ie = new InterviewExperience()
+        //     return View(new User());
+        // }
+        // 
+        // [HttpPost]
+        // [IsNotLoginFilter]
+        // public IActionResult Register(User User)
+        // {
+        //     // if (_dbContext.User.Where(u => u.Email == User.Email).Any())
+        //     if (_dbContext.User.Where(u => u.Name == User.Name).Any())
         //     {
-        //         Experience = StringTool.GenerateString(10),
-        //         InterviewDate = DateTime.UtcNow.AddHours(08),
-        //         UserId = user.UserId,
-        //     };
-        //     _Npgsql.InterviewExperience.Add(ie);
-        //     _Npgsql.SaveChanges();
-        //     return View("Index");
+        //         WarningMessages.Add("Email已註冊過！");
+        //         throw new Exception("Email已註冊過！");
+        //     }
+        //     User.Password = User.Password.HashPassword();
+        //     // User.Active = false;
+        //     // User.VerifyCode = StringTool.GenerateString(10);
+        //     //SendGridHelper.SendEmailAsync();
+        //     //SendGridHelper.SendVerifyCodeAsync(user.Email, user.Name, user.VerifyCode);
+
+        //     _dbContext.User.Add(User);
+        //     _dbContext.SaveChanges();
+        //     SucessMessages.Add("成功註冊La！");
+        //     return Redirect("/Home");
         // }
 
-        public IActionResult TestSengrid()
-        {
-            //SendGridHelper.SendEmailAsync();
-            return Ok();
-        }
+        // [HttpGet]
+        // [IsNotLoginFilter]
+        // public IActionResult VerifyAccount(string email, string userName, string code)
+        // {
+        //     var Dbusers = _dbContext.User.Where(u => u.Email == email && u.Name == userName);
+        //     if (Dbusers.Any())
+        //     {
+        //         var Dbuser = Dbusers.First();
+        //         if (Dbuser.Active)
+        //         {
+        //             WarningMessages.Add("已啟用");
+        //             return Redirect("/Home");
+        //         }
+        //         Dbuser.Active = true;
+        //         _dbContext.User.Update(Dbuser);
+        //         _dbContext.SaveChanges();
+        //         SucessMessages.Add("成功啟用");
+        //         return Redirect("/Home");
+
+        //     }
+        //     throw new Exception("Code有誤");
+        // }
+
     }
 }

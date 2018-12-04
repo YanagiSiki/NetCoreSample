@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NetCoreSample.Tools
 {
-    public static class ListExtent
+    public static class ListExtend
     {
         public static T GetRandomItem<T>(this List<T> list)
         {

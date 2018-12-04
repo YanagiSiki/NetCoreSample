@@ -10,14 +10,19 @@ namespace NetCoreSample.Models
         //https://stackoverflow.com/questions/36155429/auto-increment-on-partial-primary-key-with-entity-framework-core
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; } 
-        [Required]
-        public string Email { get; set; }
+        
+        // [Required]
+        // public string Email { get; set; }
+       
+        [Display(Name = "TheName")]
         public string Name { get; set; }
+
+        [Display(Name = "ThePassword")]
         [Required]
         public string Password { get; set; }
-        public DateTime? LoginAt { get; set; }
-        public string VerifyCode { get; set; }
-        public bool Active { get; set; }
+        // public DateTime? LoginAt { get; set; }
+        // public string VerifyCode { get; set; }
+        // public bool Active { get; set; }
 
 
         public IEnumerable<Post> Posts { get; set; }
