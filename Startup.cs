@@ -26,6 +26,8 @@ namespace NetCoreSample
      * dotnet run
      * 發布專案
      * dotnet publish -o ../Publish
+     * 更新套件
+     * dotnet restore
      */
     public class Startup
     {

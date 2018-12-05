@@ -7,3 +7,5 @@
 /package-lock.json
 /.vscode
 /DBconnection.json
+/Properties
+/wwwroot/lib
