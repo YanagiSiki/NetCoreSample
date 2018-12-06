@@ -1,0 +1,61 @@
+@model NetCoreSample.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+    <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
+    
+}
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Edit</h2>
+        <hr />
+    </div>
+    
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <textarea id="myEditor"></textarea>
+            <br>
+            <div class="form-group">
+                <p class="text-right"><input type="submit"  value="Submit"  class="btn btn-outline-primary" /></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{    
+    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script> -->
+    <script>
+		var simplemde = new SimpleMDE({
+		    element: document.getElementById("myEditor"),
+		    spellChecker: false,
+            renderingConfig:{
+                codeSyntaxHighlighting: true
+            }
+	    });
+        var waitForEl = function(selector, callback) {
+            if ($(selector).length) {
+                callback();
+            } else {
+                setTimeout(function() {
+                waitForEl(selector, callback);
+                }, 100);
+            }
+            };
+        waitForEl(".editor-preview, editor-preview-side", function() {
+            $(".editor-preview").attr("class", "editor-preview markdown-body");
+            $(".editor-preview-side").attr("class","editor-preview-side markdown-body");
+        });
+        
+    </script>
+}
+<!-- <div>
+        <a asp-action="Index">Back to List</a>
+    </div> -->
+
+

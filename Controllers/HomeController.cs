@@ -88,6 +88,13 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        
+
         // [HttpGet]
         // [IsNotLoginFilter]
         // public IActionResult Register()
