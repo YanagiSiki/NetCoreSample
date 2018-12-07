@@ -10,6 +10,7 @@ namespace NetCoreSample.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
         public string PostTitle { get; set; }
+        public string PostContent { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }

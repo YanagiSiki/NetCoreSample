@@ -93,6 +93,13 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        [HttpPost]
+         public IActionResult Edit(Post Post)
+        {
+            var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
+            return View();
+        }
+
         
 
         // [HttpGet]

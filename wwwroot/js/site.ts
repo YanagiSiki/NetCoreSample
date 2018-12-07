@@ -10,4 +10,6 @@
         $('#sidebar').addClass('noAction');
         $('#sidebar').toggleClass('active');
     }
+
+    
 }(window));

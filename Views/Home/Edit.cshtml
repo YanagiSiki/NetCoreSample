@@ -1,4 +1,4 @@
-@model NetCoreSample.Models.User
+@model NetCoreSample.Models.Post
 
 @{
     ViewData["Title"] = "Edit";
@@ -17,9 +17,25 @@
     </div>
     
     <div class="col-md-12">
-        <form asp-action="Edit">
-            <textarea id="myEditor"></textarea>
+        <form asp-action="Edit" method="post">
+            <div class="form-group">
+                <input class="form-control" placeholder="Enter PostTitle" asp-for="PostTitle">
+            </div>
+            <textarea asp-for="PostContent" ></textarea>
             <br>
+            <div class="form-group" id="Tags">
+                <!-- https://www.hanselman.com/blog/ASPNETWireFormatForodelBindingToArraysListsCollectionsDictionaries.aspx -->
+                <span class="badge badge-pill badge-primary">
+                    <a href="#" >Mysql</a>
+                    <i class="close fa fa-times"></i>
+                    <input name="PostTags[0].Tag.TagId" value="1"  type="hidden"/>
+                </span>
+                <span class="badge badge-pill badge-primary">
+                    <a href="#" >.Net Core</a>
+                    <i class="close fa fa-times"></i>
+                    <input name="PostTags[0].Tag.TagId" value="2"  type="hidden"/>
+                </span>
+            </div>
             <div class="form-group">
                 <p class="text-right"><input type="submit"  value="Submit"  class="btn btn-outline-primary" /></p>
             </div>
@@ -32,7 +48,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script> -->
     <script>
 		var simplemde = new SimpleMDE({
-		    element: document.getElementById("myEditor"),
+		    element: document.getElementById("PostContent"),
 		    spellChecker: false,
             renderingConfig:{
                 codeSyntaxHighlighting: true
