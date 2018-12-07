@@ -94,13 +94,32 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpPost]
-         public IActionResult Edit(Post Post)
+        public IActionResult Edit(Post Post)
         {
             var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
             return View();
         }
 
-        
+        //聽說只要增加webhook就可以在每次push完後，自動把code拉到伺服器，執行sh去deploey...?
+        public IActionResult GitAutoPull()
+        {
+            //https://loune.net/2017/06/running-shell-bash-commands-in-net-core/
+            var cmd = "";
+            var escapedArgs = cmd.Replace("\"", "\\\"");
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{escapedArgs}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                }
+            };
+            process.Start();
+            return Ok();
+        }
 
         // [HttpGet]
         // [IsNotLoginFilter]
