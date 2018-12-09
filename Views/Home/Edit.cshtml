@@ -7,7 +7,7 @@
 @section Header{
     <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
     <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
-    
+    <link rel="stylesheet" href="~/css/typeaheadjs.css" >
 }
 <br>
 <div class="row">
@@ -23,7 +23,14 @@
             </div>
             <textarea asp-for="PostContent" ></textarea>
             <br>
+            <div class="form-group">
+                <div id="bloodhound">
+                    <input class="typeahead form-control" type="text" placeholder="input something">
+                    <button type="button" class="btn btn-outline-success">Add Tag</button>
+                </div>
+            </div>
             <div class="form-group" id="Tags">
+                <span>Tags：</span>
                 <!-- https://www.hanselman.com/blog/ASPNETWireFormatForodelBindingToArraysListsCollectionsDictionaries.aspx -->
                 <span class="badge badge-pill badge-primary">
                     <a href="#" >Mysql</a>
@@ -45,7 +52,7 @@
 
 @section Scripts{    
     <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script> -->
+    <script src="~/lib/typeahead.js/dist/typeahead.jquery.min.js"></script>
     <script>
 		var simplemde = new SimpleMDE({
 		    element: document.getElementById("PostContent"),
@@ -67,6 +74,48 @@
             $(".editor-preview").attr("class", "editor-preview markdown-body");
             $(".editor-preview-side").attr("class","editor-preview-side markdown-body");
         });
+
+        var substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                var matches, substringRegex;
+
+                // an array that will be populated with substring matches
+                matches = [];
+
+                // regex used to determine if a string contains the substring `q`
+                substrRegex = new RegExp(q, 'i');
+
+                // iterate through the pool of strings and for any string that
+                // contains the substring `q`, add it to the `matches` array
+                $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push(str);
+                }
+                });
+
+                cb(matches);
+            };
+        };
+        var tagdata = [
+                {"TagId": 1, "TagName": "Mysql"},
+                {"TagId": 2, "TagName": ".Net Core"}
+            ];
+        var tagforautocomplete = $.map(tagdata, function(item, index){
+            return item.TagName;
+        })
+        
+        console.log(tagforautocomplete);
+        $('#bloodhound .typeahead').typeahead(
+            {
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'tagforautocomplete',
+                source: substringMatcher(tagforautocomplete)
+            }
+        );
         
     </script>
 }

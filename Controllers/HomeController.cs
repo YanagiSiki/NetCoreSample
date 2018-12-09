@@ -96,7 +96,7 @@ namespace NetCoreSample.Controllers
         [HttpPost]
         public IActionResult Edit(Post Post)
         {
-            var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
+            //var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
             return View();
         }
 

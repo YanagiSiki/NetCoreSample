@@ -8,6 +8,7 @@
     "jquery-validation-unobtrusive": "3.2.6",
     "glyphicons": "0.0.2",
     "simplemde ": "1.11.2",
-    "github-markdown-css": "2.10.0"
+    "github-markdown-css": "2.10.0",
+    "typeahead.js": "latest"
   }
 }
