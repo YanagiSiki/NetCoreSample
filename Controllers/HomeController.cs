@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -88,15 +89,31 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int postId)
         {
-            return View();
+            var Post = _dbContext.Post.Find(postId);
+            // if (Post == null)
+            //     Post = new Post();
+            var PostTags = new List<PostTag>()
+            {
+                new PostTag() { PostId = 1, Tag = new Tag(){TagId = 1, TagName = "MySQL"}},
+                new PostTag() { PostId = 1, Tag = new Tag(){TagId = 2, TagName = ".Net Core"}}
+            };
+            Post = new Post(){
+                PostId = 1,
+                PostTitle = "PostTitle", 
+                PostContent = @"# This is H1!
+                                PostContent",
+                PostTags = PostTags
+            };
+            return View(Post);
         }
 
         [HttpPost]
-        public IActionResult Edit(Post Post)
+        public IActionResult Edit(Post post)
         {
             //var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
+
             return View();
         }
 

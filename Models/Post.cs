@@ -17,7 +17,7 @@ namespace NetCoreSample.Models
         public User User { get; set; }
 
         public IEnumerable<PostTag> PostTags { get; set; }
-
+        
     }
 
 }
