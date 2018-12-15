@@ -27,6 +27,7 @@ namespace NetCoreSample.Controllers
 
         }
 
+        [Route("~/")]
         public IActionResult Index()
         {
             var Users = _dbContext.User.ToAsyncEnumerable();
