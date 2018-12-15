@@ -76,7 +76,7 @@ function submit() {
     var $form = $('#form');
     var $tags = $('#js-tags');
     var formdata = $form.serializeJSON();
-    var postid = $('#PostId').val();
+    var postid = parseInt($('#PostId').val().toString());
     var posttags = $.map($tags.data('tags'), function (t, i) {
         return {
             PostId: postid,
