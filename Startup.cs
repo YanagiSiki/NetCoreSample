@@ -51,7 +51,7 @@ namespace NetCoreSample
             
             services.AddEntityFrameworkNpgsql();
             services.AddEntityFrameworkMySql();
-            services.AddSingleton<BaseContext, NpgsqlContext>();
+            services.AddScoped<BaseContext, HerokuNpgContext>();
 
             services.AddCustomPolicyExtend();
             services.AddCustomAuthExtend();

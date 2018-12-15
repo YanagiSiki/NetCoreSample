@@ -19,6 +19,7 @@ namespace NetCoreSample.Controllers
     //API Key ID: 4AIWnYxRQuCalJLR-hV26A
     //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
     //[AllowAnonymous]
+    [Route("[controller]/[action]")]
     public class HomeController : BaseController
     {
         public HomeController(BaseContext dbContext) : base(dbContext)
@@ -55,7 +56,7 @@ namespace NetCoreSample.Controllers
                 var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
                 Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                // Identity.AddClaim(new Claim("UserEmail", DbUser.Email, ClaimValueTypes.Email));
+                Identity.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
                 ClaimPriciple.AddIdentity(Identity);
                 HttpContext.User = ClaimPriciple;
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
@@ -89,33 +90,33 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        [HttpGet("{postId?}")]
         public IActionResult Edit(int postId)
         {
-            var Post = _dbContext.Post.Find(postId);
-            // if (Post == null)
-            //     Post = new Post();
-            var PostTags = new List<PostTag>()
-            {
-                new PostTag() { PostId = 1, Tag = new Tag(){TagId = 1, TagName = "MySQL"}},
-                new PostTag() { PostId = 1, Tag = new Tag(){TagId = 2, TagName = ".Net Core"}}
-            };
-            Post = new Post(){
-                PostId = 1,
-                PostTitle = "PostTitle", 
-                PostContent = @"# This is H1!
-                                PostContent",
-                PostTags = PostTags
-            };
+            if(postId ==0){
+                return View(new Post()
+                {
+                    // PostId = 1,
+                    PostTitle = "PostTitle",
+                    PostContent = @"# This is H1! \r\nPostContent",
+                    //PostTags = PostTags
+                });
+            }
+
+            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
+            if (Post == null)
+                throw new Exception("Post Not Found");
+                
             return View(Post);
         }
 
-        [HttpPost]
-        public IActionResult Edit(Post post)
-        {
-            //var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
+        // [HttpPost]
+        // public IActionResult Edit(Post post)
+        // {
+        //     // var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
 
-            return View();
-        }
+        //     return View();
+        // }
 
         //聽說只要增加webhook就可以在每次push完後，自動把code拉到伺服器，執行sh去deploey...?
         public IActionResult GitAutoPull()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NetCoreSample.Tools
 {
@@ -13,7 +14,7 @@ namespace NetCoreSample.Tools
         }
 
         public static bool IsNotNull<T>(this IEnumerable<T> list){
-            if(list != null) return true;
+            if(list != null && list.ToList().Count !=0 ) return true;
             return false;
         }
     }

@@ -11,5 +11,4 @@
         $('#sidebar').toggleClass('active');
     }
 
-    
 }(window));

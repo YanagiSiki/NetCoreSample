@@ -22,7 +22,7 @@
             @await Component.InvokeAsync("NavBar", Context)
 
             <br>
-            <div>
+            <div id="_ErrorFlashMessage">
                 @Html.Partial("../Partial/_ErrorFlashMessage.cshtml")
             </div>
 
@@ -34,8 +34,10 @@
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery.serializeJSON/jquery.serializejson.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/tool.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

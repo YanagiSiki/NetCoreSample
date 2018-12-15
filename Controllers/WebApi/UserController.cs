@@ -42,7 +42,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
-        public IActionResult GetPostOfUser(int userId = 0)
+        public IActionResult GetPostOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
@@ -55,7 +55,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
-        public IActionResult GetTagOfUser(int userId = 0)
+        public IActionResult GetTagOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");

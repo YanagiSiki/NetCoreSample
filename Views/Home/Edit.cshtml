@@ -17,24 +17,26 @@
     </div>
     
     <div class="col-md-12">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" id="form">
+            <input asp-for="PostId" type="hidden">
+            <input asp-for="UserId" type="hidden">
             <div class="form-group">
                 <input class="form-control" placeholder="Enter PostTitle" asp-for="PostTitle">
             </div>
             <textarea asp-for="PostContent" ></textarea>
             <br>
-            <div class="form-group">
+            <div class="form-group" id="js-alltags">
                 <div id="bloodhound">
                     <input class="typeahead form-control" type="text" placeholder="input something">
                     <button type="button" class="btn btn-outline-success">Add Tag</button>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="js-tags">
                 <span>Tags：</span>
-                @await Component.InvokeAsync("PostTags", Model.PostTags)
             </div>
             <div class="form-group">
-                <p class="text-right"><input type="submit"  value="Submit"  class="btn btn-outline-primary" /></p>
+                <!-- <input type="submit"  value="Submit"  class="btn btn-outline-primary float-right" /> -->
+                <input type="button" id="submitbtn" value="Submit" class="btn btn-outline-primary float-right" />
             </div>
         </form>
     </div>
@@ -43,74 +45,7 @@
 @section Scripts{    
     <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
     <script src="~/lib/typeahead.js/dist/typeahead.jquery.min.js"></script>
-    <script>
-		var simplemde = new SimpleMDE({
-		    element: document.getElementById("PostContent"),
-		    spellChecker: false,
-            renderingConfig:{
-                codeSyntaxHighlighting: true
-            }
-	    });
-        var waitForEl = function(selector, callback) {
-            if ($(selector).length) {
-                callback();
-            } else {
-                setTimeout(function() {
-                waitForEl(selector, callback);
-                }, 100);
-            }
-            };
-        waitForEl(".editor-preview, editor-preview-side", function() {
-            $(".editor-preview").attr("class", "editor-preview markdown-body");
-            $(".editor-preview-side").attr("class","editor-preview-side markdown-body");
-        });
-
-        var substringMatcher = function(strs) {
-            return function findMatches(q, cb) {
-                var matches, substringRegex;
-
-                // an array that will be populated with substring matches
-                matches = [];
-
-                // regex used to determine if a string contains the substring `q`
-                substrRegex = new RegExp(q, 'i');
-
-                // iterate through the pool of strings and for any string that
-                // contains the substring `q`, add it to the `matches` array
-                $.each(strs, function(i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push(str);
-                }
-                });
-
-                cb(matches);
-            };
-        };
-        var tagdata = [
-                {"TagId": 1, "TagName": "Mysql"},
-                {"TagId": 2, "TagName": ".Net Core"}
-            ];
-        var tagforautocomplete = $.map(tagdata, function(item, index){
-            return item.TagName;
-        })
-        
-        console.log(tagforautocomplete);
-        $('#bloodhound .typeahead').typeahead(
-            {
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'tagforautocomplete',
-                source: substringMatcher(tagforautocomplete)
-            }
-        );
-        
-    </script>
+    <script src="~/js/edit.js"></script>
 }
-<!-- <div>
-        <a asp-action="Index">Back to List</a>
-    </div> -->
 
 

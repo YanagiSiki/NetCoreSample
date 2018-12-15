@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,22 +27,95 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        public IActionResult UpdatePost([FromBody] Post post)
+        public IActionResult UpdatePost(Post post)
         {
-            var Post = _dbContext.Post.AsNoTracking().SingleOrDefault(_ => _.PostId == post.PostId);
-            if (Post == null)return Ok("Post Not Found");
+            using(var transaction = _dbContext.Database.BeginTransaction())
+            {
+                var Post = _dbContext.Post.AsNoTracking().SingleOrDefault(_ => _.PostId == post.PostId);
+                if (Post == null)
+                    throw new Exception("Post Not Found");
 
-            var PostTag = _dbContext.PostTag.AsNoTracking().Where(_ => _.PostId == post.PostId).ToList();
-            if (PostTag.IsNotNull())
-                _dbContext.PostTag.RemoveRange(PostTag);
-            if (post.PostTags.IsNotNull())
-                _dbContext.PostTag.AddRange(post.PostTags.ToList());
-            _dbContext.Post.Update(post);
-            _dbContext.SaveChanges();
+                var Tags = post.PostTags?.Select(_ => _.Tag).ToList();
 
+                /*** post ***/
+                post.PostTags = null;
+                _dbContext.Post.Update(post);
+                _dbContext.SaveChanges();
+
+                /*** tag ***/
+
+                if (Tags.IsNotNull() && Tags.Any(_ => _.TagId == 0))
+                {
+                    _dbContext.Tag.AddRange(Tags.Where(_ => _.TagId == 0));
+                    _dbContext.SaveChanges();
+                }
+
+                /*** posttags ***/
+                var DbPostTags = _dbContext.PostTag.Where(_ => _.PostId == post.PostId);
+                if (DbPostTags.IsNotNull())
+                {
+                    _dbContext.PostTag.RemoveRange(DbPostTags);
+                    _dbContext.SaveChanges();
+                }
+                var PostTags = Tags?.Select(_ => { return new PostTag() { PostId = post.PostId, TagId = _.TagId }; }).ToList();
+                if (PostTags.IsNotNull())
+                {
+                    _dbContext.PostTag.AddRange(PostTags);
+                    _dbContext.SaveChanges();
+                }
+
+                transaction.Commit();
+            }
             return Ok();
         }
 
+        [HttpPost]
+        public IActionResult InsertPost(Post post)
+        {
+            using(var transaction = _dbContext.Database.BeginTransaction())
+            {
+                var Tags = post.PostTags?.Select(_ => _.Tag).ToList();
+
+                /*** post ***/
+                var UserId = HttpContext.User.Claims.First(_ => _.Type == "UserId").Value;
+                post.UserId = int.Parse(UserId);
+                post.PostTags = null;
+                _dbContext.Post.Add(post);
+                _dbContext.SaveChanges();
+
+                /*** tag ***/
+                if (Tags.IsNotNull() && Tags.Any(_ => _.TagId == 0))
+                {
+                    _dbContext.Tag.AddRange(Tags.Where(_ => _.TagId == 0));
+                    _dbContext.SaveChanges();
+                }
+
+                /*** posttags ***/
+                var PostTags = Tags?.Select(_ => { return new PostTag() { PostId = post.PostId, TagId = _.TagId }; }).ToList();
+                if (PostTags.IsNotNull())
+                {
+                    _dbContext.PostTag.AddRange(PostTags);
+                    _dbContext.SaveChanges();
+                }
+                transaction.Commit();
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetTagsOfPost(int postId)
+        {
+            var PostTags = _dbContext.PostTag.Include(_ => _.Tag).Where(_ => _.PostId == postId).ToList();
+            var Tags = PostTags.Select(_ => _.Tag).ToList();
+            return Ok(Tags);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTags()
+        {
+            var AllTags = _dbContext.Tag.ToList();
+            return Ok(AllTags);
+        }
     }
 
 }
