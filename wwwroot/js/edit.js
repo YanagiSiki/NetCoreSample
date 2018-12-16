@@ -72,7 +72,7 @@ function crateTypeheadOfAllTags(tags) {
         source: substringMatcher(tagforautocomplete)
     });
 }
-function submit() {
+function submit($simplemde) {
     var $form = $('#form');
     var $tags = $('#js-tags');
     var formdata = $form.serializeJSON();
@@ -86,6 +86,7 @@ function submit() {
     });
     var submitUrl = !!postid ? '/PostApi/UpdatePost' : '/PostApi/InsertPost';
     formdata.PostTags = posttags;
+    formdata.PostContent = $simplemde.value();
     $.post(submitUrl, { "post": formdata })
         .done(function () {
         alertSuccessMessage('Update Success !');
@@ -104,7 +105,7 @@ function submit() {
         $(".editor-preview").attr("class", "editor-preview markdown-body");
         $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
     });
-    var simplemde = new SimpleMDE({
+    var $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
         spellChecker: false,
         renderingConfig: {
@@ -137,6 +138,6 @@ function submit() {
     $tags.on('click', '.close', function (e) {
         removePostTags(e);
     });
-    $('#submitbtn').click(function () { submit(); });
+    $('#submitbtn').click(function () { submit($simplemde); });
 }(window));
 //# sourceMappingURL=edit.js.map

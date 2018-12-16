@@ -3,7 +3,8 @@ declare interface JQuery {
     serializeJSON(): JQuery;
 }
 declare class SimpleMDE {
-    constructor(option: any)
+    constructor(option: any);
+    value(): string;
 }
 declare interface Tag {
     TagId: number;
@@ -99,7 +100,7 @@ function crateTypeheadOfAllTags(tags: Array<Tag>) {
         });
 }
 
-function submit() {
+function submit($simplemde: SimpleMDE) {
     let $form = $('#form');
     let $tags = $('#js-tags');
     let formdata: any = $form.serializeJSON();
@@ -113,7 +114,7 @@ function submit() {
     })
     let submitUrl = !!postid ? '/PostApi/UpdatePost' : '/PostApi/InsertPost';
     formdata.PostTags = posttags;
-    
+    formdata.PostContent = $simplemde.value();
     $.post(submitUrl, { "post": formdata })
         .done(() => {
             alertSuccessMessage('Update Success !');
@@ -135,7 +136,7 @@ function submit() {
         $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
     });
 
-    let simplemde = new SimpleMDE({
+    let $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
         spellChecker: false,
         renderingConfig: {
@@ -174,5 +175,5 @@ function submit() {
         removePostTags(e);
     });
 
-    $('#submitbtn').click(() => { submit() });
+    $('#submitbtn').click(() => { submit($simplemde) });
 }(window));
