@@ -32,3 +32,9 @@
     <a href="#" class="btn btn-success float-right">Leave a Review</a>
   </div>
 </div>
+
+<div id="page" data-currentpage="@ViewBag.CurrentPage" data-totalpage="@ViewBag.TotalPage" data-pagerange="@ViewBag.PageRange"></div>
+
+@section Scripts{    
+    <script src="~/js/pagination.js"></script>
+}

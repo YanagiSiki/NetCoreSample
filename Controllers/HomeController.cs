@@ -27,11 +27,14 @@ namespace NetCoreSample.Controllers
 
         }
 
-        [Route("~/")]
-        [Route("/Home")]
-        public IActionResult Index()
+        [Route("~/{page?}")]
+        [Route("/Home/{page?}")]
+        public IActionResult Index(int page)
         {
-            var Users = _dbContext.User.ToAsyncEnumerable();
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = 20;
+            ViewBag.PageRange = 2;
+            //var Users = _dbContext.User.ToAsyncEnumerable();
             return View();
         }
 
