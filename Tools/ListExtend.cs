@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace NetCoreSample.Tools
 {
@@ -16,6 +18,14 @@ namespace NetCoreSample.Tools
         public static bool IsNotNull<T>(this IEnumerable<T> list){
             if(list != null && list.ToList().Count !=0 ) return true;
             return false;
+        }
+
+        public static List<T> Pagination<T>(this IQueryable<T> list, int currentPage, int pageSize = 5) where T: class
+        {
+            var items = list.Skip(
+                (currentPage - 1) * pageSize)
+                .Take(pageSize).ToList();
+            return items;
         }
     }
 }

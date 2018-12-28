@@ -29,13 +29,15 @@ namespace NetCoreSample.Controllers
 
         [Route("~/{page?}")]
         [Route("/Home/{page?}")]
+        [Route("/Home/Index/{page?}")]
         public IActionResult Index(int page)
         {
+            page = page > 0 ? page : 1;
             ViewBag.CurrentPage = page;
             ViewBag.TotalPage = 20;
             ViewBag.PageRange = 2;
-            //var Users = _dbContext.User.ToAsyncEnumerable();
-            return View();
+            var Posts = _dbContext.Post.Pagination(page);
+            return View(Posts);
         }
 
         [HttpGet]
@@ -98,20 +100,21 @@ namespace NetCoreSample.Controllers
         [HttpGet("{postId?}")]
         public IActionResult Edit(int postId)
         {
-            if(postId ==0){
+            if (postId == 0)
+            {
                 return View(new Post()
                 {
                     // PostId = 1,
                     PostTitle = "PostTitle",
-                    PostContent = @"# This is H1! \r\nPostContent",
-                    //PostTags = PostTags
+                        PostContent = @"# This is H1! \r\nPostContent",
+                        //PostTags = PostTags
                 });
             }
 
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
                 throw new Exception("Post Not Found");
-                
+
             return View(Post);
         }
 

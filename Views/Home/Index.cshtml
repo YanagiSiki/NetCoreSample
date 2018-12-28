@@ -1,8 +1,27 @@
-﻿@{
+﻿@model List<NetCoreSample.Models.Post>
+@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+  if(@Model != null){
+    foreach (var item in @Model)
+    {
+      <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+          @item.PostTitle
+        </div>
+        <div class="card-body">
+          <textarea class="PostContent">@item.PostContent</textarea>
+          <p class="text-right"><small class="text-muted ">@item.PostTitle</small></p>
+          <hr>
+          <a href="#" class="btn btn-success float-right">ReadMore</a>
+        </div>
+      </div>
+    }
+  }
+  
+}
 <div class="card card-outline-secondary my-4">
   <div class="card-header">
     我前示前流登比分而時
@@ -36,5 +55,7 @@
 <div id="page" data-currentpage="@ViewBag.CurrentPage" data-totalpage="@ViewBag.TotalPage" data-pagerange="@ViewBag.PageRange"></div>
 
 @section Scripts{    
+    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <script src="~/js/index.js"></script>
     <script src="~/js/pagination.js"></script>
 }
