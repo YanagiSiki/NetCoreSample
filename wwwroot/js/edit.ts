@@ -5,6 +5,7 @@ declare interface JQuery {
 declare class SimpleMDE {
     constructor(option: any);
     value(): string;
+    togglePreview(): void;
 }
 declare interface Tag {
     TagId: number;
