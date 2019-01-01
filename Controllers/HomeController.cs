@@ -27,11 +27,12 @@ namespace NetCoreSample.Controllers
 
         }
 
-        [Route("~/")]
-        [Route("/Home")]
-        public IActionResult Index()
+        [Route("~/{page?}")]
+        [Route("/Home/{page?}")]
+        [Route("/Home/Index/{page?}")]
+        public IActionResult Index(int page)
         {
-            var Users = _dbContext.User.ToAsyncEnumerable();
+            //var Users = _dbContext.User.ToAsyncEnumerable();
             return View();
         }
 
@@ -111,14 +112,6 @@ namespace NetCoreSample.Controllers
                 
             return View(Post);
         }
-
-        // [HttpPost]
-        // public IActionResult Edit(Post post)
-        // {
-        //     // var UserName = HttpContext.User.Claims.First(_ => _.Type == "UserName").Value;
-
-        //     return View();
-        // }
 
         //聽說只要增加webhook就可以在每次push完後，自動把code拉到伺服器，執行sh去deploey...?
         public IActionResult GitAutoPull()
