@@ -107,7 +107,6 @@ function submit($simplemde) {
     });
     var $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
-        spellChecker: false,
         renderingConfig: {
             codeSyntaxHighlighting: true
         }

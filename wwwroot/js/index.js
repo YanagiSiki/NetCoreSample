@@ -4,14 +4,16 @@
     $.each($postcontents, function (idx, $postcontainer) {
         var simplemde = new SimpleMDE({
             element: $postcontainer,
-            spellChecker: false,
             renderingConfig: {
                 codeSyntaxHighlighting: true
             },
             toolbar: false,
-            toolbarTips: false,
+            // toolbarTips: false,
+            status: false,
         });
         simplemde.togglePreview();
     });
+    $(".editor-preview").attr("class", "editor-preview markdown-body");
+    $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
 }(window));
 //# sourceMappingURL=index.js.map

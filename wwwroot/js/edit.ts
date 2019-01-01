@@ -139,7 +139,6 @@ function submit($simplemde: SimpleMDE) {
 
     let $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
-        spellChecker: false,
         renderingConfig: {
             codeSyntaxHighlighting: true
         }

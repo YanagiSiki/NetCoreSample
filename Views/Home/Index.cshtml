@@ -3,6 +3,11 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Header{
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+    <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
+    <link rel="stylesheet" href="~/css/typeaheadjs.css" >
+}
 @{
   if(@Model != null){
     foreach (var item in @Model)
@@ -12,7 +17,7 @@
           @item.PostTitle
         </div>
         <div class="card-body">
-          <textarea class="PostContent">@item.PostContent</textarea>
+          <textarea class="PostContent" class="disabled">@item.PostContent</textarea>
           <p class="text-right"><small class="text-muted ">@item.PostTitle</small></p>
           <hr>
           <a href="#" class="btn btn-success float-right">ReadMore</a>
