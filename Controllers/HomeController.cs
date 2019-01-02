@@ -27,8 +27,8 @@ namespace NetCoreSample.Controllers
 
         }
 
-        [Route("~/{page?}")]
-        [Route("/Home/{page?}")]
+        [Route("~/")]
+        // [Route("/Home/{page?}")]
         [Route("/Home/Index/{page?}")]
         public IActionResult Index(int page)
         {
