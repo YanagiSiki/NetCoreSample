@@ -106,7 +106,7 @@ namespace NetCoreSample.Controllers
                 {
                     // PostId = 1,
                     PostTitle = "PostTitle",
-                        PostContent = @"# This is H1! \r\nPostContent",
+                        PostContent = "# This is H1! \r\n PostContent",
                         //PostTags = PostTags
                 });
             }

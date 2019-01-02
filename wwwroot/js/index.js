@@ -1,9 +1,9 @@
 (function (w) {
     var $postcontents = $('.PostContent');
-    debugger;
-    $.each($postcontents, function (idx, $postcontainer) {
+    $.each($postcontents, function (idx, postcontainer) {
+        var $postcontainer = $(postcontainer);
         var simplemde = new SimpleMDE({
-            element: $postcontainer,
+            element: postcontainer,
             renderingConfig: {
                 codeSyntaxHighlighting: true
             },
@@ -11,6 +11,7 @@
             // toolbarTips: false,
             status: false,
         });
+        simplemde.value($postcontainer.data('contant'));
         simplemde.togglePreview();
     });
     $(".editor-preview").attr("class", "editor-preview markdown-body");
