@@ -17,7 +17,7 @@
           @item.PostTitle
         </div>
         <div class="card-body">
-          <textarea class="PostContent" class="disabled">@item.PostContent</textarea>
+          <input type="hidden" id="PostContent" data-contant="@item.PostContent">
           <p class="text-right"><small class="text-muted ">@item.PostTitle</small></p>
           <hr>
           <a href="#" class="btn btn-success float-right">ReadMore</a>
