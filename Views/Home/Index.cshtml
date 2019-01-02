@@ -20,7 +20,7 @@
           <input type="hidden" class="PostContent" data-contant="@item.PostContent">
           <p class="text-right"><small class="text-muted ">@item.PostTitle</small></p>
           <hr>
-          <a href="#" class="btn btn-success float-right">ReadMore</a>
+          <a asp-area="" asp-controller="Home" asp-action="Edit" asp-route-postId="@item.PostId" class="btn btn-success float-right">ReadMore</a>
         </div>
       </div>
     }
