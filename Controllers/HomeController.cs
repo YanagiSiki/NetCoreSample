@@ -28,7 +28,6 @@ namespace NetCoreSample.Controllers
         }
 
         [Route("~/")]
-        // [Route("/Home/{page?}")]
         [Route("/Home/Index/{page?}")]
         public IActionResult Index(int page)
         {
@@ -37,19 +36,25 @@ namespace NetCoreSample.Controllers
             ViewBag.TotalPage = 20;
             ViewBag.PageRange = 2;
             var Posts = _dbContext.Post.Pagination(page);
+            Posts.ForEach(_ =>
+            {
+                var tmp = _.PostContent.Split("<!--more-->\n").First();
+                if (tmp.IsNotNull())_.PostContent = tmp;
+            });
             return View(Posts);
         }
 
         [HttpGet]
         [IsNotLoginFilter]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View(new User());
         }
 
         [HttpPost]
         [IsNotLoginFilter]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(User user, string returnUrl = null)
         {
             var Users = _dbContext.User;
             // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
@@ -67,7 +72,7 @@ namespace NetCoreSample.Controllers
                 ClaimPriciple.AddIdentity(Identity);
                 HttpContext.User = ClaimPriciple;
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
-                return RedirectToAction("index", "Home");
+                return RedirectToLocal(returnUrl);
             }
             throw new Exception("密碼錯誤");
         }
@@ -77,7 +82,7 @@ namespace NetCoreSample.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/Home");
+            return RedirectToAction("index", "Home");
         }
 
         public IActionResult Error()
@@ -97,6 +102,7 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        [Authorize(Roles.Admin)]
         [HttpGet("{postId?}")]
         public IActionResult Edit(int postId)
         {
@@ -110,6 +116,18 @@ namespace NetCoreSample.Controllers
                         //PostTags = PostTags
                 });
             }
+
+            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
+            if (Post == null)
+                throw new Exception("Post Not Found");
+
+            return View(Post);
+        }
+
+        [HttpGet("{postId?}")]
+        public IActionResult Post(int postId)
+        {
+            if (postId == 0) throw new  Exception("Page Not Found");
 
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
@@ -137,6 +155,17 @@ namespace NetCoreSample.Controllers
             };
             process.Start();
             return Ok();
+        }
+
+        //https://hk.saowen.com/a/7c1532c12e2f792e6b9c2146a0736e6eb006fc3816dfe526dfee7e1d5f69af05
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            { //如果是本地
+                return Redirect(returnUrl);
+            }
+
+            throw new Exception("Page Not Found");
         }
 
         // [HttpGet]

@@ -10,7 +10,7 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("PostApi/[action]")]
-    [AllowAnonymous]
+    // [Authorize(Roles.Admin)]
     public class PostApiController : Controller
     {
         private BaseContext _dbContext;
@@ -27,6 +27,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
+        [Authorize(Roles.Admin)]
         public IActionResult UpdatePost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
@@ -70,6 +71,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
+        [Authorize(Roles.Admin)]
         public IActionResult InsertPost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
