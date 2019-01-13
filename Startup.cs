@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -48,7 +49,7 @@ namespace NetCoreSample
                 //json字首固定大寫
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
-            
+
             services.AddEntityFrameworkNpgsql();
             services.AddEntityFrameworkMySql();
             services.AddScoped<BaseContext, HerokuNpgContext>();
@@ -69,7 +70,7 @@ namespace NetCoreSample
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
 
