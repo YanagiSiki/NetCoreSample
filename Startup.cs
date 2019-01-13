@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,6 @@ using Microsoft.IdentityModel.Tokens;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.HttpOverrides;
 
 namespace NetCoreSample
 {
@@ -57,6 +57,7 @@ namespace NetCoreSample
 
             services.AddCustomPolicyExtend();
             services.AddCustomAuthExtend();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,8 +72,14 @@ namespace NetCoreSample
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
-            app.UseHttpsRedirection();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+
             app.UseStaticFiles();
             app.UseAuthentication();
 
