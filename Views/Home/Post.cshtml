@@ -10,17 +10,17 @@
 }
 <br>
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10">
         <h2>@Model.PostTitle</h2>
         <div class="form-group" id="js-tags"></div>
     </div>
-    
+    <div class="col-md-2">
+        <a asp-controller="Home" asp-action="Edit" asp-route-postId="@Model.PostId" class="btn btn-success">Edit</a>
+        <a href="#" class="btn btn-danger">Delete</a>
+    </div>
     <div class="col-md-12">
         <input asp-for="PostId" type="hidden">
         <input asp-for="UserId" type="hidden">
-        <!-- <input id="PostId" value="@Model.PostId" type="hidden"> -->
-        <!-- <input type="hidden" id="PostContent" data-contant="@Model.PostContent"> -->
-        <input asp-for="PostId" type="hidden">
         <input asp-for="PostContent" type="hidden">
         <div id="Page" class="pageContent markdown-body"></div>
         <br>

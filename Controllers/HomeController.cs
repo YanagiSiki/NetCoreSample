@@ -72,7 +72,8 @@ namespace NetCoreSample.Controllers
                 ClaimPriciple.AddIdentity(Identity);
                 HttpContext.User = ClaimPriciple;
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
-                return RedirectToLocal(returnUrl);
+                if(returnUrl.IsNotNull())return RedirectToLocal(returnUrl);
+                return Redirect("/");
             }
             throw new Exception("密碼錯誤");
         }

@@ -11,10 +11,6 @@
     $('#Page').append($simplemde.markdown($postcontainer.val().toString()));
     $simplemde.toTextArea();
     $simplemde = null;
-    // $(".editor-preview").attr("class", "editor-preview markdown-body");
-    // $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
-    //let _tags: Array<Tag>;
-    //let _allTags: Array<Tag>;
     $getTagsOfPost
         .done(function (tags) {
         appendBadge(tags);
