@@ -22,7 +22,6 @@ namespace NetCoreSample
             WebHost.CreateDefaultBuilder(args)
             // .UseKestrel()
             // .UseUrls("http://0.0.0.0:5000")
-            .UseSetting("https_port", "443")
             .UseStartup<Startup>()
             .Build();
     }
