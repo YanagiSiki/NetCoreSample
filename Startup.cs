@@ -78,7 +78,7 @@ namespace NetCoreSample
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
-            app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+            // app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
 
             app.UseStaticFiles();
             app.UseAuthentication();
