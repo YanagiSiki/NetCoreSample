@@ -18,7 +18,6 @@ namespace NetCoreSample.Tools
                     options.AccessDeniedPath = new PathString("/Home/Error");
                     options.LoginPath = new PathString("/Home/Login");
                     options.LogoutPath = new PathString("/Home/Logout");
-                    options.CookieSecure = CookieSecurePolicy.Always;
                 });
             return services;
         }
