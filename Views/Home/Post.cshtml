@@ -1,17 +1,28 @@
 @model NetCoreSample.Models.Post
 
 @{
-    ViewData["Title"] = "Edit";
+    <!-- ViewData["Title"] = "Edit"; -->
+    ViewData["Title"] = @Model.PostTitle;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
     <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
     <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
 }
-<br>
+
 <div class="row">
+    <div class="col-md-12" id="_Breadcrumb">
+        <!-- 麵包屑導覽 -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active"><a>Post - @Model.PostId</a></li>
+            </ol>
+        </nav>
+    </div>
+    
     <div class="col-md-10">
-        <h2>@Model.PostTitle</h2>
+        <h1>@Model.PostTitle</h1>
         <div class="form-group" id="js-tags"></div>
     </div>
     <div class="col-md-2">

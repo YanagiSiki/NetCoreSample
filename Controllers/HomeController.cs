@@ -83,7 +83,8 @@ namespace NetCoreSample.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("index", "Home");
+            // return RedirectToAction("index", "Home");
+            return Redirect("/");
         }
 
         public IActionResult Error()
