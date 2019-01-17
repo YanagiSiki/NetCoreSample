@@ -37,9 +37,12 @@ function appendBadge(tags, isUseCloseBtn) {
     var $container = $('#js-tags');
     tags.forEach(function (t) {
         if (!!isUseCloseBtn)
-            $container.append("<span class='badge badge-pill badge-primary'>\n                    <a href='#' >" + t.TagName + "</a>\n                    <i class='close fa fa-times' data-tagname='" + t.TagName + "'></i>\n                    </span> ");
+            $container.append("<span class='badge badge-success'>\n                    <a href='#'>" + t.TagName + "</a>\n                    <i class='close fa fa-times' data-tagname='" + t.TagName + "'></i>\n                    </span> ");
         else
-            $container.append("<span class='badge badge-pill badge-primary'>\n                    <a href='#' >" + t.TagName + "</a>\n                    </span> ");
+            // $container.append(`<span class='badge badge-pill badge-primary'>
+            //             <a href='#' >${t.TagName}</a>
+            //             </span> `);
+            $container.append("<a href='#' class='badge badge-success'>" + t.TagName + "</a>");
     });
 }
 function addPostTags() {

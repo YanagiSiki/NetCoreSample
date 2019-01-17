@@ -73,12 +73,11 @@ namespace NetCoreSample
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedProto
-            });
-
-            // app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+            
+            // app.UseForwardedHeaders(new ForwardedHeadersOptions
+            // {
+            //     ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            // });
 
             app.UseStaticFiles();
             app.UseAuthentication();
