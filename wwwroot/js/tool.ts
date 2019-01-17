@@ -66,14 +66,15 @@ function appendBadge(tags: Array<Tag>, isUseCloseBtn?: boolean) {
     var $container = $('#js-tags');
     tags.forEach(t => {
         if(!!isUseCloseBtn)
-        $container.append(`<span class='badge badge-pill badge-primary'>
-                    <a href='#' >${t.TagName}</a>
+        $container.append(`<span class='badge badge-success'>
+                    <a href='#'>${t.TagName}</a>
                     <i class='close fa fa-times' data-tagname='${t.TagName}'></i>
                     </span> `);
         else 
-        $container.append(`<span class='badge badge-pill badge-primary'>
-                    <a href='#' >${t.TagName}</a>
-                    </span> `);
+        // $container.append(`<span class='badge badge-pill badge-primary'>
+        //             <a href='#' >${t.TagName}</a>
+        //             </span> `);
+        $container.append(`<a href='#' class='badge badge-success'>${t.TagName}</a>`);
     });
 }
 
