@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreSample.Helper;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 using Newtonsoft.Json.Serialization;
@@ -72,13 +73,17 @@ namespace NetCoreSample
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            
+            var IsHost = Environment.GetEnvironmentVariable("IsHost");
+            if (IsHost?.ToLower() == "true")
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedProto
-            });
+                app.UseForwardedHeaders(new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+                });
 
-            // app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+                app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+            }
 
             app.UseStaticFiles();
             app.UseAuthentication();

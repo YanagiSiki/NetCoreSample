@@ -43,5 +43,10 @@ namespace NetCoreSample.Helper
         {
             return _configuration.GetSection(key).Value ?? string.Empty;
         }
+
+        public T GetValue<T>(string key)
+        {
+            return _configuration.GetValue<T>(key);
+        }
     }
 }
