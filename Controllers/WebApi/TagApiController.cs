@@ -16,7 +16,7 @@ namespace NetCoreSample.Controllers.WebApi
         private BaseContext _dbContext;
         public TagApiController(BaseContext dbContext)
         {
-            _dbContext = _dbContext?? dbContext;
+            _dbContext = _dbContext ?? dbContext;
         }
 
         public IActionResult GetTag()

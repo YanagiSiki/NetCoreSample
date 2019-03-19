@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -9,8 +8,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NetCoreSample.Helper;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
@@ -134,7 +131,8 @@ namespace NetCoreSample.Controllers
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
                 throw new Exception("Post Not Found");
-
+            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+            ViewBag.IsOwner = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId).UserId.ToString() == UserId;
             return View(Post);
         }
 

@@ -10,7 +10,7 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
-    [AllowAnonymous]
+    // [AllowAnonymous]
     public class UserController : Controller
     {
         private BaseContext _dbContext;
