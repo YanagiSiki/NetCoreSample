@@ -29,6 +29,8 @@ namespace NetCoreSample
      * dotnet run
      * 發布專案
      * dotnet publish -o ../Publish
+     * dotnet publish -c Release -r <RID> --self-contained true  //linux-x64、ubuntu.14.04-x64、win10-x64 或 osx.10.12-x64
+     * dotnet publish -c Release -r win10-x64 --self-contained true -o ../Publish
      * 更新套件
      * dotnet restore
      */

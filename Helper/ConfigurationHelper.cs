@@ -1,15 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NetCoreSample.Helper
 {
     public class ConfigurationHelper
     {
-        static IConfiguration _configuration;
+        IConfiguration _configuration;
         public ConfigurationHelper()
         {
             GetJson("appsettings.json");
@@ -21,7 +17,7 @@ namespace NetCoreSample.Helper
 
         }
 
-        private static void GetJson(string jsonName)
+        private void GetJson(string jsonName)
         {
             try
             {
