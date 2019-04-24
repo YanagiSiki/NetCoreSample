@@ -6,7 +6,6 @@
 body {
   font-family: '微軟正黑體';
   /*padding-top: 50px;*/
-  /* padding-bottom: 20px; */
 }
 
 /* Wrapping element */
@@ -88,7 +87,7 @@ p {
 #sidebar {
   min-width: 320px;
   max-width: 320px;
-  background: #3098e3;
+  background: #575757;
   color: #fff;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -120,7 +119,7 @@ p {
 
 #sidebar .sidebar-header {
   padding: 30px;
-  background: #027bce;
+  background: #2D2D30;
 }
 
 #sidebar ul.components {
@@ -141,13 +140,13 @@ p {
 
 #sidebar ul li a:hover {
   color: #fff;
-  background: #00477a;
+  background: #2D2D30;
 }
 
 #sidebar ul li.active > a,
 #sidebar a[aria-expanded="true"] {
   color: #fff;
-  background: #00477a;
+  background: #2D2D30;
 }
 
 #sidebar a[data-toggle="collapse"] {
