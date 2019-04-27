@@ -160,6 +160,11 @@ namespace NetCoreSample.Controllers
             ViewBag.PageRange = 2;
             var Posts = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
                 .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Pagination(page).ToList();
+            Posts.ForEach(_ =>
+            {
+                var tmp = _.PostContent.Split("<!--more-->\n").First();
+                if (tmp.IsNotNull())_.PostContent = tmp;
+            });
             return View(Posts);
         }
 
