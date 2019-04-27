@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
@@ -24,21 +25,10 @@ namespace NetCoreSample.Controllers
 
         }
 
-        [Route("~/")]
-        [Route("/Home/Index/{page?}")]
-        public IActionResult Index(int page)
+        [Route("/Home/Index")]
+        public IActionResult Index()
         {
-            page = page > 0 ? page : 1;
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = 20;
-            ViewBag.PageRange = 2;
-            var Posts = _dbContext.Post.Pagination(page);
-            Posts.ForEach(_ =>
-            {
-                var tmp = _.PostContent.Split("<!--more-->\n").First();
-                if (tmp.IsNotNull())_.PostContent = tmp;
-            });
-            return View(Posts);
+            return Redirect("/");
         }
 
         [HttpGet]
@@ -101,6 +91,36 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
+        [Route("~/")]
+        [Route("/Home/Posts/{page?}")]
+        public IActionResult Posts(int page)
+        {
+            page = page > 0 ? page : 1;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = 20;
+            ViewBag.PageRange = 2;
+            var Posts = _dbContext.Post.Pagination(page);
+            Posts.ForEach(_ =>
+            {
+                var tmp = _.PostContent.Split("<!--more-->\n").First();
+                if (tmp.IsNotNull())_.PostContent = tmp;
+            });
+            return View(Posts);
+        }
+
+        [HttpGet("{postId?}")]
+        public IActionResult Post(int postId)
+        {
+            if (postId == 0)throw new Exception("Page Not Found");
+
+            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
+            if (Post == null)
+                throw new Exception("Post Not Found");
+            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+            ViewBag.IsOwner = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId).UserId.ToString() == UserId;
+            return View(Post);
+        }
+
         [Authorize(Roles.Admin)]
         [HttpGet("{postId?}")]
         public IActionResult Edit(int postId)
@@ -123,23 +143,24 @@ namespace NetCoreSample.Controllers
             return View(Post);
         }
 
-        [HttpGet("{postId?}")]
-        public IActionResult Post(int postId)
-        {
-            if (postId == 0)throw new Exception("Page Not Found");
-
-            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
-            if (Post == null)
-                throw new Exception("Post Not Found");
-            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
-            ViewBag.IsOwner = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId).UserId.ToString() == UserId;
-            return View(Post);
-        }
-
-        [HttpGet("{tagId?}")]
-        public IActionResult Tag(int tagId)
+        [Route("/Home/Tags")]
+        public IActionResult Tags()
         {
             return View();
+        }
+
+        [Route("/Home/Tag/{tagId?}/{page?}")]
+        public IActionResult Tag(int tagId, int page)
+        {
+            if (tagId == 0 || _dbContext.Tag.All(_ => _.TagId != tagId))throw new Exception("Tag Not Found");
+            page = page > 0 ? page : 1;
+            ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPage = 20;
+            ViewBag.PageRange = 2;
+            var Posts = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
+                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Pagination(page).ToList();
+            return View(Posts);
         }
 
         //聽說只要增加webhook就可以在每次push完後，自動把code拉到伺服器，執行sh去deploey...?

@@ -1,0 +1,44 @@
+﻿@model List<NetCoreSample.Models.Post>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
+    <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
+    <link rel="stylesheet" href="~/css/typeaheadjs.css" >
+}
+
+<h1>
+    <a href='#' class='badge badge-success'>@ViewBag.Tag.TagName</a>
+</h1>
+
+@{
+  if(@Model != null){
+    foreach (var item in @Model)
+    {
+      <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+          <h1>@item.PostTitle</h1>
+        </div>
+        <div class="card-body">
+          <input type="hidden" class="PostContent" data-contant="@item.PostContent">
+          <p class="text-right">@item.PostTitle</p>
+          <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-postId="@item.PostId" class="btn btn-success float-right">ReadMore</a>
+        </div>
+      </div>
+    }
+  }
+  
+}
+
+
+<div id="page" data-currentpage="@ViewBag.CurrentPage" data-totalpage="@ViewBag.TotalPage" data-pagerange="@ViewBag.PageRange" data-url="/Home/Tag/@ViewBag.Tag.TagId"></div>
+
+@section Scripts{   
+    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/js/pagination.js"></script>
+} 
+    
+

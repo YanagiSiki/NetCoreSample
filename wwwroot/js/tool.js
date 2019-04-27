@@ -37,12 +37,18 @@ function appendBadge(tags, isUseCloseBtn) {
     var $container = $('#js-tags');
     tags.forEach(function (t) {
         if (!!isUseCloseBtn)
-            $container.append("<span class='badge badge-success'>\n                    <a href='#'>" + t.TagName + "</a>\n                    <i class='close fa fa-times' data-tagname='" + t.TagName + "'></i>\n                    </span> ");
+            $container.append("<span class='badge badge-success'>\n                    <a href='/Home/Tag/" + t.TagId + "'>" + t.TagName + "</a>\n                    <i class='close fa fa-times' data-tagname='" + t.TagName + "'></i>\n                    </span> ");
         else
             // $container.append(`<span class='badge badge-pill badge-primary'>
             //             <a href='#' >${t.TagName}</a>
             //             </span> `);
-            $container.append("<a href='#' class='badge badge-success'>" + t.TagName + "</a>");
+            $container.append("<a href='/Home/Tag/" + t.TagId + "' class='badge badge-success'>" + t.TagName + "</a>");
+    });
+}
+function appendBadgeAndCount(PostCountOfTag) {
+    var $container = $('#js-postCountofTag');
+    PostCountOfTag.forEach(function (t) {
+        $container.append("<a href='/Home/Tag/" + t.Tag.TagId + "' class='badge badge-success'>" + t.Tag.TagName + "(" + t.Count + ")</a>");
     });
 }
 function addPostTags() {
