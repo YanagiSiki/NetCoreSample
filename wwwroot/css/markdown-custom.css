@@ -1,0 +1,8 @@
+/* ---------------------------------------------------
+    MARKDOWN
+----------------------------------------------------- */
+.markdown-body code, .markdown-body > code, .markdown-body pre {
+  background: #282c34 !important;
+  color: #abb2bf !important;
+}
+/*# sourceMappingURL=markdown-custom.css.map */

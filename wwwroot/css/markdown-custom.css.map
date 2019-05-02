@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA;;wDAEwD;AACxD,AACI,cADU,CACV,IAAI,EADR,cAAc,GACF,IAAI,EADhB,cAAc,CACI,GAAG,CAAA;EACb,UAAU,EAAE,kBAAkB;EAC9B,KAAK,EAAE,kBAAkB;CAC5B",
+    "sources": [
+        "markdown-custom.scss"
+    ],
+    "names": [],
+    "file": "markdown-custom.css"
+}
