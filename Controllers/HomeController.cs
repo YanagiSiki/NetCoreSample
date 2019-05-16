@@ -18,6 +18,7 @@ namespace NetCoreSample.Controllers
     //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
     //[AllowAnonymous]
     [Route("[controller]/[action]")]
+    [Authorize(Roles.Admin)]
     public class HomeController : BaseController
     {
         public HomeController(BaseContext dbContext) : base(dbContext)
@@ -43,9 +44,8 @@ namespace NetCoreSample.Controllers
         [IsNotLoginFilter]
         public async Task<IActionResult> Login(User user, string returnUrl = null)
         {
-            var Users = _dbContext.User;
             // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
-            var DbUser = Users.Where(_ => _.Name == user.Name).FirstOrDefault();
+            var DbUser = _dbContext.User.Where(_ => _.Name == user.Name).FirstOrDefault();
             if (DbUser == null)
                 throw new Exception("查無使用者");
 

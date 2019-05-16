@@ -29,7 +29,7 @@ namespace NetCoreSample.Controllers
         {
             SucessMessages = new List<string>();
             WarningMessages = new List<string>();
-            TempData["CurrentModel"] = context.ActionArguments.Values.Count == 1 ? context.ActionArguments.Values.FirstOrDefault() : null;
+            TempData["CurrentModel"] = context.ActionArguments.Values?.FirstOrDefault();
             if (!context.ModelState.IsValid)
             {
                 var controller = context.Controller as Controller;
