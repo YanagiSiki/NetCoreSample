@@ -32,10 +32,10 @@ namespace NetCoreSample.Controllers.WebApi
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
             {
-                if (_dbContext.Post.All(_ => _.PostId != post.PostId))throw new Exception("Post Not Found");
+                if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != post.PostId))throw new Exception("Post Not Found");
 
                 string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
-                if (_dbContext.Post.FirstOrDefault(_ => _.PostId == post.PostId).UserId.ToString() != UserId)
+                if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == post.PostId).UserId.ToString() != UserId)
                     throw new Exception("You are not owner !!");
 
                 var Tags = post.PostTags?.Select(_ => _.Tag).ToList();
