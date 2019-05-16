@@ -34,6 +34,7 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [IsNotLoginFilter]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -42,6 +43,7 @@ namespace NetCoreSample.Controllers
 
         [HttpPost]
         [IsNotLoginFilter]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(User user, string returnUrl = null)
         {
             // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
