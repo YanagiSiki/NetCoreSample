@@ -5,4 +5,13 @@
   background: #282c34 !important;
   color: #abb2bf !important;
 }
+
+.markdown-body table tr {
+  background-color: #282c34  !important;
+  border-top: 1px solid #c6cbd1 !important;
+}
+
+.markdown-body table .hljs-ln-code {
+  width: 100%;
+}
 /*# sourceMappingURL=markdown-custom.css.map */

@@ -10,7 +10,8 @@
     "simplemde ": "1.11.2",
     "github-markdown-css": "2.10.0",
     "typeahead.js": "0.11.1",
-    "jquery.serializeJSON": "2.9.0"
-
+    "jquery.serializeJSON": "2.9.0",
+    "highlightjs-line-numbers.js": "^2.7.0",
+    "highlight-js": "^9.15.6"
   }
 }
