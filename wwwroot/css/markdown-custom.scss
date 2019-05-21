@@ -2,16 +2,16 @@
     MARKDOWN
 ----------------------------------------------------- */
 .markdown-body {
-    font-family: '微軟正黑體';
-    code, > code, pre{
-        // background: #282a36 !important;
-        // color: #333 !important;
-    }
+    font-family: '微軟正黑體' !important;
+    // code, > code, pre{
+    //     // background: #282a36 !important;
+    //     // color: #333 !important;
+    // }
     table {
-        tr {
-            // background-color:  #282a36  !important;
-            border-top: 1px solid #c6cbd1 !important;
-        }
+        // tr {
+        //     // background-color:  #282a36  !important;
+        //     // border-top: 1px solid #c6cbd1 !important;
+        // }
         .hljs-ln-code{
             width: 100%;
         }
