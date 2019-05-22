@@ -77,7 +77,7 @@ function removePostTags(e) {
     _tags = _tags.filter(function (t, i, arr) { return t.TagName != tagName; });
     $tags.data('tags', _tags);
 }
-function crateTypeheadOfAllTags(tags) {
+function createTypeheadOfAllTags(tags) {
     var tagforautocomplete = $.map(tags, function (item, index) {
         return item.TagName;
     });

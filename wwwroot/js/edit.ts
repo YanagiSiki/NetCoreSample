@@ -32,7 +32,7 @@
 
     $getAllTags
         .done((alltags: Array<Tag>) => {
-            crateTypeheadOfAllTags(alltags);
+            createTypeheadOfAllTags(alltags);
             //_allTags = tags;         
             $alltags.data('alltags', alltags);
         })

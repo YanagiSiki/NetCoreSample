@@ -125,7 +125,7 @@ function removePostTags(e: JQueryEventObject) {
     $tags.data('tags', _tags);
 }
 
-function crateTypeheadOfAllTags(tags: Array<Tag>) {
+function createTypeheadOfAllTags(tags: Array<Tag>) {
     var tagforautocomplete = $.map(tags, function (item, index) {
         return item.TagName;
     })

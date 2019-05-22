@@ -27,7 +27,7 @@
     });
     $getAllTags
         .done(function (alltags) {
-        crateTypeheadOfAllTags(alltags);
+        createTypeheadOfAllTags(alltags);
         //_allTags = tags;         
         $alltags.data('alltags', alltags);
     })
