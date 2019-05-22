@@ -100,7 +100,7 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             var Posts = _dbContext.Post.Pagination(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double)Posts.Count / 5);
+            ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
             // ViewBag.PageRange = 2;
             
             Posts.ForEach(_ =>
@@ -167,7 +167,7 @@ namespace NetCoreSample.Controllers
                 if (tmp.IsNotNull())_.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double)Posts.Count / 5);
+             ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
             return View(Posts);
         }
 
