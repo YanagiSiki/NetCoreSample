@@ -10,5 +10,7 @@
         $('#content').toggleClass('active');
         $('#sidebar').toggleClass('active');
     }
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
 }(window));
 //# sourceMappingURL=site.js.map

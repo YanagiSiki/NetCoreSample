@@ -33,7 +33,10 @@ declare interface PostCountOfTag {
     Tag: Tag;
     Count: number;
 }
-
+declare namespace hljs {
+    function initHighlightingOnLoad(): void;
+    function initLineNumbersOnLoad(): void;
+}
 
 function waitForEl(selector, callback) {
     if ($(selector).length) {
