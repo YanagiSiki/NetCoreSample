@@ -100,9 +100,9 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             var Posts = _dbContext.Post.Pagination(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
             // ViewBag.PageRange = 2;
-            
+
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
@@ -159,15 +159,16 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
             // ViewBag.PageRange = 2;
-            var Posts = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
-                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Pagination(page).ToList();
+            var PostQuery = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
+                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post));
+            var Posts = PostQuery.Pagination(page).ToList();
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
                 if (tmp.IsNotNull())_.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
-             ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)PostQuery.Count() / 5);
             return View(Posts);
         }
 
