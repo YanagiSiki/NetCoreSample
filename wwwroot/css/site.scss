@@ -151,6 +151,10 @@ body {
     }
     .card-body {
         background: #f0f0f049;
+        .CodeMirror, .CodeMirror-scroll {
+            min-height: 200px;
+            height: 200px;
+        }
         
     }
 }
