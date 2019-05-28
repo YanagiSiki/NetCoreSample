@@ -60,7 +60,7 @@ namespace NetCoreSample.Controllers.WebApi
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
-            var Tags = _dbContext.User.Include("Posts.PostTags.Tag").Where(_ => _.UserId == userId)
+            var Tags = _dbContext.User.Where(_ => _.UserId == userId)
                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
                 .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList();
             return Ok(Tags);

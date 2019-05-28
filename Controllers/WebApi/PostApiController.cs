@@ -108,6 +108,9 @@ namespace NetCoreSample.Controllers.WebApi
         [HttpGet]
         public IActionResult GetTagsOfPost(int postId)
         {
+            // 假設select、where條件沒有使用到該property，這時就要用include，ef core產生時才會帶入join table。
+            // 反之，若select、where條件已經有使用了，則不需要使用include
+            // 如果使用了，console log裡面會出現warning提醒，所以也不用太擔心。
             var PostTags = _dbContext.PostTag.Include(_ => _.Tag).Where(_ => _.PostId == postId).ToList();
             var Tags = PostTags.Select(_ => _.Tag).ToList();
             return Ok(Tags);

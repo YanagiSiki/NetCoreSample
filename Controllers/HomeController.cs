@@ -98,11 +98,10 @@ namespace NetCoreSample.Controllers
         public IActionResult Posts(int page)
         {
             page = page > 0 ? page : 1;
-            var Posts = _dbContext.Post.Pagination(page);
+            var Posts = _dbContext.Post.OrderByDescending(_ => _.PostId).Pagination(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
             // ViewBag.PageRange = 2;
-            
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
@@ -159,15 +158,16 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
             // ViewBag.PageRange = 2;
-            var Posts = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
-                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Pagination(page).ToList();
+            var Posts = _dbContext.Tag.Where(_ => _.TagId == tagId)
+                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post))
+                .OrderByDescending(_ => _.PostId).Pagination(page).ToList();
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
                 if (tmp.IsNotNull())_.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
-             ViewBag.TotalPage = Math.Ceiling((double) _dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
             return View(Posts);
         }
 
@@ -192,7 +192,7 @@ namespace NetCoreSample.Controllers
             return Ok();
         }
 
-        //https://hk.saowen.com/a/7c1532c12e2f792e6b9c2146a0736e6eb006fc3816dfe526dfee7e1d5f69af05
+        // https://docs.microsoft.com/zh-tw/aspnet/core/security/preventing-open-redirects?view=aspnetcore-2.2
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
