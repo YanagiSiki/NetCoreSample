@@ -153,11 +153,6 @@ body {
   background: #f0f0f049;
 }
 
-#content .card-body .CodeMirror, #content .card-body .CodeMirror-scroll {
-  min-height: 200px;
-  height: 200px;
-}
-
 #content.active {
   position: inherit;
   width: 100%;

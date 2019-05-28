@@ -158,26 +158,16 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
             // ViewBag.PageRange = 2;
-<<<<<<< .mine
             var Posts = _dbContext.Tag.Where(_ => _.TagId == tagId)
                 .SelectMany(pts => pts.PostTags.Select(pt => pt.Post))
                 .OrderByDescending(_ => _.PostId).Pagination(page).ToList();
-=======
-            var PostQuery = _dbContext.Tag.Include("PostTags.Post").Where(_ => _.TagId == tagId)
-                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post));
-            var Posts = PostQuery.Pagination(page).ToList();
->>>>>>> .theirs
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
                 if (tmp.IsNotNull())_.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
-<<<<<<< .mine
             ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
-=======
-            ViewBag.TotalPage = Math.Ceiling((double)PostQuery.Count() / 5);
->>>>>>> .theirs
             return View(Posts);
         }
 
