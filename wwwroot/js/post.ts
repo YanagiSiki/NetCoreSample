@@ -1,7 +1,8 @@
 (function (w) {
     let postid = $('#PostId').val();
     let $postcontainer = $('#PostContent');
-    let $getTagsOfPost = $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    let $deletePost = () => $.post('/PostApi/DeletePost', { "postId": postid });
 
     let $tags = $('#js-tags');
 
@@ -15,14 +16,22 @@
     $simplemde.toTextArea();
     $simplemde = null;
 
-    $getTagsOfPost
+    $getTagsOfPost()
         .done((tags: Array<Tag>) => {
             appendBadge(tags);
             //_tags = tags;
             $tags.data('tags', tags);
-            
+
         })
         .fail((error) => {
             alertErrorMessage(error.responseText)
+        });
+    $('#deletebtn').click(() => { 
+        $deletePost().done((sucess)=>{
+            alertSuccessMessage(sucess.responseText)
         })
+        .fail((error) => {
+            alertErrorMessage(error.responseText)
+        });
+    });
 }(window));

@@ -1,7 +1,8 @@
 (function (w) {
     var postid = $('#PostId').val();
     var $postcontainer = $('#PostContent');
-    var $getTagsOfPost = $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    var $getTagsOfPost = function () { return $.get('/PostApi/GetTagsOfPost', { postId: postid }); };
+    var $deletePost = function () { return $.post('/PostApi/DeletePost', { "postId": postid }); };
     var $tags = $('#js-tags');
     var $simplemde = new SimpleMDE({
         element: $postcontainer[0]
@@ -11,7 +12,7 @@
     $('#Page').append($simplemde.markdown($postcontainer.val().toString()));
     $simplemde.toTextArea();
     $simplemde = null;
-    $getTagsOfPost
+    $getTagsOfPost()
         .done(function (tags) {
         appendBadge(tags);
         //_tags = tags;
@@ -19,6 +20,14 @@
     })
         .fail(function (error) {
         alertErrorMessage(error.responseText);
+    });
+    $('#deletebtn').click(function () {
+        $deletePost().done(function (sucess) {
+            alertSuccessMessage(sucess.responseText);
+        })
+            .fail(function (error) {
+            alertErrorMessage(error.responseText);
+        });
     });
 }(window));
 //# sourceMappingURL=post.js.map

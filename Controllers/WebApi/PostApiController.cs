@@ -105,6 +105,25 @@ namespace NetCoreSample.Controllers.WebApi
             return Ok();
         }
 
+        [HttpPost]
+        [Authorize(Roles.Admin)]
+        public IActionResult DeletePost(int postId)
+        {
+            using(var transaction = _dbContext.Database.BeginTransaction())
+            {
+                if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != postId))throw new Exception("Post Not Found");
+
+                string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+                if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
+                    throw new Exception("You are not owner !!");
+                
+                _dbContext.Post.RemoveRange(_dbContext.Post.Where(_ => _.PostId == postId));
+                _dbContext.SaveChanges();
+                transaction.Commit();
+            }
+            return Ok("刪除成功");
+        }
+
         [HttpGet]
         public IActionResult GetTagsOfPost(int postId)
         {
