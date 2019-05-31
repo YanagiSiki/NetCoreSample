@@ -99,8 +99,9 @@ namespace NetCoreSample.Controllers
         {
             page = page > 0 ? page : 1;
             var Posts = _dbContext.Post.OrderByDescending(_ => _.PostId).Pagination(page);
+            var TotalPostCount = _dbContext.Post.Count();
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)TotalPostCount / 5);
             // ViewBag.PageRange = 2;
             Posts.ForEach(_ =>
             {
@@ -158,6 +159,8 @@ namespace NetCoreSample.Controllers
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
             // ViewBag.PageRange = 2;
+            var TotalPostCount = _dbContext.Tag.Where(_ => _.TagId == tagId)
+                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Count();
             var Posts = _dbContext.Tag.Where(_ => _.TagId == tagId)
                 .SelectMany(pts => pts.PostTags.Select(pt => pt.Post))
                 .OrderByDescending(_ => _.PostId).Pagination(page).ToList();
@@ -167,7 +170,7 @@ namespace NetCoreSample.Controllers
                 if (tmp.IsNotNull())_.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPage = Math.Ceiling((double)_dbContext.Post.Count() / 5);
+            ViewBag.TotalPage = Math.Ceiling((double)TotalPostCount / 5);
             return View(Posts);
         }
 
