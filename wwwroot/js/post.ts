@@ -28,7 +28,10 @@
         });
     $('#deletebtn').click(() => { 
         $deletePost().done((sucess)=>{
-            alertSuccessMessage(sucess.responseText)
+            alertSuccessMessage(sucess);
+            setTimeout(function () {
+                $(location).attr('href', '/')
+            }, 1000);
         })
         .fail((error) => {
             alertErrorMessage(error.responseText)

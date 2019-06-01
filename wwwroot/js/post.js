@@ -23,7 +23,10 @@
     });
     $('#deletebtn').click(function () {
         $deletePost().done(function (sucess) {
-            alertSuccessMessage(sucess.responseText);
+            alertSuccessMessage(sucess);
+            setTimeout(function () {
+                $(location).attr('href', '/');
+            }, 1000);
         })
             .fail(function (error) {
             alertErrorMessage(error.responseText);
