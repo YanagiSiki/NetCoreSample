@@ -4,7 +4,7 @@ WORKDIR /app
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
-RUN npm install
+RUN npm install -s
 
 # Copy everything else and build
 COPY . ./
