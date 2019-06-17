@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/core/runtime:2.1 AS build
-FROM node:6
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
