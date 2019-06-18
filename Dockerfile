@@ -27,4 +27,4 @@ WORKDIR /app
 
 COPY --from=build /app/out .
 
-ENTRYPOINT ["dotnet", "netcoresample.dll"]
+ENTRYPOINT ["dotnet", "NetCoreSample.dll"]
