@@ -1,11 +1,10 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:2.1 AS build
-FROM node:6
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
-RUN npm install
+RUN npm install -s
 
 # Copy everything else and build
 COPY . ./
