@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get install -y build-essential nodejs
 RUN npm install -s
 RUN npm install -g gulp bower
-RUN bower install
+RUN bower install --allow-root 
 
 # Copy everything else and build
 COPY . ./
