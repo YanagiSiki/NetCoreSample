@@ -18,7 +18,6 @@ RUN apt-get update && \
 RUN npm install -s
 RUN npm install -g gulp bower
 RUN bower install --allow-root
-RUN cp wwwroot/* ./
 
 # Copy everything else and build
 COPY . ./
