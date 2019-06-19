@@ -15,6 +15,7 @@ RUN apt-get update && \
     wget -qO- https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get install -y build-essential nodejs
 RUN npm install -s
+RUN bower install
 
 # Copy everything else and build
 COPY . ./
