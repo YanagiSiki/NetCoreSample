@@ -29,7 +29,6 @@ FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
 
 COPY --from=build /app/out .
-RUN mv -n wwwroot/* ./
 
 ENV ASPNETCORE_URLS=http://*:8080
 ENTRYPOINT ["dotnet", "NetCoreSample.dll"]
