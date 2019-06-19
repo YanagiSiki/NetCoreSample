@@ -22,7 +22,6 @@ namespace NetCoreSample
             WebHost.CreateDefaultBuilder(args)
             // .UseKestrel()
             // .UseUrls("http://0.0.0.0:5000")
-            .UseWebRoot("wwwroot")
             .UseStartup<Startup>()
             .Build();
     }
