@@ -17,7 +17,7 @@ RUN apt-get update && \
     apt-get install -y build-essential nodejs
 RUN npm install -s
 RUN npm install -g gulp bower
-RUN bower install --allow-root
+
 
 # Copy everything else and build
 COPY . ./
@@ -29,8 +29,9 @@ FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
 
 COPY --from=build /app/out .
-RUN mv -n wwwroot/* .
-RUN rm -rf wwwroot/
+RUN bower install --allow-root
+# RUN mv -n wwwroot/* .
+# RUN rm -rf wwwroot/
 
 ENV ASPNETCORE_URLS=http://*:8080
 ENTRYPOINT ["dotnet", "NetCoreSample.dll"]
