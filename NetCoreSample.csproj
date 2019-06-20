@@ -5,9 +5,9 @@
     <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Include="wwwroot\**" CopyToOutputDirectory="wwwroot" />
-  </ItemGroup>
+  </ItemGroup> -->
 
   <ItemGroup>
     <!-- <PackageReference Include="BCrypt.Net-Next" Version="2.1.3" /> -->
