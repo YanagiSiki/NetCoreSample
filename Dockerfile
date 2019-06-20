@@ -20,6 +20,7 @@ RUN npm install -g gulp bower
 RUN bower install --allow-root
 
 # Copy everything else and build
+COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
