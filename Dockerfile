@@ -5,19 +5,6 @@ WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 
-
-
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
-FROM microsoft/dotnet:2.1-aspnetcore-runtime
-
-WORKDIR /app
-
-COPY --from=build /app/out .
-
 # Restore npm package
 # REF by https://stackoverflow.com/questions/45880460/enable-docker-support-for-angular-project
 # REF by http://kevintsengtw.blogspot.com/2018/08/aspnet-core-21-docker-image-nodejs.html
@@ -31,6 +18,19 @@ RUN apt-get update && \
 RUN npm install -s
 RUN npm install -g gulp bower
 RUN bower install --allow-root
+
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
+
+WORKDIR /app
+
+COPY --from=build /app/out .
+
+
 # RUN mv -n wwwroot/* .
 # RUN rm -rf wwwroot/
 
