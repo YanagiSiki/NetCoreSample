@@ -71,6 +71,21 @@ namespace NetCoreSample.Controllers.WebApi
             _dbContext.SaveChanges();
             return Ok();
         }
+
+        [HttpPost]
+        public IActionResult TestGitCount([FromBody]GitPostParameter GitPostParameter)
+        {
+            
+            return Ok();
+        }
+    }
+
+    public class GitPostParameter
+    {
+        public string rev {get; set;}
+        public string branch{get;set;}
+        public string repo {get;set;}
+
     }
 
 }
