@@ -20,6 +20,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetPost()
         {
             var posts = _dbContext.Post.ToList();
@@ -125,6 +126,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetTagsOfPost(int postId)
         {
             // 假設select、where條件沒有使用到該property，這時就要用include，ef core產生時才會帶入join table。
@@ -136,6 +138,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAllTags()
         {
             var AllTags = _dbContext.Tag.ToList();

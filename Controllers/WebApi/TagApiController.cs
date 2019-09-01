@@ -19,6 +19,7 @@ namespace NetCoreSample.Controllers.WebApi
             _dbContext = _dbContext ?? dbContext;
         }
 
+        [AllowAnonymous]
         public IActionResult GetTags()
         {
             var tmp = _dbContext.Tag.Include(_ => _.PostTags)

@@ -26,6 +26,7 @@ namespace NetCoreSample.Controllers
 
         }
 
+        [AllowAnonymous]
         [Route("/Home/Index")]
         public IActionResult Index()
         {
@@ -76,25 +77,16 @@ namespace NetCoreSample.Controllers
             return Redirect("/");
         }
 
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [Authorize(Roles.Admin)]
+        [AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
 
-        [Authorize(Roles.Admin)]
-        public IActionResult Contact()
-        {
-            return View();
-        }
 
         [Route("~/")]
         [Route("/Home/Posts/{page?}")]
+        [AllowAnonymous]
         public IActionResult Posts(int page)
         {
             page = page > 0 ? page : 1;
@@ -112,6 +104,7 @@ namespace NetCoreSample.Controllers
         }
 
         [HttpGet("{postId?}")]
+        [AllowAnonymous]
         public IActionResult Post(int postId)
         {
             if (postId == 0)throw new Exception("Page Not Found");
@@ -138,6 +131,9 @@ namespace NetCoreSample.Controllers
                         //PostTags = PostTags
                 });
             }
+            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+            if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
+                    throw new Exception("You are not owner !!");
 
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
@@ -147,12 +143,14 @@ namespace NetCoreSample.Controllers
         }
 
         [Route("/Home/Tags")]
+        [AllowAnonymous]
         public IActionResult Tags()
         {
             return View();
         }
 
         [Route("/Home/Tag/{tagId?}/{page?}")]
+        [AllowAnonymous]
         public IActionResult Tag(int tagId, int page)
         {
             if (tagId == 0 || _dbContext.Tag.All(_ => _.TagId != tagId))throw new Exception("Tag Not Found");

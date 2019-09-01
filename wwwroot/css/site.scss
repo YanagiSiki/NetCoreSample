@@ -5,7 +5,7 @@
 
 
 body {
-    font-family: '微軟正黑體' !important; 
+    font-family: '微軟正黑體' !important;
     /*padding-top: 50px;*/
     // padding-bottom: 20px;
 }
@@ -146,16 +146,20 @@ body {
     top: 0;
     right: 0;
     max-width: 100%;
-    .card{
+
+    .card {
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     }
+
     .card-body {
         background: #f0f0f049;
-        .CodeMirror, .CodeMirror-scroll {
+
+        .CodeMirror,
+        .CodeMirror-scroll {
             min-height: 200px;
             height: 200px;
         }
-        
+
     }
 }
 
@@ -202,3 +206,12 @@ body {
 .row {
     padding: 23px 20px;
 }
+
+/* PHOTO */
+.circular--square {
+    border-radius: 50%;
+}
+img {
+    max-width: 100%;
+    height: auto;
+  }

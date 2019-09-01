@@ -153,7 +153,8 @@ body {
   background: #f0f0f049;
 }
 
-#content .card-body .CodeMirror, #content .card-body .CodeMirror-scroll {
+#content .card-body .CodeMirror,
+#content .card-body .CodeMirror-scroll {
   min-height: 200px;
   height: 200px;
 }
@@ -195,5 +196,15 @@ body {
 
 .row {
   padding: 23px 20px;
+}
+
+/* PHOTO */
+.circular--square {
+  border-radius: 50%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 /*# sourceMappingURL=site.css.map */

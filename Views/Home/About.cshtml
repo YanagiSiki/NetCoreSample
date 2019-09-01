@@ -1,7 +1,26 @@
 ﻿@{
     ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<div class="row">
+    <div class="col-md-12">
+        <h2>About</h2>
+        <hr />
+    </div>
+    <div class="col-md-2">
+        
+    </div>
+    <div class="col-md-2">
+        <img class="circular--square" src="https://i.imgur.com/zP9nC2K.jpg" />
+    </div>
+    <div class="col-md-8">
+        <input id="PostContent" type="hidden" value="`/*興趣使然的工程師一枚OwO*/`">
+        <div id="Page" class="pageContent markdown-body"></div>
+        
+    </div>
+</div>
 
-<p>Use this area to provide additional information.</p>
+@section Scripts{    
+    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <script src="~/js/about.js"></script>   
+}
