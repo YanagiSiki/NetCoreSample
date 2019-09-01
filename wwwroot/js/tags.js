@@ -1,6 +1,6 @@
 (function (w) {
-    var $getTags = $.get('/TagApi/GetTags');
-    $getTags
+    var $getTags = function () { return $.get('/TagApi/GetTags'); };
+    $getTags()
         .done(function (PostCountOfTag) {
         appendBadgeAndCount(PostCountOfTag);
     })

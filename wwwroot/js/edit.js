@@ -1,7 +1,7 @@
 (function (w) {
     var postid = $('#PostId').val();
-    var $getTagsOfPost = $.get('/PostApi/GetTagsOfPost', { postId: postid });
-    var $getAllTags = $.get('/PostApi/GetAllTags');
+    var $getTagsOfPost = function () { return $.get('/PostApi/GetTagsOfPost', { postId: postid }); };
+    var $getAllTags = function () { return $.get('/PostApi/GetAllTags'); };
     var $alltags = $('#js-alltags');
     var $tags = $('#js-tags');
     waitForEl(".editor-preview, editor-preview-side", function () {
@@ -16,7 +16,7 @@
     });
     //let _tags: Array<Tag>;
     //let _allTags: Array<Tag>;
-    $getTagsOfPost
+    $getTagsOfPost()
         .done(function (tags) {
         appendBadge(tags, true);
         //_tags = tags;
@@ -25,7 +25,7 @@
         .fail(function (error) {
         alertErrorMessage(error.responseText);
     });
-    $getAllTags
+    $getAllTags()
         .done(function (alltags) {
         createTypeheadOfAllTags(alltags);
         //_allTags = tags;         

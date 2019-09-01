@@ -1,7 +1,7 @@
 (function (w) {
     let postid = $('#PostId').val();
-    let $getTagsOfPost = $.get('/PostApi/GetTagsOfPost', {postId: postid});
-    let $getAllTags = $.get('/PostApi/GetAllTags');
+    let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    let $getAllTags = () => $.get('/PostApi/GetAllTags');
     let $alltags = $('#js-alltags');
     let $tags = $('#js-tags');
 
@@ -20,7 +20,7 @@
     //let _tags: Array<Tag>;
     //let _allTags: Array<Tag>;
 
-    $getTagsOfPost
+    $getTagsOfPost()
         .done((tags: Array<Tag>) => {
             appendBadge(tags, true);
             //_tags = tags;
@@ -30,7 +30,7 @@
             alertErrorMessage(error.responseText)
         })
 
-    $getAllTags
+    $getAllTags()
         .done((alltags: Array<Tag>) => {
             createTypeheadOfAllTags(alltags);
             //_allTags = tags;         
