@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace NetCoreSample.Migrations.MySQL
 {
@@ -28,12 +26,8 @@ namespace NetCoreSample.Migrations.MySQL
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Active = table.Column<bool>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    LoginAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: false),
-                    VerifyCode = table.Column<string>(nullable: true)
+                    Password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,6 +41,7 @@ namespace NetCoreSample.Migrations.MySQL
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PostTitle = table.Column<string>(nullable: true),
+                    PostContent = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

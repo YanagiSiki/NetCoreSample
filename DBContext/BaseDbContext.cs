@@ -32,7 +32,7 @@ namespace NetCoreSample.Models
         /*** 以下是使用多個Context ***/
         //      -s save path，預設就全部塞到Migrations吧
         //      --context 指定使用的Context
-        //  dotnet ef migrations add InitialCreate -o ../MultipleDbContexts/ --context UsersDbContext
+        //  dotnet ef migrations add InitialCreate -o MultipleDbContexts/ --context UsersDbContext
         //  dotnet ef database update --context UsersDbContext
         #endregion
 

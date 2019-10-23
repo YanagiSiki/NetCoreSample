@@ -2,11 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCoreSample.Models;
-using System;
 
 namespace NetCoreSample.Migrations.MySQL
 {
@@ -18,7 +15,7 @@ namespace NetCoreSample.Migrations.MySQL
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
 
             modelBuilder.Entity("NetCoreSample.Models.Comment", b =>
                 {
@@ -42,6 +39,8 @@ namespace NetCoreSample.Migrations.MySQL
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PostContent");
 
                     b.Property<string>("PostTitle");
 
@@ -86,19 +85,10 @@ namespace NetCoreSample.Migrations.MySQL
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Active");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<DateTime?>("LoginAt");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("Password")
                         .IsRequired();
-
-                    b.Property<string>("VerifyCode");
 
                     b.HasKey("UserId");
 
