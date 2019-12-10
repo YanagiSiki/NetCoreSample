@@ -22,8 +22,7 @@ namespace NetCoreSample.Controllers.WebApi
         [AllowAnonymous]
         public IActionResult GetTags()
         {
-            var tmp = _dbContext.Tag.Include(_ => _.PostTags)
-                .Select(_ => new { Tag=new{_.TagId, _.TagName}, Count = _.PostTags.Count() }).ToList();
+            var tmp = _dbContext.Tag.Select(_ => new { Tag = new { _.TagId, _.TagName }, Count = _.PostTags.Count() }).ToList();
             return Ok(tmp);
         }
         // public IActionResult GetPostOfTag(int tagId)
