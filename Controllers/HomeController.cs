@@ -156,12 +156,12 @@ namespace NetCoreSample.Controllers
             if (tagId == 0 || _dbContext.Tag.All(_ => _.TagId != tagId))throw new Exception("Tag Not Found");
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
-            // ViewBag.PageRange = 2;
-            var TotalPostCount = _dbContext.Tag.Where(_ => _.TagId == tagId)
-                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post)).Count();
-            var Posts = _dbContext.Tag.Where(_ => _.TagId == tagId)
-                .SelectMany(pts => pts.PostTags.Select(pt => pt.Post))
-                .OrderByDescending(_ => _.PostId).Pagination(page).ToList();
+            // ViewBag.PageRange = 2;            
+            var queryPost = _dbContext.PostTag.Where(_ => _.TagId == tagId)
+                .Select(posttags => posttags.Post)
+                .OrderByDescending(_ => _.PostId);
+            var TotalPostCount = queryPost.Count();
+            var Posts = queryPost.Pagination(page).ToList();
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
