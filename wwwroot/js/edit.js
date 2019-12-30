@@ -4,15 +4,16 @@
     var $getAllTags = function () { return $.get('/PostApi/GetAllTags'); };
     var $alltags = $('#js-alltags');
     var $tags = $('#js-tags');
-    waitForEl(".editor-preview, editor-preview-side", function () {
-        $(".editor-preview").attr("class", "editor-preview markdown-body");
-        $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
-    });
+    // waitForEl(".editor-preview, editor-preview-side", function () {
+    //     $(".editor-preview").attr("class", "editor-preview markdown-body");
+    //     $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
+    // });
     var $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
         renderingConfig: {
             codeSyntaxHighlighting: true
-        }
+        },
+        spellChecker: false,
     });
     //let _tags: Array<Tag>;
     //let _allTags: Array<Tag>;
