@@ -83,7 +83,6 @@ namespace NetCoreSample.Controllers
             return View();
         }
 
-
         [Route("~/")]
         [Route("/Home/Posts/{page?}")]
         [AllowAnonymous]
@@ -103,19 +102,34 @@ namespace NetCoreSample.Controllers
             return View(Posts);
         }
 
-        [HttpGet("{postId?}")]
+        [HttpGet("{postTitle?}")]
         [AllowAnonymous]
-        public IActionResult Post(int postId)
+        public IActionResult Post(string postTitle)
         {
-            if (postId == 0)throw new Exception("Page Not Found");
+            if (postTitle.IsNullOrEmpty())throw new Exception("Page Not Found");
+            int PostId;
+            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle || (int.TryParse(postTitle, out PostId) && _.PostId == PostId));
 
-            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
+            // var Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
             if (Post == null)
                 throw new Exception("Post Not Found");
+            if (int.TryParse(postTitle, out PostId))
+                return RedirectToAction("Post", new { postTitle = Post.PostTitle });
             string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
-            ViewBag.IsOwner = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId).UserId.ToString() == UserId;
+            ViewBag.IsOwner = Post.UserId.ToString() == UserId;
             return View(Post);
         }
+
+        // [HttpGet("{postId?}")]
+        // [AllowAnonymous]
+        // public IActionResult Post(int postId)
+        // {
+        //     if (postId == 0)throw new Exception("Page Not Found");
+        //     var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
+        //     if (Post == null)
+        //         throw new Exception("Post Not Found");
+        //     return RedirectToAction("Post", new { postTitle = Post.PostTitle });
+        // }
 
         [Authorize(Roles.Admin)]
         [HttpGet("{postId?}")]
@@ -133,7 +147,7 @@ namespace NetCoreSample.Controllers
             }
             string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
             if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
-                    throw new Exception("You are not owner !!");
+                throw new Exception("You are not owner !!");
 
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
