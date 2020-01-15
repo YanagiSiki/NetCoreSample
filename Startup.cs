@@ -1,10 +1,13 @@
 ﻿using System;
+using Hangfire;
+using Hangfire.MySql.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetCoreSample.Helper;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 using Newtonsoft.Json.Serialization;
@@ -52,6 +55,13 @@ namespace NetCoreSample
             services.AddCustomPolicyExtend();
             services.AddCustomAuthExtend();
 
+            ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
+            var Hangfire = configurationHelper.GetValue("Hangfire");
+            services.AddHangfire(config => {
+                config.UseStorage(new MySqlStorage(Hangfire));
+                
+            });
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +90,14 @@ namespace NetCoreSample
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseHangfireServer();
+            app.UseHangfireDashboard(
+                pathMatch: "/hangfire",
+                options : new DashboardOptions()
+                { // 使用自訂的認證過濾器
+                    Authorization = new [] { new MyAuthorizeFilter() }
+                }
+            );
 
             app.UseMvc(routes =>
             {
