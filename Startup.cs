@@ -57,6 +57,8 @@ namespace NetCoreSample
 
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
             var Hangfire = configurationHelper.GetValue("Hangfire");
+            if (Hangfire.IsNullOrEmpty())
+                Hangfire = Environment.GetEnvironmentVariable("Hangfire");
             services.AddHangfire(config => {
                 config.UseStorage(new MySqlStorage(Hangfire));
                 
