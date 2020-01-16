@@ -56,14 +56,32 @@ namespace NetCoreSample
             services.AddCustomAuthExtend();
 
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
-            var Hangfire = configurationHelper.GetValue("Hangfire");
-            if (Hangfire.IsNullOrEmpty())
-                Hangfire = Environment.GetEnvironmentVariable("Hangfire");
-            services.AddHangfire(config => {
-                config.UseStorage(new MySqlStorage(Hangfire));
-                
+            var HangfireStorage = configurationHelper.GetValue("Hangfire");
+            if (HangfireStorage.IsNullOrEmpty())
+                HangfireStorage = Environment.GetEnvironmentVariable("Hangfire");
+            services.AddHangfire(config =>
+            {
+                config.UseStorage(new MySqlStorage(HangfireStorage));
+
             });
-            services.AddHangfireServer();
+
+            // https://github.com/HangfireIO/Hangfire/issues/1463
+            // 指定該server 去做哪個queue的事情
+            // services.AddSingleton(provider => new BackgroundJobServerOptions
+            // {
+            //     Queues = new [] { "default", "critical" },
+            //         WorkerCount = 1,
+            // });
+
+            /*** 1.7.5以後可以改用以下寫法 ***/
+            services.AddHangfireServer(options =>
+            {
+                options.Queues = new [] { "critical", "default" };
+                var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
+                if (HangfireServerName.IsNullOrEmpty())
+                    HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
+                options.ServerName = HangfireServerName;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +96,7 @@ namespace NetCoreSample
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             var IsHost = Environment.GetEnvironmentVariable("IsHost");
             if (IsHost?.ToLower() == "true")
             {
