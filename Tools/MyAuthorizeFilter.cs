@@ -1,6 +1,8 @@
 using System.Text;
 using Hangfire.Annotations;
 using Hangfire.Dashboard;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace NetCoreSample.Tools
 {
@@ -9,11 +11,16 @@ namespace NetCoreSample.Tools
         public MyAuthorizeFilter() { }
         public bool Authorize([NotNull] DashboardContext context)
         {
-            // return context.GetHttpContext().User.Identity.IsAuthenticated;
-            return context.GetHttpContext().User.HasClaim(c =>
+            var httpContext = context.GetHttpContext();
+            var isAuthorized = httpContext.User.HasClaim(c =>
             {
                 return c.Type == "Role" && c.Value == "Admin";
             });
+            if (!isAuthorized)
+            {
+                httpContext.Response.Redirect("/Home/Login");
+            }
+            return true;
         }
     }
 }

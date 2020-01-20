@@ -1,8 +1,10 @@
 ﻿using System;
 using Hangfire;
 using Hangfire.MySql.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
@@ -77,6 +79,7 @@ namespace NetCoreSample
             services.AddHangfireServer(options =>
             {
                 options.Queues = new [] { "critical", "default" };
+                options.WorkerCount = 10;
                 var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
                 if (HangfireServerName.IsNullOrEmpty())
                     HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
