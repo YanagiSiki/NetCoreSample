@@ -57,15 +57,15 @@ namespace NetCoreSample
             services.AddCustomPolicyExtend();
             services.AddCustomAuthExtend();
 
-            ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
-            var HangfireStorage = configurationHelper.GetValue("Hangfire");
-            if (HangfireStorage.IsNullOrEmpty())
-                HangfireStorage = Environment.GetEnvironmentVariable("Hangfire");
-            services.AddHangfire(config =>
-            {
-                config.UseStorage(new MySqlStorage(HangfireStorage));
+            // ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
+            // var HangfireStorage = configurationHelper.GetValue("Hangfire");
+            // if (HangfireStorage.IsNullOrEmpty())
+            //     HangfireStorage = Environment.GetEnvironmentVariable("Hangfire");
+            // services.AddHangfire(config =>
+            // {
+            //     config.UseStorage(new MySqlStorage(HangfireStorage));
 
-            });
+            // });
 
             // https://github.com/HangfireIO/Hangfire/issues/1463
             // 指定該server 去做哪個queue的事情
@@ -76,15 +76,15 @@ namespace NetCoreSample
             // });
 
             /*** 1.7.5以後可以改用以下寫法 ***/
-            services.AddHangfireServer(options =>
-            {
-                options.Queues = new [] { "critical", "default" };
-                options.WorkerCount = 10;
-                var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
-                if (HangfireServerName.IsNullOrEmpty())
-                    HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
-                options.ServerName = HangfireServerName;
-            });
+            // services.AddHangfireServer(options =>
+            // {
+            //     options.Queues = new [] { "critical", "default" };
+            //     options.WorkerCount = 10;
+            //     var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
+            //     if (HangfireServerName.IsNullOrEmpty())
+            //         HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
+            //     options.ServerName = HangfireServerName;
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,14 +113,14 @@ namespace NetCoreSample
 
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseHangfireServer();
-            app.UseHangfireDashboard(
-                pathMatch: "/hangfire",
-                options : new DashboardOptions()
-                { // 使用自訂的認證過濾器
-                    Authorization = new [] { new MyAuthorizeFilter() }
-                }
-            );
+            // app.UseHangfireServer();
+            // app.UseHangfireDashboard(
+            //     pathMatch: "/hangfire",
+            //     options : new DashboardOptions()
+            //     { // 使用自訂的認證過濾器
+            //         Authorization = new [] { new MyAuthorizeFilter() }
+            //     }
+            // );
 
             app.UseMvc(routes =>
             {
