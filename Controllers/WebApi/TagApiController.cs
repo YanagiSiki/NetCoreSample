@@ -11,12 +11,11 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("TagApi/[action]")]
     // [Authorize(Roles.Admin)]
-    public class TagApiController : Controller
+    public class TagApiController : BaseApiController
     {
-        private BaseContext _dbContext;
-        public TagApiController(BaseContext dbContext)
+        public TagApiController(BaseContext dbContext) : base(dbContext)
         {
-            _dbContext = _dbContext ?? dbContext;
+
         }
 
         [AllowAnonymous]

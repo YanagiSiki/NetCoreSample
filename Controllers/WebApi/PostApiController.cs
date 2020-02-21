@@ -11,13 +11,10 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("PostApi/[action]")]
     // [Authorize(Roles.Admin)]
-    public class PostApiController : Controller
+    public class PostApiController : BaseApiController
     {
-        private BaseContext _dbContext;
-        public PostApiController(BaseContext dbContext)
-        {
-            _dbContext = _dbContext?? dbContext;
-        }
+        public PostApiController(BaseContext dbContext) : base(dbContext)
+        { }
 
         [HttpGet]
         [AllowAnonymous]
@@ -117,7 +114,7 @@ namespace NetCoreSample.Controllers.WebApi
                 string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
                 if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
                     throw new Exception("You are not owner !!");
-                
+
                 _dbContext.Post.RemoveRange(_dbContext.Post.Where(_ => _.PostId == postId));
                 _dbContext.SaveChanges();
                 transaction.Commit();

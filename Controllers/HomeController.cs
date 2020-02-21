@@ -29,7 +29,7 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         [Route("/Home/Index")]
         public IActionResult Index()
-        {
+        {            
             return Redirect("/");
         }
 
@@ -38,34 +38,9 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
+            if (returnUrl.IsNotNull() && IsLocal(returnUrl))
             ViewBag.ReturnUrl = returnUrl;
             return View(new User());
-        }
-
-        [HttpPost]
-        [IsNotLoginFilter]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(User user, string returnUrl = null)
-        {
-            // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
-            var DbUser = _dbContext.User.Where(_ => _.Name == user.Name).FirstOrDefault();
-            if (DbUser == null)
-                throw new Exception("查無使用者");
-
-            if (user.Password.VerifyPassword(DbUser.Password))
-            {
-                var ClaimPriciple = new ClaimsPrincipal();
-                var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
-                ClaimPriciple.AddIdentity(Identity);
-                HttpContext.User = ClaimPriciple;
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
-                if (returnUrl.IsNotNull())return RedirectToLocal(returnUrl);
-                return Redirect("/");
-            }
-            throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
@@ -118,6 +93,19 @@ namespace NetCoreSample.Controllers
             string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
             ViewBag.IsOwner = Post.UserId.ToString() == UserId;
             return View(Post);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Sucess()
+        {
+            SucessMessages.Add("新增文章成功");
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Error()
+        {
+            return View();
         }
 
         // [HttpGet("{postId?}")]
@@ -216,6 +204,11 @@ namespace NetCoreSample.Controllers
             }
 
             throw new Exception("Page Not Found");
+        }
+
+        private bool IsLocal(string returnUrl)
+        {
+            return Url.IsLocalUrl(returnUrl);
         }
 
         // [HttpGet]

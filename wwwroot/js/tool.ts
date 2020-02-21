@@ -140,7 +140,7 @@ function createTypeheadOfAllTags(tags: Array<Tag>) {
         });
 }
 
-function submit($simplemde: SimpleMDE) {
+function submitPost($simplemde: SimpleMDE) {
     let $form = $('#form');
     let $tags = $('#js-tags');
     let formdata: any = $form.serializeJSON();

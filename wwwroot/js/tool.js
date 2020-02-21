@@ -90,7 +90,7 @@ function createTypeheadOfAllTags(tags) {
         source: substringMatcher(tagforautocomplete)
     });
 }
-function submit($simplemde) {
+function submitPost($simplemde) {
     var $form = $('#form');
     var $tags = $('#js-tags');
     var formdata = $form.serializeJSON();

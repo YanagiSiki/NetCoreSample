@@ -20,6 +20,7 @@ namespace NetCoreSample.Models
             if (dbUrl.IsNullOrEmpty())
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
             Console.WriteLine(dbUrl);
+            if (dbUrl.IsNullOrEmpty()) throw new Exception("資料庫連線失敗");
             optionsBuilder.UseNpgsql(dbUrl);
             var loggerFactory = new LoggerFactory().AddConsole();
             optionsBuilder.UseLoggerFactory(loggerFactory);

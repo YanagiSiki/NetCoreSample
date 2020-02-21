@@ -10,13 +10,10 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("Api/[action]")]
     [AllowAnonymous]
-    public class InsertApiController : Controller
+    public class InsertApiController : BaseApiController
     {
-        private BaseContext _dbContext;
-        public InsertApiController(BaseContext dbContext)
-        {
-            _dbContext = _dbContext?? dbContext;
-        }
+        public InsertApiController(BaseContext dbContext) : base(dbContext)
+        { }
 
         [HttpPost]
         public IActionResult InsertPost()
@@ -73,18 +70,18 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        public IActionResult TestGitCount([FromBody]GitPostParameter GitPostParameter)
+        public IActionResult TestGitCount([FromBody] GitPostParameter GitPostParameter)
         {
-            
+
             return Ok();
         }
     }
 
     public class GitPostParameter
     {
-        public string rev {get; set;}
-        public string branch{get;set;}
-        public string repo {get;set;}
+        public string rev { get; set; }
+        public string branch { get; set; }
+        public string repo { get; set; }
 
     }
 

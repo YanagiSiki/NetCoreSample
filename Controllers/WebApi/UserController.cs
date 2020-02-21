@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +14,34 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
     // [AllowAnonymous]
-    public class UserController : Controller
+    public class UserController : BaseApiController
     {
-        private BaseContext _dbContext;
-        public UserController(BaseContext dbContext)
+        public UserController(BaseContext dbContext) : base(dbContext)
+        { }
+
+        [HttpPost]
+        [IsNotLoginFilter]
+        [AllowAnonymous]
+        public IActionResult Login(User user)
         {
-            _dbContext = _dbContext ?? dbContext;
+            // var DbUser = Users.Where(_ => _.Email == user.Email).FirstOrDefault();
+            var DbUser = _dbContext.User.Where(_ => _.Name == user.Name).FirstOrDefault();
+            if (DbUser == null)
+                throw new Exception("查無使用者");
+
+            if (user.Password.VerifyPassword(DbUser.Password))
+            {
+                var ClaimPriciple = new ClaimsPrincipal();
+                var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                Identity.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
+                ClaimPriciple.AddIdentity(Identity);
+                HttpContext.User = ClaimPriciple;
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
+                return Ok();
+            }
+            throw new Exception("密碼錯誤");
         }
 
         [HttpGet]

@@ -49,5 +49,5 @@
         removePostTags(e);
     });
 
-    $('#submitbtn').click(() => { submit($simplemde) });
+    $('#submitbtn').click(() => { submitPost($simplemde) });
 }(window));

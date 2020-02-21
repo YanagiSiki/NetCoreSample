@@ -41,6 +41,6 @@
     $tags.on('click', '.close', function (e) {
         removePostTags(e);
     });
-    $('#submitbtn').click(function () { submit($simplemde); });
+    $('#submitbtn').click(function () { submitPost($simplemde); });
 }(window));
 //# sourceMappingURL=edit.js.map
