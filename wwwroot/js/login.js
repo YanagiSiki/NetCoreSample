@@ -9,7 +9,8 @@
             alertSuccessMessage('Login Success !');
             if (!!returnUrl)
                 window.location.href = returnUrl;
-            window.location.href = '/';
+            else
+                window.location.href = '/';
         })
             .fail(function (error) {
             alertErrorMessage(error.responseText);

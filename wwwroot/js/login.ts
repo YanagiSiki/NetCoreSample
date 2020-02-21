@@ -9,7 +9,7 @@
             .done(() => {
                 alertSuccessMessage('Login Success !');
                 if (!!returnUrl) window.location.href = returnUrl;
-                window.location.href = '/';
+                else window.location.href = '/';
             })
             .fail((error) => {
                 alertErrorMessage(error.responseText)
