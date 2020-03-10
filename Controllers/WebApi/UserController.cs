@@ -16,8 +16,7 @@ namespace NetCoreSample.Controllers.WebApi
     // [AllowAnonymous]
     public class UserController : BaseApiController
     {
-        public UserController(BaseContext dbContext) : base(dbContext)
-        { }
+        public UserController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpPost]
         [IsNotLoginFilter]

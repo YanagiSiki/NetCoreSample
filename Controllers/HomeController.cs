@@ -21,15 +21,12 @@ namespace NetCoreSample.Controllers
     [Authorize(Roles.Admin)]
     public class HomeController : BaseController
     {
-        public HomeController(BaseContext dbContext) : base(dbContext)
-        {
-
-        }
+        public HomeController(BaseContext dbContext) : base(dbContext) { }
 
         [AllowAnonymous]
         [Route("/Home/Index")]
         public IActionResult Index()
-        {            
+        {
             return Redirect("/");
         }
 
@@ -39,7 +36,7 @@ namespace NetCoreSample.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             if (returnUrl.IsNotNull() && IsLocal(returnUrl))
-            ViewBag.ReturnUrl = returnUrl;
+                ViewBag.ReturnUrl = returnUrl;
             return View(new User());
         }
 
