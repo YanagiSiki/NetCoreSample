@@ -4,7 +4,7 @@ function sortNumber(a, b) {
 (function (w) {
     var $page = $('#page');
     var currentPage = $page.data('currentpage') || 1;
-    var totalPage = $page.data('totalpage') || 10;
+    var totalPage = $page.data('totalpage') || 1;
     var pageRange = $page.data('pagerange') || 2;
     var url = $page.data('url') || "./";
     $page.append('<nav aria-label="Page navigation example"><ul class="pagination d-flex justify-content-center"></ul></nav>');
