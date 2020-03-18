@@ -26,6 +26,7 @@
         .fail((error) => {
             alertErrorMessage(error.responseText)
         });
+        
     $('#deletebtn').click(() => { 
         $deletePost().done((sucess)=>{
             alertSuccessMessage(sucess);

@@ -5,7 +5,17 @@
   "devDependencies": {},
   "dependencies": {
     "@types/jquery": "^3.2.16",
-    "bower": "1.8.8",
+    "bootstrap": "^4.4.1",
+    "github-markdown-css": "2.10.0",
+    "glyphicons": "0.2.0",
+    "highlight.js": "9.11.0",
+    "highlightjs-line-numbers.js": "2.7.0",
+    "jquery": "3.4.1",
+    "jquery-serializejson": "2.9.0",
+    "jquery-validation": "1.14.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "simplemde": "1.11.2",
+    "typeahead.js": "0.11.1",
     "typescript": "^2.6.1"
   }
 }

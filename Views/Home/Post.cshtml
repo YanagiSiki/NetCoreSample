@@ -6,10 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
-    <link rel="stylesheet" href="~/lib/simplemde/dist/simplemde.min.css">
-    <link rel="stylesheet" href="~/lib/highlight-js/src/styles/atom-one-light.css">
+    <link rel="stylesheet" href="~/node_modules/simplemde/dist/simplemde.min.css">
+    <link rel="stylesheet" href="~/node_modules/highlight.js/styles/atom-one-light.css">
     <link rel="stylesheet" href="~/css/markdown-custom.css" />
-    <link rel="stylesheet" href="~/lib/github-markdown-css/github-markdown.css" />
+    <link rel="stylesheet" href="~/node_modules/github-markdown-css/github-markdown.css" />
 }
 
 <div class="row">
@@ -30,9 +30,12 @@
     @{
         if(ViewBag.IsOwner){
             <div class="col-md-2">
-                <a asp-controller="Home" asp-action="Edit" asp-route-postId="@Model.PostId" class="btn btn-primary">Edit</a>
-                <!-- <a href="#" class="btn btn-danger">Delete</a> -->
-                <input type="button" id="deletebtn" value="delete" class="btn btn-danger" />
+                <a asp-controller="Home" asp-action="Edit" asp-route-postId="@Model.PostId" class="btn btn-primary">
+                    <i class="far fa-edit"></i>
+                </a>
+                <button type="button" id="deletebtn" class="btn btn-danger">
+                    <i class="far fa-trash-alt"></i>
+                </button>
             </div>
         }
     }
@@ -48,7 +51,7 @@
 </div>
 
 @section Scripts{    
-    <script src="~/lib/simplemde/dist/simplemde.min.js"></script>
+    <script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
     <script src="~/js/tool.js"></script>
     <script src="~/js/post.js"></script>   
 }
