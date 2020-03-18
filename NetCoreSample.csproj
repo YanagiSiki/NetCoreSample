@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-          <Content Include="node_modules\**"   
-              CopyToPublishDirectory="node_modules" />
+    <Content Include="node_modules\**"  CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
 
