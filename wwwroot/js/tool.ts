@@ -156,8 +156,9 @@ function submitPost($simplemde: SimpleMDE) {
     formdata.PostTags = posttags;
     formdata.PostContent = $simplemde.value();
     $.post(submitUrl, { "post": formdata })
-        .done(() => {
+        .done((postId: number) => {
             alertSuccessMessage('Update Success !');
+            window.location.href = `/Home/Post/${postId}`;
         })
         .fail((error) => {
             alertErrorMessage(error.responseText)

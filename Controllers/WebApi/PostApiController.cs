@@ -66,7 +66,7 @@ namespace NetCoreSample.Controllers.WebApi
 
                 transaction.Commit();
             }
-            return Ok();
+            return Ok(post.PostId);
         }
 
         [HttpPost]
@@ -100,7 +100,7 @@ namespace NetCoreSample.Controllers.WebApi
                 }
                 transaction.Commit();
             }
-            return Ok();
+            return Ok(post.PostId);
         }
 
         [HttpPost]
