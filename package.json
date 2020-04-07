@@ -19,8 +19,5 @@
     "simplemde": "1.11.2",
     "typeahead.js": "0.11.1",
     "typescript": "^2.6.1"
-  },
-  "scripts": {
-    "postinstall": "cd /semantic; gulp install"
   }
 }
