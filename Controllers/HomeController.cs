@@ -80,13 +80,19 @@ namespace NetCoreSample.Controllers
         {
             if (postTitle.IsNullOrEmpty())throw new Exception("Page Not Found");
             int PostId;
-            var Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle || (int.TryParse(postTitle, out PostId) && _.PostId == PostId));
+            Post Post;
 
-            // var Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
+            if (int.TryParse(postTitle, out PostId))
+            {
+                Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == PostId);
+                if (Post == null)
+                    throw new Exception("Post Not Found");
+                return RedirectToAction("Post", new { postTitle = Post.PostTitle });
+            }
+            
+            Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
             if (Post == null)
                 throw new Exception("Post Not Found");
-            if (int.TryParse(postTitle, out PostId))
-                return RedirectToAction("Post", new { postTitle = Post.PostTitle });
             string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
             ViewBag.IsOwner = Post.UserId.ToString() == UserId;
             return View(Post);
