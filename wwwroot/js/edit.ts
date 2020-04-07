@@ -18,28 +18,21 @@
         spellChecker: false,
     });
 
-    //let _tags: Array<Tag>;
-    //let _allTags: Array<Tag>;
+    $.when($getTagsOfPost(), $getAllTags())
+        .done((result1, result2) => {
+            let tags: Array<Tag> = result1[0];
+            let alltags: Array<Tag> = result2[0];
 
-    $getTagsOfPost()
-        .done((tags: Array<Tag>) => {
             appendBadge(tags, true);
-            //_tags = tags;
-            $tags.data('tags', tags)
-        })
-        .fail((error) => {
-            alertErrorMessage(error.responseText)
-        })
+            $tags.data('tags', tags);
 
-    $getAllTags()
-        .done((alltags: Array<Tag>) => {
             createTypeheadOfAllTags(alltags);
-            //_allTags = tags;         
             $alltags.data('alltags', alltags);
         })
         .fail((error) => {
             alertErrorMessage(error.responseText)
-        })
+        });
+
 
     $alltags.on('click', '.btn', function () {
         addPostTags();

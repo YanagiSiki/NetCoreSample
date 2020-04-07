@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/node_modules/highlight.js/styles/atom-one-light.css">
     <link rel="stylesheet" href="~/css/markdown-custom.css" />
     <link rel="stylesheet" href="~/node_modules/github-markdown-css/github-markdown.css" />
+    <link rel="stylesheet" href="~/semantic/dist/semantic.min.css" />
 }
 <br>
 <div class="row">
@@ -38,12 +39,12 @@
             </div>
             <textarea asp-for="PostContent" ></textarea>
             <br>
-            <div class="form-group" id="js-alltags">
-                <div id="bloodhound">
-                    <input class="typeahead form-control" type="text" placeholder="input something">
-                    <button type="button" class="btn btn-outline-success">Add Tag</button>
-                </div>
+
+            <div class="ui sub" id="js-alltags">
+                <select  class="ui search dropdown"></select>
+                <button type="button" class="btn btn-outline-success">Add Tag</button>
             </div>
+
             <div class="form-group" id="js-tags">
                 <span>Tags：</span>
             </div>
@@ -58,7 +59,9 @@
 @section Scripts{    
     <script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
     <script src="~/node_modules/typeahead.js/dist/typeahead.jquery.min.js"></script>
+    <script src="~/semantic/dist/semantic.min.js"></script>
     <script src="~/js/edit.js"></script>
+    
 }
 
 

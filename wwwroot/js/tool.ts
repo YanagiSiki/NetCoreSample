@@ -16,6 +16,7 @@ function alertSuccessMessage(sucessMessage: string) {
 declare interface JQuery {
     typeahead(option: any, value: any): JQuery;
     serializeJSON(): JQuery;
+    dropdown(option?: any): JQuery;
 }
 declare class SimpleMDE {
     constructor(option: any);
@@ -96,7 +97,7 @@ function appendBadgeAndCount(PostCountOfTag: Array<PostCountOfTag>) {
 function addPostTags() {
     let $alltags = $('#js-alltags');
     let $tags = $('#js-tags');
-    let tagName = $('input.typeahead.tt-input').val().toString();
+    let tagName = $('#js-alltags select').val().toString();
     let _allTags: Array<Tag> = $alltags.data('alltags');
     let _tags: Array<Tag> = $tags.data('tags');
 
@@ -126,18 +127,28 @@ function removePostTags(e: JQueryEventObject) {
 }
 
 function createTypeheadOfAllTags(tags: Array<Tag>) {
-    var tagforautocomplete = $.map(tags, function (item, index) {
-        return item.TagName;
-    })
-
-    $('#bloodhound .typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-            name: 'tagforautocomplete',
-            source: substringMatcher(tagforautocomplete)
-        });
+    // var tagforautocomplete = $.map(tags, function (item, index) {
+    //     return item.TagName;
+    // })
+    let dropdownValue = tags.map((value, index) => {
+        return {
+          name: value.TagName,
+          value: value.TagName
+        }
+      });
+    // $('#bloodhound .typeahead').typeahead({
+    //     hint: true,
+    //     highlight: true,
+    //     minLength: 1
+    // }, {
+    //     name: 'tagforautocomplete',
+    //     source: substringMatcher(tagforautocomplete)
+    // });
+    $('.ui.dropdown')
+    .dropdown({
+      allowAdditions: true,
+      values: dropdownValue
+    });
 }
 
 function submitPost($simplemde: SimpleMDE) {

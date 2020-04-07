@@ -54,7 +54,7 @@ function appendBadgeAndCount(PostCountOfTag) {
 function addPostTags() {
     var $alltags = $('#js-alltags');
     var $tags = $('#js-tags');
-    var tagName = $('input.typeahead.tt-input').val().toString();
+    var tagName = $('#js-alltags select').val().toString();
     var _allTags = $alltags.data('alltags');
     var _tags = $tags.data('tags');
     if (!!_tags.find(function (t, i, arr) { return t.TagName == tagName; })) {
@@ -78,16 +78,27 @@ function removePostTags(e) {
     $tags.data('tags', _tags);
 }
 function createTypeheadOfAllTags(tags) {
-    var tagforautocomplete = $.map(tags, function (item, index) {
-        return item.TagName;
+    // var tagforautocomplete = $.map(tags, function (item, index) {
+    //     return item.TagName;
+    // })
+    var dropdownValue = tags.map(function (value, index) {
+        return {
+            name: value.TagName,
+            value: value.TagName
+        };
     });
-    $('#bloodhound .typeahead').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'tagforautocomplete',
-        source: substringMatcher(tagforautocomplete)
+    // $('#bloodhound .typeahead').typeahead({
+    //     hint: true,
+    //     highlight: true,
+    //     minLength: 1
+    // }, {
+    //     name: 'tagforautocomplete',
+    //     source: substringMatcher(tagforautocomplete)
+    // });
+    $('.ui.dropdown')
+        .dropdown({
+        allowAdditions: true,
+        values: dropdownValue
     });
 }
 function submitPost($simplemde) {

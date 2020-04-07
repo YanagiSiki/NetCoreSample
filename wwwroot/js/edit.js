@@ -15,21 +15,13 @@
         },
         spellChecker: false,
     });
-    //let _tags: Array<Tag>;
-    //let _allTags: Array<Tag>;
-    $getTagsOfPost()
-        .done(function (tags) {
+    $.when($getTagsOfPost(), $getAllTags())
+        .done(function (result1, result2) {
+        var tags = result1[0];
+        var alltags = result2[0];
         appendBadge(tags, true);
-        //_tags = tags;
         $tags.data('tags', tags);
-    })
-        .fail(function (error) {
-        alertErrorMessage(error.responseText);
-    });
-    $getAllTags()
-        .done(function (alltags) {
         createTypeheadOfAllTags(alltags);
-        //_allTags = tags;         
         $alltags.data('alltags', alltags);
     })
         .fail(function (error) {
