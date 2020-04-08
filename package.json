@@ -6,7 +6,7 @@
   "dependencies": {
     "@types/jquery": "^3.2.16",
     "bootstrap": "^4.4.1",
-    "fomantic-ui": "^2.8.4",
+    "fomantic-ui": "2.8.3",
     "github-markdown-css": "2.10.0",
     "glyphicons": "0.2.0",
     "gulp": "4.0.0",
