@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="node_modules\**"  CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="semantic\**"  CopyToOutputDirectory="PreserveNewest"/>
+    <!-- <Content Include="node_modules\**"  CopyToOutputDirectory="PreserveNewest"/>
+    <Content Include="semantic\**"  CopyToOutputDirectory="PreserveNewest"/> -->
   </ItemGroup>
 
 
