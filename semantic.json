@@ -15,7 +15,7 @@
     },
     "clean": "dist/"
   },
-  "permission": true,
+  "permission": "644",
   "autoInstall": true,
   "rtl": false,
   "version": "2.8.3"
