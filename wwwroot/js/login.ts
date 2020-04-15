@@ -1,3 +1,5 @@
+import { tool } from "./tool";
+
 (function (w) {
 
     $('#submitbtn').click(() => {
@@ -7,12 +9,12 @@
         let formdata: any = $form.serializeJSON();
         $.post(submitUrl, { "user": formdata })
             .done(() => {
-                alertSuccessMessage('Login Success !');
+                tool.alertSuccessMessage('Login Success !');
                 if (!!returnUrl) window.location.href = returnUrl;
                 else window.location.href = '/';
             })
             .fail((error) => {
-                alertErrorMessage(error.responseText)
+                tool.alertErrorMessage(error.responseText)
             });
     });
 }(window));

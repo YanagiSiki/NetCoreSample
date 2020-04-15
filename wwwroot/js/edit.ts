@@ -1,3 +1,5 @@
+import { tool } from "./tool";
+
 (function (w) {
     let postid = $('#PostId').val();
     let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
@@ -23,24 +25,24 @@
             let tags: Array<Tag> = result1[0];
             let alltags: Array<Tag> = result2[0];
 
-            appendBadge(tags, true);
+            tool.appendBadge(tags, true);
             $tags.data('tags', tags);
 
-            createTypeheadOfAllTags(alltags);
+            tool.createTypeheadOfAllTags(alltags);
             $alltags.data('alltags', alltags);
         })
         .fail((error) => {
-            alertErrorMessage(error.responseText)
+            tool.alertErrorMessage(error.responseText)
         });
 
 
     $alltags.on('click', '.btn', function () {
-        addPostTags();
+        tool.addPostTags();
     });
 
     $tags.on('click', '.close', function (e: JQueryEventObject) {
-        removePostTags(e);
+        tool.removePostTags(e);
     });
 
-    $('#submitbtn').click(() => { submitPost($simplemde) });
+    $('#submitbtn').click(() => { tool.submitPost($simplemde) });
 }(window));

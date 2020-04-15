@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tool_1 = require("./tool");
 (function (w) {
     var postid = $('#PostId').val();
     var $postcontainer = $('#PostContent');
@@ -14,22 +17,22 @@
     $simplemde = null;
     $getTagsOfPost()
         .done(function (tags) {
-        appendBadge(tags);
+        tool_1.tool.appendBadge(tags);
         //_tags = tags;
         $tags.data('tags', tags);
     })
         .fail(function (error) {
-        alertErrorMessage(error.responseText);
+        tool_1.tool.alertErrorMessage(error.responseText);
     });
     $('#deletebtn').click(function () {
         $deletePost().done(function (sucess) {
-            alertSuccessMessage(sucess);
+            tool_1.tool.alertSuccessMessage(sucess);
             setTimeout(function () {
                 $(location).attr('href', '/');
             }, 1000);
         })
             .fail(function (error) {
-            alertErrorMessage(error.responseText);
+            tool_1.tool.alertErrorMessage(error.responseText);
         });
     });
 }(window));

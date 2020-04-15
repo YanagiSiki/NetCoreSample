@@ -1,3 +1,5 @@
+import {tool} from './tool';
+
 (function (w) {
     let postid = $('#PostId').val();
     let $postcontainer = $('#PostContent');
@@ -18,24 +20,24 @@
 
     $getTagsOfPost()
         .done((tags: Array<Tag>) => {
-            appendBadge(tags);
+            tool.appendBadge(tags);
             //_tags = tags;
             $tags.data('tags', tags);
 
         })
         .fail((error) => {
-            alertErrorMessage(error.responseText)
+            tool.alertErrorMessage(error.responseText)
         });
         
     $('#deletebtn').click(() => { 
         $deletePost().done((sucess)=>{
-            alertSuccessMessage(sucess);
+            tool.alertSuccessMessage(sucess);
             setTimeout(function () {
                 $(location).attr('href', '/')
             }, 1000);
         })
         .fail((error) => {
-            alertErrorMessage(error.responseText)
+            tool.alertErrorMessage(error.responseText)
         });
     });
 }(window));
