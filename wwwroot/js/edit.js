@@ -1,4 +1,4 @@
-import { tool } from "./tool";
+import { tool } from "./tool.js";
 (function (w) {
     let postid = $('#PostId').val();
     let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });

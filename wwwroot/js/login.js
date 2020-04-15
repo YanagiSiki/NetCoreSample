@@ -1,4 +1,4 @@
-import { tool } from "./tool";
+import { tool } from "./tool.js";
 (function (w) {
     $('#submitbtn').click(() => {
         let submitUrl = '/UserApi/Login';

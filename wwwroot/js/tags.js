@@ -1,4 +1,4 @@
-import { tool } from './tool';
+import { tool } from './tool.js';
 (function (w) {
     let $getTags = () => $.get('/TagApi/GetTags');
     $getTags()
