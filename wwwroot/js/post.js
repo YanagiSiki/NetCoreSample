@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var tool_1 = require("./tool");
+import { tool } from './tool';
 (function (w) {
-    var postid = $('#PostId').val();
-    var $postcontainer = $('#PostContent');
-    var $getTagsOfPost = function () { return $.get('/PostApi/GetTagsOfPost', { postId: postid }); };
-    var $deletePost = function () { return $.post('/PostApi/DeletePost', { "postId": postid }); };
-    var $tags = $('#js-tags');
-    var $simplemde = new SimpleMDE({
+    let postid = $('#PostId').val();
+    let $postcontainer = $('#PostContent');
+    let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    let $deletePost = () => $.post('/PostApi/DeletePost', { "postId": postid });
+    let $tags = $('#js-tags');
+    let $simplemde = new SimpleMDE({
         element: $postcontainer[0]
     });
     // $simplemde.value($postcontainer.val().toString());
@@ -16,23 +14,23 @@ var tool_1 = require("./tool");
     $simplemde.toTextArea();
     $simplemde = null;
     $getTagsOfPost()
-        .done(function (tags) {
-        tool_1.tool.appendBadge(tags);
+        .done((tags) => {
+        tool.appendBadge(tags);
         //_tags = tags;
         $tags.data('tags', tags);
     })
-        .fail(function (error) {
-        tool_1.tool.alertErrorMessage(error.responseText);
+        .fail((error) => {
+        tool.alertErrorMessage(error.responseText);
     });
-    $('#deletebtn').click(function () {
-        $deletePost().done(function (sucess) {
-            tool_1.tool.alertSuccessMessage(sucess);
+    $('#deletebtn').click(() => {
+        $deletePost().done((sucess) => {
+            tool.alertSuccessMessage(sucess);
             setTimeout(function () {
                 $(location).attr('href', '/');
             }, 1000);
         })
-            .fail(function (error) {
-            tool_1.tool.alertErrorMessage(error.responseText);
+            .fail((error) => {
+            tool.alertErrorMessage(error.responseText);
         });
     });
 }(window));

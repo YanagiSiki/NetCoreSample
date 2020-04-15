@@ -1,6 +1,6 @@
 (function (w) {
-    var $postcontainer = $('#PostContent');
-    var $simplemde = new SimpleMDE({
+    let $postcontainer = $('#PostContent');
+    let $simplemde = new SimpleMDE({
         element: $postcontainer[0]
     });
     $('#Page').append($simplemde.markdown($postcontainer.val().toString()));

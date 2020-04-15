@@ -1,14 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var tool_1 = require("./tool");
+import { tool } from './tool';
 (function (w) {
-    var $getTags = function () { return $.get('/TagApi/GetTags'); };
+    let $getTags = () => $.get('/TagApi/GetTags');
     $getTags()
-        .done(function (PostCountOfTag) {
-        tool_1.tool.appendBadgeAndCount(PostCountOfTag);
+        .done((PostCountOfTag) => {
+        tool.appendBadgeAndCount(PostCountOfTag);
     })
-        .fail(function (error) {
-        tool_1.tool.alertErrorMessage(error.responseText);
+        .fail((error) => {
+        tool.alertErrorMessage(error.responseText);
     });
 }(window));
 //# sourceMappingURL=tags.js.map

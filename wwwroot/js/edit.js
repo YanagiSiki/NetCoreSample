@@ -1,17 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var tool_1 = require("./tool");
+import { tool } from "./tool";
 (function (w) {
-    var postid = $('#PostId').val();
-    var $getTagsOfPost = function () { return $.get('/PostApi/GetTagsOfPost', { postId: postid }); };
-    var $getAllTags = function () { return $.get('/PostApi/GetAllTags'); };
-    var $alltags = $('#js-alltags');
-    var $tags = $('#js-tags');
+    let postid = $('#PostId').val();
+    let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    let $getAllTags = () => $.get('/PostApi/GetAllTags');
+    let $alltags = $('#js-alltags');
+    let $tags = $('#js-tags');
     // waitForEl(".editor-preview, editor-preview-side", function () {
     //     $(".editor-preview").attr("class", "editor-preview markdown-body");
     //     $(".editor-preview-side").attr("class", "editor-preview-side markdown-body");
     // });
-    var $simplemde = new SimpleMDE({
+    let $simplemde = new SimpleMDE({
         element: document.getElementById("PostContent"),
         renderingConfig: {
             codeSyntaxHighlighting: true
@@ -19,23 +17,23 @@ var tool_1 = require("./tool");
         spellChecker: false,
     });
     $.when($getTagsOfPost(), $getAllTags())
-        .done(function (result1, result2) {
-        var tags = result1[0];
-        var alltags = result2[0];
-        tool_1.tool.appendBadge(tags, true);
+        .done((result1, result2) => {
+        let tags = result1[0];
+        let alltags = result2[0];
+        tool.appendBadge(tags, true);
         $tags.data('tags', tags);
-        tool_1.tool.createTypeheadOfAllTags(alltags);
+        tool.createTypeheadOfAllTags(alltags);
         $alltags.data('alltags', alltags);
     })
-        .fail(function (error) {
-        tool_1.tool.alertErrorMessage(error.responseText);
+        .fail((error) => {
+        tool.alertErrorMessage(error.responseText);
     });
     $alltags.on('click', '.btn', function () {
-        tool_1.tool.addPostTags();
+        tool.addPostTags();
     });
     $tags.on('click', '.close', function (e) {
-        tool_1.tool.removePostTags(e);
+        tool.removePostTags(e);
     });
-    $('#submitbtn').click(function () { tool_1.tool.submitPost($simplemde); });
+    $('#submitbtn').click(() => { tool.submitPost($simplemde); });
 }(window));
 //# sourceMappingURL=edit.js.map

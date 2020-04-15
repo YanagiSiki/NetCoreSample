@@ -1,8 +1,8 @@
 (function (w) {
-    var $postcontents = $('.PostContent');
-    $.each($postcontents, function (idx, postcontainer) {
-        var $postcontainer = $(postcontainer);
-        var $simplemde = new SimpleMDE({
+    let $postcontents = $('.PostContent');
+    $.each($postcontents, (idx, postcontainer) => {
+        let $postcontainer = $(postcontainer);
+        let $simplemde = new SimpleMDE({
             element: $postcontainer[0]
         });
         $postcontainer.prev('.Page').append($simplemde.markdown($postcontainer.data('contant')));
