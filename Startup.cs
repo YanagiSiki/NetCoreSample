@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Coravel;
 using Hangfire;
 using Hangfire.MySql.Core;
 using Microsoft.AspNetCore.Authorization;
@@ -87,6 +88,8 @@ namespace NetCoreSample
             //         HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
             //     options.ServerName = HangfireServerName;
             // });
+
+            services.AddScheduler();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

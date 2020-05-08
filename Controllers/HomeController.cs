@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Coravel.Scheduling.Schedule.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +18,17 @@ namespace NetCoreSample.Controllers
     //API Key ID: 4AIWnYxRQuCalJLR-hV26A
     //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
     //[AllowAnonymous]
+
     [Route("[controller]/[action]")]
     [Authorize(Roles.Admin)]
     public class HomeController : BaseController
     {
-        public HomeController(BaseContext dbContext) : base(dbContext) { }
+
+        IScheduler _scheduler;
+        public HomeController(BaseContext dbContext, IScheduler scheduler) : base(dbContext)
+        {
+            _scheduler = _scheduler ?? scheduler;
+        }
 
         [AllowAnonymous]
         [Route("/Home/Index")]
@@ -89,7 +96,7 @@ namespace NetCoreSample.Controllers
                     throw new Exception("Post Not Found");
                 return RedirectToAction("Post", new { postTitle = Post.PostTitle });
             }
-            
+
             Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
             if (Post == null)
                 throw new Exception("Post Not Found");
@@ -108,6 +115,17 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         public IActionResult Error()
         {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Test()
+        {
+            _scheduler.Schedule(
+                    () => Console.WriteLine("Every minute during the week.")
+                )
+                .EveryMinute()
+                .Weekday();
             return View();
         }
 
