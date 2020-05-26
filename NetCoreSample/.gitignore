@@ -1,0 +1,12 @@
+/.vs
+/obj
+*.user
+/bin
+*.gitattributes
+/node_modules
+/package-lock.json
+/.vscode
+/DBconnection.json
+/Properties
+/wwwroot/lib
+/semantic

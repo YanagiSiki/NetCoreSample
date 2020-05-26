@@ -125,7 +125,7 @@ namespace NetCoreSample.Controllers
                     () => Console.WriteLine("Every minute during the week.")
                 )
                 .EveryMinute()
-                .Weekday();
+                .Weekday().PreventOverlapping("Ya");
             return View();
         }
 
