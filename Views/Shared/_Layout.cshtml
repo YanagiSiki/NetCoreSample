@@ -22,7 +22,7 @@
 
             <br>
             <div id="_ErrorFlashMessage">
-                @Html.Partial("../Partial/_ErrorFlashMessage.cshtml")
+                @await Html.PartialAsync("../Partial/_ErrorFlashMessage.cshtml")
             </div>
 
             @RenderBody()
