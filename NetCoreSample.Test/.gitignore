@@ -2,3 +2,5 @@
 *.gitattributes
 /.vscode
 /Properties
+/obj
+/bin

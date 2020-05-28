@@ -1,20 +1,21 @@
+using Coravel;
 using Coravel.Scheduling.Schedule.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreSample.Controllers;
 using NetCoreSample.Models;
+using NSubstitute;
 using NUnit.Framework;
-using Coravel;
 
-namespace UnutTest.Controller
+namespace NetCoreSample.Test.Controller
 {
     /* 參考 http://www.zakwillis.com/post/2019/07/09/net-core-unit-testing-and-dependency-injection */
-    
+
     public class HomeControllerTest
     {
         private ServiceProvider serviceProvider { get; set; }
         private HomeController _target { get; set; }
-
 
         [SetUp]
         public void Setup()
@@ -26,14 +27,24 @@ namespace UnutTest.Controller
 
             var dbContext = serviceProvider.GetService<BaseContext>();
             var scheduler = serviceProvider.GetService<IScheduler>();
-
             _target = new HomeController(dbContext, scheduler);
         }
 
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            // Arrange
+            var user = new User { UserId = 1, Name = "Ya" };
+
+            // Act
+            var actual =  _target.Tags();
+
+            // Assert
+            Assert.IsInstanceOf<IActionResult>(actual);
+            // (ActionResult)actual
+
+            Assert.AreEqual(1,1);
+
         }
     }
 }
