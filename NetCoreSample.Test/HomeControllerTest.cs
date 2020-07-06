@@ -1,5 +1,3 @@
-using Coravel;
-using Coravel.Scheduling.Schedule.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
