@@ -9,11 +9,10 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("Api/[action]")]
-    [AllowAnonymous]
+    // [AllowAnonymous]
     public class InsertApiController : BaseApiController
     {
-        public InsertApiController(BaseContext dbContext) : base(dbContext)
-        { }
+        public InsertApiController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpPost]
         public IActionResult InsertPost()

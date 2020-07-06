@@ -22,12 +22,10 @@ namespace NetCoreSample.Test.Controller
         {
             var services = new ServiceCollection();
             services.AddScoped<BaseContext, UnitTestContext>();
-            services.AddScheduler();
             serviceProvider = services.BuildServiceProvider();
 
             var dbContext = serviceProvider.GetService<BaseContext>();
-            var scheduler = serviceProvider.GetService<IScheduler>();
-            _target = new HomeController(dbContext, scheduler);
+            _target = new HomeController(dbContext);
         }
 
         [Test]
@@ -37,13 +35,13 @@ namespace NetCoreSample.Test.Controller
             var user = new User { UserId = 1, Name = "Ya" };
 
             // Act
-            var actual =  _target.Tags();
+            var actual = _target.Tags();
 
             // Assert
             Assert.IsInstanceOf<IActionResult>(actual);
             // (ActionResult)actual
 
-            Assert.AreEqual(1,1);
+            Assert.AreEqual(1, 1);
 
         }
     }

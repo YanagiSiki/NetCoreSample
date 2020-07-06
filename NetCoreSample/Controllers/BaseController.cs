@@ -20,6 +20,8 @@ namespace NetCoreSample.Controllers
         protected List<string> SucessMessages = new List<string>();
         protected List<string> WarningMessages = new List<string>();
 
+        public BaseController() { }
+
         public BaseController(BaseContext dbContext)
         {
             _dbContext = _dbContext ?? dbContext;

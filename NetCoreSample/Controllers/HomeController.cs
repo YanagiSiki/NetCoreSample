@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Coravel.Scheduling.Schedule.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -24,10 +23,9 @@ namespace NetCoreSample.Controllers
     public class HomeController : BaseController
     {
 
-        IScheduler _scheduler;
-        public HomeController(BaseContext dbContext, IScheduler scheduler) : base(dbContext)
+        public HomeController(BaseContext dbContext) : base(dbContext)
         {
-            _scheduler = _scheduler ?? scheduler;
+
         }
 
         [AllowAnonymous]
@@ -115,17 +113,6 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         public IActionResult Error()
         {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public IActionResult Test()
-        {
-            _scheduler.Schedule(
-                    () => Console.WriteLine("Every minute during the week.")
-                )
-                .EveryMinute()
-                .Weekday();
             return View();
         }
 
@@ -230,6 +217,12 @@ namespace NetCoreSample.Controllers
         private bool IsLocal(string returnUrl)
         {
             return Url.IsLocalUrl(returnUrl);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Test()
+        {
+            return View();
         }
 
         // [HttpGet]
