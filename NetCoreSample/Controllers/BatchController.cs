@@ -27,11 +27,11 @@ namespace NetCoreSample.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Test()
+        public IActionResult Test()
         {
             // if (str.IsNullOrEmpty())return BadRequest("str is null");
             // BackgroundJob.Enqueue(() => Console.WriteLine($"Hello {str}"));
-            var task = new Task(() =>
+            var task = new Task<string>(() =>
             {
                 for (var i = 1; i < 10000; i++)
                 {
@@ -39,8 +39,9 @@ namespace NetCoreSample.Controllers
                     BackgroundJob.Enqueue(() => Console.WriteLine($"Hello {str}"));
                     // RecurringJob.AddOrUpdate("流程A", () => Console.Write($"Hello {str}"), Cron.Minutely);
                 }
+                return "";
             });
-            await task;
+            task.Start();
             return Ok("Test");
         }
     }

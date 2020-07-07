@@ -22,7 +22,10 @@ namespace NetCoreSample.Models
             if (dbUrl.IsNullOrEmpty())
                 dbUrl = Environment.GetEnvironmentVariable("dbUrl");
             Console.WriteLine(dbUrl);
-            optionsBuilder.UseMySql(dbUrl);
+            optionsBuilder.UseMySql(dbUrl, options =>
+            {
+                options.CommandTimeout(120);
+            });
             /*** https://ohke.hateblo.jp/entry/2017/03/03/000000 ***/
             var loggerFactory = new LoggerFactory().AddConsole();
             optionsBuilder.UseLoggerFactory(loggerFactory);
