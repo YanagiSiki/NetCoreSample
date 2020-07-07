@@ -27,12 +27,17 @@ namespace NetCoreSample.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Test(string str)
+        public IActionResult Test()
         {
-            if (str.IsNullOrEmpty())return BadRequest("str is null");
+            // if (str.IsNullOrEmpty())return BadRequest("str is null");
             // BackgroundJob.Enqueue(() => Console.WriteLine($"Hello {str}"));
-            RecurringJob.AddOrUpdate("流程A", () => Console.Write($"Hello {str}"), Cron.Minutely);
-            return Ok($"Hello {str}");
+            for (var i = 1; i < 10000; i++)
+            {
+                var str = StringTool.GenerateString(5);
+                BackgroundJob.Enqueue(() => Console.WriteLine($"Hello {str}"));
+                // RecurringJob.AddOrUpdate("流程A", () => Console.Write($"Hello {str}"), Cron.Minutely);
+            }
+            return Ok("Test");
         }
     }
 }

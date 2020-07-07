@@ -81,7 +81,13 @@ namespace NetCoreSample
             services.AddHangfireServer(options =>
             {
                 options.Queues = new [] { "critical", "default" };
-                options.WorkerCount = 10;
+
+                var WorkerCount = configurationHelper.GetValue("HangfireWorkerCount");
+                if (WorkerCount.IsNullOrEmpty())
+                    WorkerCount = Environment.GetEnvironmentVariable("HangfireWorkerCount");
+                if (int.TryParse(WorkerCount, out int a))
+                    options.WorkerCount = a > 0 ? a : 0;
+
                 var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
                 if (HangfireServerName.IsNullOrEmpty())
                     HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
