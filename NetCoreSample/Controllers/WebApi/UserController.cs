@@ -14,7 +14,7 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
-    [WebApiAuthorize]
+    // [WebApiAuthorize]
     public class UserController : BaseApiController
     {
         public UserController(BaseContext dbContext) : base(dbContext) { }
@@ -45,6 +45,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpGet]
+        [WebApiAuthorize]
         public IActionResult GetUser()
         {
             var Users = _dbContext.User.ToList();
@@ -52,6 +53,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
+        [WebApiAuthorize]
         public IActionResult AddUser()
         {
             var User = new User()
@@ -67,6 +69,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
+        [WebApiAuthorize]
         public IActionResult GetPostOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
@@ -80,6 +83,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
+        [WebApiAuthorize]
         public IActionResult GetTagOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
