@@ -14,7 +14,8 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
-    // [WebApiAuthorize]
+    [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class UserController : BaseApiController
     {
         public UserController(BaseContext dbContext) : base(dbContext) { }
@@ -32,20 +33,28 @@ namespace NetCoreSample.Controllers.WebApi
             if (user.Password.VerifyPassword(DbUser.Password))
             {
                 var ClaimPriciple = new ClaimsPrincipal();
-                var Identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                Identity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                Identity.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
-                ClaimPriciple.AddIdentity(Identity);
+                var IdentityForView = new ClaimsIdentity("Cookie");
+                IdentityForView.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                IdentityForView.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                IdentityForView.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
+                ClaimPriciple.AddIdentity(IdentityForView);
                 HttpContext.User = ClaimPriciple;
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, HttpContext.User);
+                HttpContext.SignInAsync("CookieForView", HttpContext.User);
+
+                var IdentityForWebApi = new ClaimsIdentity("CookieForWebApi");
+                IdentityForWebApi.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                IdentityForWebApi.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                IdentityForWebApi.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
+                ClaimPriciple.AddIdentity(IdentityForWebApi);
+                HttpContext.User = ClaimPriciple;
+                HttpContext.SignInAsync("CookieForWebApi", HttpContext.User);
+
                 return Ok();
             }
             throw new Exception("密碼錯誤");
         }
 
         [HttpGet]
-        [WebApiAuthorize]
         public IActionResult GetUser()
         {
             var Users = _dbContext.User.ToList();
@@ -53,7 +62,6 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [WebApiAuthorize]
         public IActionResult AddUser()
         {
             var User = new User()
@@ -69,21 +77,19 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
-        [WebApiAuthorize]
         public IActionResult GetPostOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
             // var User = _dbContext.User.Include("Posts").Select(_ => new { _.UserId, _.Posts})
-            //             .SingleOrDefault(_ => _.UserId == userId);
+            //             .FirstOrDefault(_ => _.UserId == userId);
             var posts = _dbContext.Post.Where(_ => _.UserId == userId).ToList();
 
             return Ok(posts);
         }
 
         [HttpPost("{userId:int}")]
-        [WebApiAuthorize]
         public IActionResult GetTagOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))

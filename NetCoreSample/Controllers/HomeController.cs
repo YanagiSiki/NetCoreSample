@@ -21,7 +21,7 @@ namespace NetCoreSample.Controllers
 
     [Route("[controller]/[action]")]
     [Authorize(Roles.Admin)]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = "CookieForView")]
     public class HomeController : BaseController
     {
 
@@ -51,7 +51,8 @@ namespace NetCoreSample.Controllers
         [Authorize(Roles.Admin)]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("CookieForView");
+            await HttpContext.SignOutAsync("CookieForWebApi");
             // return RedirectToAction("index", "Home");
             return Redirect("/");
         }
@@ -100,7 +101,7 @@ namespace NetCoreSample.Controllers
             Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
             if (Post == null)
                 throw new Exception("Post Not Found");
-            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+            string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
             ViewBag.IsOwner = Post.UserId.ToString() == UserId;
             return View(Post);
         }
@@ -143,13 +144,14 @@ namespace NetCoreSample.Controllers
                         //PostTags = PostTags
                 });
             }
-            string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
-            if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
-                throw new Exception("You are not owner !!");
 
             var Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == postId);
             if (Post == null)
                 throw new Exception("Post Not Found");
+
+            string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
+            if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId)?.UserId.ToString() != UserId)
+                throw new Exception("You are not owner !!");
 
             return View(Post);
         }

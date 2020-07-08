@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,12 +10,29 @@ namespace NetCoreSample.Tools
     {
         public static IServiceCollection AddCustomAuthExtend(this IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            services.AddAuthentication("CookieForView")
+                .AddCookie("CookieForView", options =>
                 {
                     options.AccessDeniedPath = new PathString("/Home/Error");
                     options.LoginPath = new PathString("/Home/Login");
                     options.LogoutPath = new PathString("/Home/Logout");
+                });
+            services.AddAuthentication("CookieForWebApi")
+                .AddCookie("CookieForWebApi", options =>
+                {
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = context =>
+                            {
+                                context.Response.StatusCode = 401;
+                                return Task.CompletedTask;;
+                            },
+                            OnRedirectToAccessDenied = context =>
+                            {
+                                context.Response.StatusCode = 403;
+                                return Task.CompletedTask;;
+                            }
+                    };
                 });
             return services;
         }

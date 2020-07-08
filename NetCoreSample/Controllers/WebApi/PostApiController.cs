@@ -11,13 +11,14 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("PostApi/[action]")]
-    [WebApiAuthorize]
+    [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class PostApiController : BaseApiController
     {
         public PostApiController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpGet]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public IActionResult GetPost()
         {
             var posts = _dbContext.Post.ToList();
@@ -25,14 +26,13 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [WebApiAuthorize]
         public IActionResult UpdatePost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
             {
                 if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != post.PostId))throw new Exception("Post Not Found");
 
-                string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+                string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
                 if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == post.PostId).UserId.ToString() != UserId)
                     throw new Exception("You are not owner !!");
 
@@ -70,7 +70,6 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [WebApiAuthorize]
         public IActionResult InsertPost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
@@ -104,14 +103,13 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [WebApiAuthorize]
         public IActionResult DeletePost(int postId)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
             {
                 if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != postId))throw new Exception("Post Not Found");
 
-                string UserId = HttpContext.User.Claims.SingleOrDefault(_ => _.Type == "UserId")?.Value;
+                string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
                 if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == postId).UserId.ToString() != UserId)
                     throw new Exception("You are not owner !!");
 
