@@ -141,7 +141,7 @@ namespace NetCoreSample
                 pathMatch: "/hangfire",
                 options : new DashboardOptions()
                 { // 使用自訂的認證過濾器
-                    Authorization = new [] { new MyAuthorizeFilter() }
+                    Authorization = new [] { new HangfireAuthorizeFilter() }
                 }
             );
 

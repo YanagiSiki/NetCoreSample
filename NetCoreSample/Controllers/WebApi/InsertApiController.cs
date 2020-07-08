@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("Api/[action]")]
-    // [AllowAnonymous]
+    [WebApiAuthorize]
     public class InsertApiController : BaseApiController
     {
         public InsertApiController(BaseContext dbContext) : base(dbContext) { }

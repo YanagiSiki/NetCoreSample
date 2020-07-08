@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
-    // [AllowAnonymous]
+    [WebApiAuthorize]
     public class UserController : BaseApiController
     {
         public UserController(BaseContext dbContext) : base(dbContext) { }

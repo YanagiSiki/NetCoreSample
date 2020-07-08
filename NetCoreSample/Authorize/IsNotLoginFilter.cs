@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 
-namespace NetCoreSample.Models
+namespace NetCoreSample.Authorize
 {
     /// <summary>
     /// 未登入才可看見
@@ -15,7 +15,8 @@ namespace NetCoreSample.Models
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.HttpContext.User.Identity.IsAuthenticated) {
+            if (context.HttpContext.User.Identity.IsAuthenticated)
+            {
                 context.Result = new RedirectToRouteResult(
                     new RouteValueDictionary(new { controller = "Home", action = "index" })
                 );

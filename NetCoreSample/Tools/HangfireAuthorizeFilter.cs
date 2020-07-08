@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace NetCoreSample.Tools
 {
-    public class MyAuthorizeFilter : IDashboardAuthorizationFilter
+    public class HangfireAuthorizeFilter : IDashboardAuthorizationFilter
     {
-        public MyAuthorizeFilter() { }
+        public HangfireAuthorizeFilter() { }
         public bool Authorize([NotNull] DashboardContext context)
         {
             var httpContext = context.GetHttpContext();
@@ -18,7 +18,7 @@ namespace NetCoreSample.Tools
             });
             if (!isAuthorized)
             {
-                httpContext.Response.Redirect("/Home/Login");
+                httpContext.Response.Redirect("/Home/Login?returnUrl=/hangfire");
             }
             return true;
         }

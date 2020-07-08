@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
@@ -20,6 +21,7 @@ namespace NetCoreSample.Controllers
 
     [Route("[controller]/[action]")]
     [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : BaseController
     {
 

@@ -4,13 +4,14 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("TagApi/[action]")]
-    // [Authorize(Roles.Admin)]
+    [WebApiAuthorize]
     public class TagApiController : BaseApiController
     {
         public TagApiController(BaseContext dbContext) : base(dbContext)

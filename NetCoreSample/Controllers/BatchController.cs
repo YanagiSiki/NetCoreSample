@@ -16,6 +16,7 @@ namespace NetCoreSample.Controllers
 {
     [Route("[controller]/[action]")]
     [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class BatchController : BaseController
     {
         public BatchController(BaseContext dbContext) : base(dbContext) { }

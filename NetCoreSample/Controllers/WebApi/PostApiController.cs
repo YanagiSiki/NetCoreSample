@@ -4,17 +4,17 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("PostApi/[action]")]
-    // [Authorize(Roles.Admin)]
+    [WebApiAuthorize]
     public class PostApiController : BaseApiController
     {
-        public PostApiController(BaseContext dbContext) : base(dbContext)
-        { }
+        public PostApiController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpGet]
         [AllowAnonymous]
@@ -25,7 +25,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [Authorize(Roles.Admin)]
+        [WebApiAuthorize]
         public IActionResult UpdatePost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
@@ -70,7 +70,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [Authorize(Roles.Admin)]
+        [WebApiAuthorize]
         public IActionResult InsertPost(Post post)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
@@ -104,7 +104,7 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost]
-        [Authorize(Roles.Admin)]
+        [WebApiAuthorize]
         public IActionResult DeletePost(int postId)
         {
             using(var transaction = _dbContext.Database.BeginTransaction())
