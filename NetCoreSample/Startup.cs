@@ -87,7 +87,7 @@ namespace NetCoreSample
                 if (WorkerCount.IsNullOrEmpty())
                     WorkerCount = Environment.GetEnvironmentVariable("HangfireWorkerCount");
                 if (int.TryParse(WorkerCount, out int a))
-                    options.WorkerCount = a > 0 ? a : 0;
+                    options.WorkerCount = a > 1 ? a : 1;
 
                 var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
                 if (HangfireServerName.IsNullOrEmpty())

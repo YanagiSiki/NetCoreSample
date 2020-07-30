@@ -21,7 +21,8 @@
         <div class="card-body">
           <div class="Page"></div>
           <input type="hidden" class="PostContent" data-contant="@item.PostContent">
-          <p class="text-right">@item.PostTitle</p>
+          @* <p class="text-right">@item.PostTitle</p> *@
+          <p class="text-right"><em>編輯於 @item.PostDate</em></p>
           <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-postTitle="@item.PostTitle" class="btn btn-success float-right">ReadMore</a>
         </div>
       </div>

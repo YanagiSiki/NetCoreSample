@@ -28,18 +28,19 @@ namespace NetCoreSample.Controllers.WebApi
         [HttpPost]
         public IActionResult UpdatePost(Post post)
         {
+            if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != post.PostId))throw new Exception("Post Not Found");
+
+            string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
+            if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == post.PostId).UserId.ToString() != UserId)
+                throw new Exception("You are not owner !!");
+
             using(var transaction = _dbContext.Database.BeginTransaction())
             {
-                if (_dbContext.Post.AsNoTracking().All(_ => _.PostId != post.PostId))throw new Exception("Post Not Found");
-
-                string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
-                if (_dbContext.Post.AsNoTracking().FirstOrDefault(_ => _.PostId == post.PostId).UserId.ToString() != UserId)
-                    throw new Exception("You are not owner !!");
-
                 var Tags = post.PostTags?.Select(_ => _.Tag).ToList();
 
                 /*** post ***/
                 post.PostTags = null;
+                post.PostDate = DateTime.Now;
                 _dbContext.Post.Update(post);
                 _dbContext.SaveChanges();
 
@@ -80,6 +81,7 @@ namespace NetCoreSample.Controllers.WebApi
                 var UserId = HttpContext.User.Claims.First(_ => _.Type == "UserId").Value;
                 post.UserId = int.Parse(UserId);
                 post.PostTags = null;
+                post.PostDate = DateTime.Now;
                 _dbContext.Post.Add(post);
                 _dbContext.SaveChanges();
 

@@ -34,5 +34,16 @@ namespace NetCoreSample.Controllers
             BatchJob.RunSomeJobs().Start();
             return Ok("Test");
         }
+
+        [AllowAnonymous]
+        public IActionResult AddDate()
+        {
+            _dbContext.Post.ToList().ForEach(_ =>
+            {
+                _.PostDate = DateTime.Now;
+            });
+            _dbContext.SaveChanges();
+            return Ok("Test");
+        }
     }
 }

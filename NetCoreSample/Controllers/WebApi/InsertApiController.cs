@@ -28,7 +28,8 @@ namespace NetCoreSample.Controllers.WebApi
                 var post = new Post()
                 {
                     PostTitle = StringTool.GenerateString(5),
-                    UserId = user.UserId
+                    UserId = user.UserId,
+                    PostDate = DateTime.Now
                 };
                 _dbContext.Post.Add(post);
             }

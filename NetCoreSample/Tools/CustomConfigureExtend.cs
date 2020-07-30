@@ -20,6 +20,7 @@ namespace NetCoreSample.Tools
             services.AddAuthentication("CookieForWebApi")
                 .AddCookie("CookieForWebApi", options =>
                 {
+                    // https://stackoverflow.com/questions/32863080/how-to-remove-the-redirect-from-an-asp-net-core-webapi-and-return-http-401
                     options.Events = new CookieAuthenticationEvents
                     {
                         OnRedirectToLogin = context =>
