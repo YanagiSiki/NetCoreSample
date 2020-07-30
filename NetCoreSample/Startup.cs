@@ -137,6 +137,7 @@ namespace NetCoreSample
             });
 
             app.UseAuthentication();
+            app.UseCookiePolicy();
             app.UseHangfireDashboard(
                 pathMatch: "/hangfire",
                 options : new DashboardOptions()
