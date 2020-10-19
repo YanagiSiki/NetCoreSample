@@ -32,7 +32,7 @@ jobs:
             /d:sonar.verbose="true"
             /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
             /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
-            /d:sonar.cpd.exclusions='**/AssemblyInfo.cs,**/*.g.cs,**/Migrations/*.cs"'
+            /d:sonar.cpd.exclusions='"**/AssemblyInfo.cs","**/*.g.cs","**/Migrations/*.cs"'
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
