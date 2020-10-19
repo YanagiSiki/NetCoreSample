@@ -27,7 +27,7 @@ jobs:
         buildCommand: dotnet build ./NetCoreSample
         projectKey: NetCoreSample
         projectName: NetCoreSample
-        sonarOrganisation: an-org
+        sonarOrganisation: yanagisiki-github
         beginArguments: >
             /d:sonar.verbose="true"
             /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
