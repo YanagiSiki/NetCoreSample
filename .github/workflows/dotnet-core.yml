@@ -27,6 +27,7 @@ jobs:
         buildCommand: dotnet build ./NetCoreSample
         projectKey: NetCoreSample
         projectName: NetCoreSample
+        organization: yanagisiki-github
         sonarOrganisation: an-org
         beginArguments: >
             /d:sonar.verbose="true"
