@@ -6,6 +6,7 @@
     <!-- 參考https://stackoverflow.com/questions/47116927/why-cant-i-use-dotnet-run-with-xunit-in-c-sharp -->
     <!-- <GenerateProgramFile>false</GenerateProgramFile> -->
     <GenerateProgramFile Condition="'$(GenerateProgramFile)' == ''">true</GenerateProgramFile>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
