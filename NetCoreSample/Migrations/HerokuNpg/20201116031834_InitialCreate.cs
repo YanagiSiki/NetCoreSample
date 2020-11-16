@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace NetCoreSample.Migrations.HerokuNpg
 {
@@ -18,7 +17,7 @@ namespace NetCoreSample.Migrations.HerokuNpg
                 columns: table => new
                 {
                     TagId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TagName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -32,7 +31,7 @@ namespace NetCoreSample.Migrations.HerokuNpg
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: false)
                 },
@@ -47,9 +46,10 @@ namespace NetCoreSample.Migrations.HerokuNpg
                 columns: table => new
                 {
                     PostId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    PostContent = table.Column<string>(nullable: true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PostTitle = table.Column<string>(nullable: true),
+                    PostContent = table.Column<string>(nullable: true),
+                    PostDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -70,7 +70,7 @@ namespace NetCoreSample.Migrations.HerokuNpg
                 columns: table => new
                 {
                     CommentId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CommentContent = table.Column<string>(nullable: true),
                     PostId = table.Column<int>(nullable: false)
                 },

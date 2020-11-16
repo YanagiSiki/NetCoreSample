@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCoreSample.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace NetCoreSample.Migrations.HerokuNpg
 {
@@ -16,17 +16,22 @@ namespace NetCoreSample.Migrations.HerokuNpg
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("NetCoreSample.Models.Comment", b =>
                 {
                     b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("CommentContent");
+                    b.Property<string>("CommentContent")
+                        .HasColumnType("text");
 
-                    b.Property<int>("PostId");
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
 
                     b.HasKey("CommentId");
 
@@ -38,15 +43,21 @@ namespace NetCoreSample.Migrations.HerokuNpg
             modelBuilder.Entity("NetCoreSample.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("PostContent");
+                    b.Property<string>("PostContent")
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("PostDate");
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("PostTitle");
+                    b.Property<string>("PostTitle")
+                        .HasColumnType("text");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("PostId");
 
@@ -57,9 +68,11 @@ namespace NetCoreSample.Migrations.HerokuNpg
 
             modelBuilder.Entity("NetCoreSample.Models.PostTag", b =>
                 {
-                    b.Property<int>("PostId");
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
 
-                    b.Property<int>("TagId");
+                    b.Property<int>("TagId")
+                        .HasColumnType("integer");
 
                     b.HasKey("PostId", "TagId");
 
@@ -71,9 +84,12 @@ namespace NetCoreSample.Migrations.HerokuNpg
             modelBuilder.Entity("NetCoreSample.Models.Tag", b =>
                 {
                     b.Property<int>("TagId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("TagName");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
                     b.HasKey("TagId");
 
@@ -83,12 +99,16 @@ namespace NetCoreSample.Migrations.HerokuNpg
             modelBuilder.Entity("NetCoreSample.Models.User", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("UserId");
 
@@ -100,7 +120,8 @@ namespace NetCoreSample.Migrations.HerokuNpg
                     b.HasOne("NetCoreSample.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NetCoreSample.Models.Post", b =>
@@ -108,7 +129,8 @@ namespace NetCoreSample.Migrations.HerokuNpg
                     b.HasOne("NetCoreSample.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NetCoreSample.Models.PostTag", b =>
@@ -116,12 +138,14 @@ namespace NetCoreSample.Migrations.HerokuNpg
                     b.HasOne("NetCoreSample.Models.Post", "Post")
                         .WithMany("PostTags")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("NetCoreSample.Models.Tag", "Tag")
                         .WithMany("PostTags")
                         .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
