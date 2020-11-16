@@ -24,7 +24,7 @@ namespace NetCoreSample.Models
             Console.WriteLine(dbUrl);
             optionsBuilder.UseMySql(dbUrl);
             /*** https://ohke.hateblo.jp/entry/2017/03/03/000000 ***/
-            var loggerFactory = new LoggerFactory().AddConsole();
+            var loggerFactory = new LoggerFactory();
             optionsBuilder.UseLoggerFactory(loggerFactory);
             base.OnConfiguring(optionsBuilder);
         }

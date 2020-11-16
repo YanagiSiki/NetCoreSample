@@ -22,7 +22,7 @@ namespace NetCoreSample.Models
             Console.WriteLine(dbUrl);
             if (dbUrl.IsNullOrEmpty()) throw new Exception("資料庫連線失敗");
             optionsBuilder.UseNpgsql(dbUrl);
-            var loggerFactory = new LoggerFactory().AddConsole();
+            var loggerFactory = new LoggerFactory();
             optionsBuilder.UseLoggerFactory(loggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
