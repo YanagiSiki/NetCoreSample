@@ -1,5 +1,7 @@
 # NetCoreSample
 
+![.NET Core](https://github.com/YanagiSiki/NetCoreSample/workflows/.NET%20Core/badge.svg)
+
 This is a simple blog using dotnet core.
 
 ## SDK
