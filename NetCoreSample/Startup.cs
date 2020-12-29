@@ -43,7 +43,7 @@ namespace NetCoreSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
             {
                 //防止無限迴圈
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -136,9 +136,11 @@ namespace NetCoreSample
                         Path.Combine(Directory.GetCurrentDirectory(), @"semantic")),
                     RequestPath = new PathString("/semantic")
             });
-
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseCookiePolicy();
+
             app.UseHangfireDashboard(
                 pathMatch: "/hangfire",
                 options : new DashboardOptions()
@@ -147,11 +149,14 @@ namespace NetCoreSample
                 }
             );
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                // endpoints.MapControllerRoute(
+                //     name: "area",
+                //     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

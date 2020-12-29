@@ -4,7 +4,7 @@ This is a simple blog using dotnet core.
 
 ## SDK
 
-download [SDK 2.1.802](https://dotnet.microsoft.com/download/dotnet-core/2.1)
+download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
 ## Database restore
 
@@ -13,7 +13,7 @@ download [SDK 2.1.802](https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
     ``` json
     {
-        "HerokuNpg":"User ID=userID;Password=password;Host=127.0.0.1;Port=5432;Database=mypostgre;Pooling=true;SslMode=Require; UseSSLStream=true;Trust Server Certificate=true",
+        "HerokuNpg":"User ID=userID;Password=password;Host=127.0.0.1;Port=5432;Database=mypostgre;Pooling=true;SslMode=Require;Trust Server Certificate=true",
     }
     ```
 

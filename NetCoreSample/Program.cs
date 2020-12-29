@@ -17,15 +17,10 @@ namespace NetCoreSample
         public static void Main(string[] args)
         {
             // BuildWebHost(args).Run();
+
             CreateHostBuilder(args).Build().Run();
         }
 
-        // public static IWebHost BuildWebHost(string[] args) =>
-        //     WebHost.CreateDefaultBuilder(args)
-        //     // .UseKestrel()
-        //     // .UseUrls("http://0.0.0.0:5010")
-        //     .UseStartup<Startup>()
-        //     .Build();
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
@@ -33,5 +28,11 @@ namespace NetCoreSample
                 webBuilder.UseStartup<Startup>();
             });
 
+        // public static IWebHost BuildWebHost(string[] args) =>
+        //     WebHost.CreateDefaultBuilder(args)
+        //     // .UseKestrel()
+        //     // .UseUrls("http://0.0.0.0:5010")
+        //     .UseStartup<Startup>()
+        //     .Build();
     }
 }
