@@ -4,7 +4,9 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
+    "@types/anchor-js": "^4.2.0",
     "@types/jquery": "^3.2.16",
+    "anchor-js": "^4.3.0",
     "bootstrap": "^4.4.1",
     "fomantic-ui": "2.8.3",
     "github-markdown-css": "2.10.0",

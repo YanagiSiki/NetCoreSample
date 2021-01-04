@@ -18,6 +18,8 @@ import {tool} from './tool.js';
     $simplemde.toTextArea();
     $simplemde = null;
 
+    anchors.add();
+
     $getTagsOfPost()
         .done((tags: Array<Tag>) => {
             tool.appendBadge(tags);

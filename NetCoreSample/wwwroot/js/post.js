@@ -13,6 +13,7 @@ import { tool } from './tool.js';
     $('#Page').append($simplemde.markdown($postcontainer.val().toString()));
     $simplemde.toTextArea();
     $simplemde = null;
+    anchors.add();
     $getTagsOfPost()
         .done((tags) => {
         tool.appendBadge(tags);
