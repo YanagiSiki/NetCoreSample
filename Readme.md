@@ -29,3 +29,7 @@ download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 ## build as docker image
 
 `docker build`
+
+## Demo
+
+Demo on [Heroku](https://netcoresample.herokuapp.com/)
