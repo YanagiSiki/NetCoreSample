@@ -15,10 +15,12 @@ namespace NetCoreSample.Controllers
     {
         //protected static MongodbRepository _mongodbRepository = new MongodbRepository();        
         protected BaseContext _dbContext;
+        protected JwtHelpers _jwtHelpers;
 
-        public BaseApiController(BaseContext dbContext)
+        public BaseApiController(BaseContext dbContext, JwtHelpers jwtHelpers)
         {
             _dbContext = _dbContext ?? dbContext;
+            _jwtHelpers = _jwtHelpers ?? jwtHelpers;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

@@ -12,13 +12,9 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("TagApi/[action]")]
     [Authorize(Roles.Admin)]
-    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class TagApiController : BaseApiController
     {
-        public TagApiController(BaseContext dbContext) : base(dbContext)
-        {
-
-        }
+        public TagApiController(BaseContext dbContext, JwtHelpers jwtHelpers) : base(dbContext, jwtHelpers) { }
 
         [AllowAnonymous]
         public IActionResult GetTags()

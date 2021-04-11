@@ -15,34 +15,9 @@ namespace NetCoreSample.Tools
         public static IServiceCollection AddCustomAuthExtend(this IServiceCollection services)
         {
             services.AddSingleton<JwtHelpers>();
-            // services.AddAuthentication("CookieForView")
-            //     .AddCookie("CookieForView", options =>
-            //     {
-            //         options.AccessDeniedPath = new PathString("/Home/Error");
-            //         options.LoginPath = new PathString("/Home/Login");
-            //         options.LogoutPath = new PathString("/Home/Logout");
-            //     });
-            // services.AddAuthentication("CookieForWebApi")
-            //     .AddCookie("CookieForWebApi", options =>
-            //     {
-            //         // https://stackoverflow.com/questions/32863080/how-to-remove-the-redirect-from-an-asp-net-core-webapi-and-return-http-401
-            //         options.Events = new CookieAuthenticationEvents
-            //         {
-            //             OnRedirectToLogin = context =>
-            //                 {
-            //                     context.Response.StatusCode = 401;
-            //                     return Task.CompletedTask;;
-            //                 },
-            //                 OnRedirectToAccessDenied = context =>
-            //                 {
-            //                     context.Response.StatusCode = 403;
-            //                     return Task.CompletedTask;;
-            //                 }
-            //         };
-            //     });
-            ConfigurationHelper configurationHelper = new ConfigurationHelper("Token");
-            services.AddAuthentication("Token")
-                .AddJwtBearer("Token", options =>
+            ConfigurationHelper configurationHelper = new ConfigurationHelper("JWToken");
+            services.AddAuthentication("JWToken")
+                .AddJwtBearer("JWToken", options =>
                 {
                     // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
                     options.IncludeErrorDetails = true; // 預設值為 true，有時會特別關閉

@@ -57,7 +57,6 @@ namespace NetCoreSample
             // services.AddScoped<BaseContext, MySQLContext>();
             // services.AddScoped<BaseContext, OracleMySQLContext>();
 
-            services.AddSingleton<JwtHelpers>();
             services.AddCustomPolicyExtend();
             services.AddCustomAuthExtend();
 
@@ -140,7 +139,6 @@ namespace NetCoreSample
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            // app.UseCookiePolicy();
 
             app.UseHangfireDashboard(
                 pathMatch: "/hangfire",

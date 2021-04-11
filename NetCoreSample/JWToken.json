@@ -1,0 +1,6 @@
+{
+    "JwtSettings": {
+        "Issuer": "NetCoreSample",
+        "SignKey": "1Zl4h9703IzR1qaz@WSX3edcK3@uK&&OEb"
+    }
+}
