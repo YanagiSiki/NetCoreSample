@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NetCoreSample.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.Extensions.DependencyInjection;
+using NetCoreSample.Models;
 
 namespace NetCoreSample.Controllers
 {
@@ -35,7 +35,7 @@ namespace NetCoreSample.Controllers
         protected List<string> ErrorHandle(ModelStateDictionary modelState)
         {
             return modelState.Keys
-            .SelectMany(key => modelState[key].Errors.Select(x => x.ErrorMessage)).ToList();
+                .SelectMany(key => modelState[key].Errors.Select(x => x.ErrorMessage)).ToList();
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)

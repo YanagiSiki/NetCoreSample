@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -32,22 +33,27 @@ namespace NetCoreSample.Controllers.WebApi
 
             if (user.Password.VerifyPassword(DbUser.Password))
             {
-                var ClaimPriciple = new ClaimsPrincipal();
-                var IdentityForView = new ClaimsIdentity("Cookie");
-                IdentityForView.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
-                IdentityForView.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                IdentityForView.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
-                ClaimPriciple.AddIdentity(IdentityForView);
-                HttpContext.User = ClaimPriciple;
-                HttpContext.SignInAsync("CookieForView", HttpContext.User);
+                // var ClaimPriciple = new ClaimsPrincipal();
+                // var IdentityForView = new ClaimsIdentity("Cookie");
+                // IdentityForView.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                // IdentityForView.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                // IdentityForView.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
+                // ClaimPriciple.AddIdentity(IdentityForView);
+                // HttpContext.User = ClaimPriciple;
+                // HttpContext.SignInAsync("CookieForView", HttpContext.User);
 
-                var IdentityForWebApi = new ClaimsIdentity("CookieForWebApi");
-                IdentityForWebApi.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
-                IdentityForWebApi.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
-                IdentityForWebApi.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
-                ClaimPriciple.AddIdentity(IdentityForWebApi);
-                HttpContext.User = ClaimPriciple;
-                HttpContext.SignInAsync("CookieForWebApi", HttpContext.User);
+                // var IdentityForWebApi = new ClaimsIdentity("CookieForWebApi");
+                // IdentityForWebApi.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                // IdentityForWebApi.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                // IdentityForWebApi.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
+                // ClaimPriciple.AddIdentity(IdentityForWebApi);
+                // HttpContext.User = ClaimPriciple;
+                // HttpContext.SignInAsync("CookieForWebApi", HttpContext.User);
+
+                var userClaimsIdentity = new ClaimsIdentity("Token");
+                userClaimsIdentity.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
+                userClaimsIdentity.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
+                userClaimsIdentity.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
 
                 return Ok();
             }
