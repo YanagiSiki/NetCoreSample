@@ -49,9 +49,11 @@ namespace NetCoreSample.Controllers
 
         [HttpGet]
         [Authorize(Roles.Admin)]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync("CookieForView");
+            await HttpContext.SignOutAsync("CookieForWebApi");
+            // return RedirectToAction("index", "Home");
             return Redirect("/");
         }
 

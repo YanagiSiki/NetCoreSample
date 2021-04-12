@@ -12,9 +12,10 @@ namespace NetCoreSample.Controllers.WebApi
 {
     [Route("PostApi/[action]")]
     [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class PostApiController : BaseApiController
     {
-        public PostApiController(BaseContext dbContext, JwtHelpers jwtHelpers) : base(dbContext, jwtHelpers) { }
+        public PostApiController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpGet]
         // [AllowAnonymous]

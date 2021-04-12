@@ -139,6 +139,7 @@ namespace NetCoreSample
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCookiePolicy();
 
             app.UseHangfireDashboard(
                 pathMatch: "/hangfire",

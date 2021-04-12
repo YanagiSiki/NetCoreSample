@@ -10,10 +10,12 @@ using NetCoreSample.Tools;
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("Api/[action]")]
+    // [WebApiAuthorize]
     [Authorize(Roles.Admin)]
+    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class InsertApiController : BaseApiController
     {
-        public InsertApiController(BaseContext dbContext, JwtHelpers jwtHelpers) : base(dbContext, jwtHelpers) { }
+        public InsertApiController(BaseContext dbContext) : base(dbContext) { }
 
         [HttpPost]
         public IActionResult InsertPost()
