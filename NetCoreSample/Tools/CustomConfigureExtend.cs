@@ -21,7 +21,7 @@ namespace NetCoreSample.Tools
                     options.LoginPath = new PathString("/Home/Login");
                     options.LogoutPath = new PathString("/Home/Logout");
                 });
-            services.AddAuthentication("CookieForWebApi")
+            services.AddAuthentication()
                 .AddCookie("CookieForWebApi", options =>
                 {
                     // https://stackoverflow.com/questions/32863080/how-to-remove-the-redirect-from-an-asp-net-core-webapi-and-return-http-401
@@ -55,7 +55,7 @@ namespace NetCoreSample.Tools
                 signKey = Environment.GetEnvironmentVariable("SignKey");
 
             services.AddSingleton<JwtHelpers>();
-            services.AddAuthentication("JWToken")
+            services.AddAuthentication()
                 .AddJwtBearer("JWToken", options =>
                 {
                     // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因

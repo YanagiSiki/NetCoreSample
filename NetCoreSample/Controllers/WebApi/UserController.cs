@@ -41,7 +41,7 @@ namespace NetCoreSample.Controllers.WebApi
                 HttpContext.User = ClaimPriciple;
                 HttpContext.SignInAsync("CookieForView", HttpContext.User);
 
-                var IdentityForWebApi = new ClaimsIdentity("CookieForWebApi");
+                var IdentityForWebApi = new ClaimsIdentity("Cookie");
                 IdentityForWebApi.AddClaim(new Claim(Roles.Role, Roles.Admin, ClaimValueTypes.String));
                 IdentityForWebApi.AddClaim(new Claim("UserName", DbUser.Name, ClaimValueTypes.String));
                 IdentityForWebApi.AddClaim(new Claim("UserId", DbUser.UserId.ToString(), ClaimValueTypes.String));
