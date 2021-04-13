@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,6 +46,14 @@ namespace NetCoreSample.Tools
         public static IServiceCollection AddCustomJwtAuthExtend(this IServiceCollection services)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper("JWToken");
+            var issuer = configurationHelper.GetValue<string>("JwtSettings:Issuer");
+            var signKey = configurationHelper.GetValue<string>("JwtSettings:SignKey");
+
+            if (issuer.IsNullOrEmpty())
+                issuer = Environment.GetEnvironmentVariable("Issuer");
+            if (signKey.IsNullOrEmpty())
+                signKey = Environment.GetEnvironmentVariable("SignKey");
+
             services.AddSingleton<JwtHelpers>();
             services.AddAuthentication("JWToken")
                 .AddJwtBearer("JWToken", options =>
@@ -61,7 +70,7 @@ namespace NetCoreSample.Tools
 
                         // 一般我們都會驗證 Issuer
                         ValidateIssuer = true,
-                        ValidIssuer = configurationHelper.GetValue<string>("JwtSettings:Issuer"),
+                        ValidIssuer = issuer,
 
                         // 通常不太需要驗證 Audience
                         ValidateAudience = false,
@@ -74,7 +83,7 @@ namespace NetCoreSample.Tools
                         ValidateIssuerSigningKey = false,
 
                         // "1234567890123456" 應該從 IConfiguration 取得
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configurationHelper.GetValue<string>("JwtSettings:SignKey")))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey))
                     };
                 });
             return services;

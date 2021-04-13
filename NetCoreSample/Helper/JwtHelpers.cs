@@ -39,7 +39,7 @@ namespace NetCoreSample
             if (issuer.IsNullOrEmpty())
                 issuer = Environment.GetEnvironmentVariable("Issuer");
             if (signKey.IsNullOrEmpty())
-                issuer = Environment.GetEnvironmentVariable("SignKey");
+                signKey = Environment.GetEnvironmentVariable("SignKey");
 
             // 在 RFC 7519 規格中(Section#4)，總共定義了 7 個預設的 Claims，我們應該只用的到兩種！
             //claims.Add(new Claim(JwtRegisteredClaimNames.Iss, issuer));
