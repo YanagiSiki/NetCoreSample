@@ -58,7 +58,8 @@ namespace NetCoreSample
             // services.AddScoped<BaseContext, OracleMySQLContext>();
 
             services.AddCustomPolicyExtend();
-            services.AddCustomAuthExtend();
+            services.AddCustomCookieAuthExtend();
+            services.AddCustomJwtAuthExtend();
 
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
             var HangfireStorage = configurationHelper.GetValue("HangfireMySQL");

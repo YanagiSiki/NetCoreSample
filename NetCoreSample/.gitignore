@@ -7,6 +7,7 @@
 /package-lock.json
 /.vscode
 /DBconnection.json
+/JWToken.json
 /Properties
 /wwwroot/lib
 /semantic
