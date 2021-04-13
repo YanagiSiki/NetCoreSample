@@ -9,16 +9,18 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.DependencyInjection;
 using NetCoreSample.Models;
 
-namespace NetCoreSample.Controllers.WebApi
+namespace NetCoreSample.Controllers
 {
-    public class BaseApiController : Controller
+    public class BaseTokenApiController : Controller
     {
         //protected static MongodbRepository _mongodbRepository = new MongodbRepository();        
         protected BaseContext _dbContext;
+        protected JwtHelpers _jwtHelpers;
 
-        public BaseApiController(BaseContext dbContext)
+        public BaseTokenApiController(BaseContext dbContext, JwtHelpers jwtHelpers)
         {
             _dbContext = _dbContext ?? dbContext;
+            _jwtHelpers = _jwtHelpers ?? jwtHelpers;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
