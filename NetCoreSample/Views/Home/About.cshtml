@@ -2,25 +2,72 @@
     ViewData["Title"] = "About";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@section Header{    
+    <link rel="stylesheet" href="~/semantic/dist/components/list.min.css" />
+}
+
 <div class="row">
     <div class="col-md-12">
         <h2>About</h2>
         <hr />
     </div>
-    <div class="col-md-2">
-        
+    <div class="col-md-1">
+
     </div>
     <div class="col-md-2">
         <img class="circular--square" src="https://i.imgur.com/zP9nC2K.jpg" />
-    </div>
-    <div class="col-md-8">
         <input id="PostContent" type="hidden" value="`/*興趣使然的工程師一枚OwO*/`">
         <div id="Page" class="pageContent markdown-body"></div>
-        
     </div>
-</div>
 
+    <div class="col-md-3">
+        <li><h3>FrontEnd</h3>
+            <ol class="ui list">
+                <li value="-">jQuery</li>
+                <li value="-">semantic UI</li>
+                <li value="-">bootstrap</li>
+                <li value="-">typehead.js</li>
+                <li value="-">highlight.js</li>
+                <li value="-">simplemde.js</li>
+                <li value="-">anchor-js</li>
+                <li value="-">github-markdown-css</li>
+                <li value="-">typescript</li>
+            </ol>
+        </li>
+    </div>
+
+    <div class="col-md-3">
+        <li><h3>BackEnd</h3>
+            <ol class="ui list">
+                <li value="-">C# (.net core)</li>
+                <li value="-">entity framework</li>
+                <li value="-">linq</li>
+                <li value="-">Cookie</li>
+                <li value="-">jwt authentication</li>
+            </ol>
+        </li>
+        <li><h3>Database</h3>
+            <ol class="ui list">
+                <li value="-">mariadb</li>
+                <li value="-">postgresql</li>
+            </ol>
+        </li>
+    </div>
+
+    <div class="col-md-3">
+        <li><h3>Deployment</h3>
+            <ol class="ui list">
+                <li value="-">Heroku</li>
+                <li value="-">Github action</li>
+                <li value="-">SonarCloud</li>
+            </ol>
+        </li>
+    </div>
+
+</div>
 @section Scripts{    
     <script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
-    <script type="module" src="~/js/about.js"></script>   
+    <script type="module" src="~/js/about.js"></script>
+    <script src="~/semantic/dist/semantic.min.js"></script>
 }

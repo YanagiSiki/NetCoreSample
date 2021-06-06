@@ -96,7 +96,7 @@ namespace NetCoreSample
                     HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
                 options.ServerName = HangfireServerName;
             });
-
+            services.AddMvc().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
