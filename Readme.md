@@ -2,7 +2,7 @@
 
 ![.NET Core](https://github.com/YanagiSiki/NetCoreSample/workflows/.NET%20Core/badge.svg)
 
-This is a simple blog using dotnet core.
+This is a simple blog using dotnet core. You can find demo on [Heroku](https://netcoresample.herokuapp.com/).
 
 ## SDK
 
@@ -30,6 +30,24 @@ download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
 `docker build`
 
-## Demo
+## Using fowllowing components and techs
 
-Demo on [Heroku](https://netcoresample.herokuapp.com/)
+* FrontEnd
+  - jQuery
+  - semantic UI
+  - bootstrap
+  - typehead.js
+  - highlight.js
+  - simplemde.js
+  - anchor-js
+  - github-markdown-css
+  - typescript
+* BackEnd
+  - C# (.net core)
+  - entity framework
+  - linq
+* Database
+  - mariadb
+  - postgresql
+* Deployment
+  - Heroku
