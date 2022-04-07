@@ -26,6 +26,7 @@ namespace NetCoreSample
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseUrls("http://0.0.0.0:5000");
             });
 
         // public static IWebHost BuildWebHost(string[] args) =>
