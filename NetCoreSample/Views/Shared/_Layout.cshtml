@@ -45,14 +45,11 @@
         integrity="sha384-DlGJe9kCgs9Xyf5cFXRIm1KUIHkHw7SSjW+nl2IHwapvCQE6kX2LuSTxSwvKYrt3"
         crossorigin="anonymous"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=UA-160274425-1"
-        integrity="sha384-e5DBdalzMuZ34FxJhqZwJGabxeApZZTJU3cKDUDr3M2Yuze1MeiNBi8BLXk/1V+3"
-        crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160274425-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'UA-160274425-1');
     </script>
     @RenderSection("Scripts", required: false)
