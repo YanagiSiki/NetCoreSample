@@ -13,6 +13,9 @@ namespace NetCoreSample.Models
 
     public class OracleMySQLContext : BaseContext
     {
+        public OracleMySQLContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

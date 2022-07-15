@@ -16,6 +16,7 @@ using NetCoreSample.Helper;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace NetCoreSample
 {
@@ -83,7 +84,7 @@ namespace NetCoreSample
             /*** 1.7.5以後可以改用以下寫法 ***/
             services.AddHangfireServer(options =>
             {
-                options.Queues = new [] { "critical", "default" };
+                options.Queues = new[] { "critical", "default" };
 
                 var WorkerCount = configurationHelper.GetValue("HangfireWorkerCount");
                 if (WorkerCount.IsNullOrEmpty())
@@ -97,6 +98,14 @@ namespace NetCoreSample
                 options.ServerName = HangfireServerName;
             });
             services.AddMvc().AddRazorRuntimeCompilation();
+            Log.Logger = new LoggerConfiguration()
+                           .ReadFrom.Configuration(Configuration)
+                           .CreateLogger();
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSerilog(dispose: true);
+            });
+            services.AddSingleton(Log.Logger);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,14 +137,14 @@ namespace NetCoreSample
             {
                 FileProvider = new PhysicalFileProvider(
                         Path.Combine(Directory.GetCurrentDirectory(), @"node_modules")),
-                    RequestPath = new PathString("/node_modules")
+                RequestPath = new PathString("/node_modules")
             });
 
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
                         Path.Combine(Directory.GetCurrentDirectory(), @"semantic")),
-                    RequestPath = new PathString("/semantic")
+                RequestPath = new PathString("/semantic")
             });
             app.UseRouting();
             app.UseAuthentication();
@@ -144,9 +153,9 @@ namespace NetCoreSample
 
             app.UseHangfireDashboard(
                 pathMatch: "/hangfire",
-                options : new DashboardOptions()
+                options: new DashboardOptions()
                 { // 使用自訂的認證過濾器
-                    Authorization = new [] { new HangfireAuthorizeFilter() }
+                    Authorization = new[] { new HangfireAuthorizeFilter() }
                 }
             );
 

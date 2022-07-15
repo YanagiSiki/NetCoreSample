@@ -11,6 +11,9 @@ namespace NetCoreSample.Models
 {
     public class UnitTestContext : BaseContext
     {
+        public UnitTestContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase(databaseName: "TestDb");
@@ -18,7 +21,7 @@ namespace NetCoreSample.Models
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {       
+        {
             modelBuilder.ApplyConfiguration(new PostTagConfiguration());
             base.OnModelCreating(modelBuilder);
         }

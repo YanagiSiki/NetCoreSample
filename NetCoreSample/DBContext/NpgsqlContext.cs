@@ -11,6 +11,9 @@ namespace NetCoreSample.Models
 {
     public class NpgsqlContext : BaseContext
     {
+        public NpgsqlContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
@@ -27,7 +30,7 @@ namespace NetCoreSample.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("public");            
+            modelBuilder.HasDefaultSchema("public");
             modelBuilder.ApplyConfiguration(new PostTagConfiguration());
 
             base.OnModelCreating(modelBuilder);

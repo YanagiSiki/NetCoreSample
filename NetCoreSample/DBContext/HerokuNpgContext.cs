@@ -11,6 +11,9 @@ namespace NetCoreSample.Models
 {
     public class HerokuNpgContext : BaseContext
     {
+        public HerokuNpgContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        {
+        }
         /* https://bambit.ch/blog/aspnet-core-mit-postgresql-aus-heroku */
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,8 +25,7 @@ namespace NetCoreSample.Models
             Console.WriteLine(dbUrl);
             if (dbUrl.IsNullOrEmpty()) throw new Exception("資料庫連線失敗");
             optionsBuilder.UseNpgsql(dbUrl);
-            var loggerFactory = new LoggerFactory();
-            optionsBuilder.UseLoggerFactory(loggerFactory);
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
 

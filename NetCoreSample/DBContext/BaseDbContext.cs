@@ -36,6 +36,13 @@ namespace NetCoreSample.Models
         //  dotnet ef database update --context UsersDbContext
         #endregion
 
+        protected readonly ILoggerFactory _loggerFactory;
+
+        public BaseContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options)
+        {
+            this._loggerFactory = loggerFactory;
+        }
+
         public DbSet<User> User { get; set; }
         public DbSet<Post> Post { get; set; }
         public DbSet<PostTag> PostTag { get; set; }

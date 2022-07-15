@@ -14,6 +14,9 @@ namespace NetCoreSample.Models
     public class MySQLContext : BaseContext
     {
 
+        public MySQLContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             ConfigurationHelper configurationHelper = new ConfigurationHelper("DBconnection");
