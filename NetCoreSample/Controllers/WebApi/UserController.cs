@@ -10,15 +10,21 @@ using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
+using Serilog;
+using Serilog.Core;
 
 namespace NetCoreSample.Controllers.WebApi
 {
     [Route("UserApi/[action]")]
-    [Authorize(Roles.Admin)]
-    [Authorize(AuthenticationSchemes = "CookieForWebApi")]
+    // [Authorize(Roles.Admin)]
+    // [Authorize(AuthenticationSchemes = "CookieForWebApi")]
     public class UserController : BaseApiController
     {
-        public UserController(BaseContext dbContext) : base(dbContext) { }
+        ILogger _logger;
+        public UserController(BaseContext dbContext, ILogger logger) : base(dbContext)
+        {
+            _logger = logger;
+        }
 
         [HttpPost]
         [IsNotLoginFilter]
@@ -90,11 +96,15 @@ namespace NetCoreSample.Controllers.WebApi
         }
 
         [HttpPost("{userId:int}")]
+        [AllowAnonymous]
         public IActionResult GetTagOfUser(int userId)
         {
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
+            // _logger.Debug(_dbContext.User.Where(_ => _.UserId == userId)
+            //                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
+            //                 .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList().ToString());
             var Tags = _dbContext.User.Where(_ => _.UserId == userId)
                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
                 .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList();

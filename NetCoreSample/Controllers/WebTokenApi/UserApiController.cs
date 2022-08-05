@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NetCoreSample.Authorize;
 using NetCoreSample.Models;
 using NetCoreSample.Tools;
+using Serilog;
 
 namespace NetCoreSample.Controllers.WebApi
 {
@@ -16,9 +17,10 @@ namespace NetCoreSample.Controllers.WebApi
     [Authorize(AuthenticationSchemes = "JWToken")]
     public class UserApiController : BaseTokenApiController
     {
-        public UserApiController(BaseContext dbContext, JwtHelpers jwtHelpers) : base(dbContext, jwtHelpers)
+        ILogger _logger;
+        public UserApiController(BaseContext dbContext, JwtHelpers jwtHelpers, ILogger logger) : base(dbContext, jwtHelpers)
         {
-
+            _logger = logger;
         }
 
         /* 未取得token時，會回傳 401 UnAuth */
@@ -71,6 +73,9 @@ namespace NetCoreSample.Controllers.WebApi
             if (_dbContext.User.All(_ => _.UserId != userId))
                 return Ok("User Not Found");
 
+            _logger.Debug(_dbContext.User.Where(_ => _.UserId == userId)
+                                        .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
+                                        .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList().ToString());
             var Tags = _dbContext.User.Where(_ => _.UserId == userId)
                 .SelectMany(tl => tl.Posts.SelectMany(p => p.PostTags.Select(pt => pt.Tag)))
                 .Select(_ => new { _.TagId, _.TagName }).Distinct().ToList();

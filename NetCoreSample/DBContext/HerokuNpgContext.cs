@@ -11,7 +11,7 @@ namespace NetCoreSample.Models
 {
     public class HerokuNpgContext : BaseContext
     {
-        public HerokuNpgContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options, loggerFactory)
+        public HerokuNpgContext( ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
         /* https://bambit.ch/blog/aspnet-core-mit-postgresql-aus-heroku */

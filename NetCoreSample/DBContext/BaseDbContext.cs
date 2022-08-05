@@ -38,7 +38,7 @@ namespace NetCoreSample.Models
 
         protected readonly ILoggerFactory _loggerFactory;
 
-        public BaseContext(DbContextOptions options, ILoggerFactory loggerFactory) : base(options)
+        public BaseContext(ILoggerFactory loggerFactory) : base()
         {
             this._loggerFactory = loggerFactory;
         }
