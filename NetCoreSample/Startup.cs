@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
 using Hangfire;
-using Hangfire.MySql.Core;
-using Microsoft.AspNetCore.Authorization;
+using Hangfire.MySql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -68,7 +67,7 @@ namespace NetCoreSample
                 HangfireStorage = Environment.GetEnvironmentVariable("HangfireMySQL");
             services.AddHangfire(config =>
             {
-                config.UseStorage(new MySqlStorage(HangfireStorage))
+                config.UseStorage(new MySqlStorage(HangfireStorage, new MySqlStorageOptions()))
                     .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ServerCount)
                     .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RecurringJobCount)
                     .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RetriesCount)
