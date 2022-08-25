@@ -2,37 +2,36 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.404
-    - name: Build
-      run: cd NetCoreSample;
-            dotnet restore;
-            dotnet build;
-    - name: Sonarscanner for dotnet
-      uses: Secbyte/dotnet-sonarscanner@v2.3
-      with:
-        buildCommand: dotnet build ./NetCoreSample
-        projectKey: NetCoreSample
-        projectName: NetCoreSample
-        sonarOrganisation: yanagisiki-github
-        beginArguments: >
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.302
+      - name: Build
+        run: cd NetCoreSample;
+          dotnet restore;
+          dotnet build;
+      - name: Sonarscanner for dotnet
+        uses: Secbyte/dotnet-sonarscanner@v2.3
+        with:
+          buildCommand: dotnet build ./NetCoreSample
+          projectKey: NetCoreSample
+          projectName: NetCoreSample
+          sonarOrganisation: yanagisiki-github
+          beginArguments: >
             /d:sonar.verbose="true"
             /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
             /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
             /d:sonar.cpd.exclusions='"**/AssemblyInfo.cs","**/*.g.cs","**/Migrations/**"'
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
