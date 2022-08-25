@@ -1,6 +1,6 @@
 # NetCoreSample
 
-![.NET Core](https://github.com/YanagiSiki/NetCoreSample/workflows/.NET%20Core/badge.svg)
+[![Build](https://github.com/YanagiSiki/NetCoreSample/actions/workflows/dotnet-core.yml/badge.svg)](https://github.com/YanagiSiki/NetCoreSample/actions/workflows/dotnet-core.yml)
 
 This is a simple blog using dotnet core. You can find demo on [Heroku](https://netcoresample.herokuapp.com/).
 
