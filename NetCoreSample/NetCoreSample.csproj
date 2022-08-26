@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="node_modules\**" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="semantic\dist\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="node_modules/**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="semantic/dist/**" CopyToOutputDirectory="PreserveNewest" />
     <!-- <Compile Remove="UnitTest\**" /> -->
   </ItemGroup>
 
