@@ -52,6 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'yanagisiki'
-          slot-name: 'Production'
+          slot-name: 'D'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_601D026A617F48608456AAD119EF2EB3 }}
           package: .
