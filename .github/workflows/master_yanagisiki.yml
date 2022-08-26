@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install ./NetCoreSample/package.json
+      - run: npm install ./NetCoreSample/
       
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
