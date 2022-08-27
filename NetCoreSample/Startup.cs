@@ -51,11 +51,11 @@ namespace NetCoreSample
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
 
-            services.AddEntityFrameworkNpgsql();
+            // services.AddEntityFrameworkNpgsql();
             services.AddEntityFrameworkMySql();
-            services.AddScoped<BaseContext, HerokuNpgContext>();
+            // services.AddScoped<BaseContext, HerokuNpgContext>();
             // services.AddScoped<BaseContext, MySQLContext>();
-            // services.AddScoped<BaseContext, OracleMySQLContext>();
+            services.AddScoped<BaseContext, OracleMySQLContext>();
 
             services.AddCustomPolicyExtend();
             services.AddCustomCookieAuthExtend();
