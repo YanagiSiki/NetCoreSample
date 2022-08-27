@@ -2,25 +2,35 @@
 
 [![Build](https://github.com/YanagiSiki/NetCoreSample/actions/workflows/dotnet-core.yml/badge.svg)](https://github.com/YanagiSiki/NetCoreSample/actions/workflows/dotnet-core.yml)
 
-This is a simple blog using dotnet core. You can find demo on [Heroku](https://netcoresample.herokuapp.com/).
+~~This is a simple blog using dotnet core. You can find demo on [Heroku](https://netcoresample.herokuapp.com/).~~
+
+Sadly, heroku announced that it will stop free plans at November 28th, 2022, so I move to azure web app services.
+
+Thanks for heroku all along web hosting.
+
+Now you can find a new Demo (with old content haha) on [Azure](https://yanagisiki.azurewebsites.net/)
 
 ## SDK
 
-download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+download [SDK 6.0.400](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.400-windows-x64-installer)
 
 ## Database restore
 
 1. create new file `DBconnection.json`
 2. set DB connection, for example
 
-    ``` json
-    {
-        "HerokuNpg":"User ID=userID;Password=password;Host=127.0.0.1;Port=5432;Database=mypostgre;Pooling=true;SslMode=Require;Trust Server Certificate=true",
-    }
-    ```
+   ```json
+   {
+     "HerokuNpg": "User ID=userID;Password=password;Host=127.0.0.1;Port=5432;Database=mypostgre;Pooling=true;SslMode=Require;Trust Server Certificate=true"
+   }
+   ```
 
 3. run `dotnet ef migrations add InitialCreate -o ../MultipleDbContexts/ --context HerokuNpgContext`
 4. run `dotnet ef database update --context HerokuNpgContext`
+
+## frontend components restore
+
+`npm install`
 
 ## Run
 
@@ -32,7 +42,7 @@ download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
 ## Using fowllowing components and techs
 
-* FrontEnd
+- FrontEnd
   - jQuery
   - semantic UI
   - bootstrap
@@ -42,12 +52,12 @@ download [SDK 3.1.10](https://dotnet.microsoft.com/download/dotnet-core/3.1)
   - anchor-js
   - github-markdown-css
   - typescript
-* BackEnd
+- BackEnd
   - C# (.net core)
   - entity framework
   - linq
-* Database
+- Database
   - mariadb
   - postgresql
-* Deployment
+- Deployment
   - Heroku
