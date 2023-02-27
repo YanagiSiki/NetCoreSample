@@ -130,19 +130,20 @@ namespace NetCoreSample
 
                 app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
             }
+            var environment = (IHostEnvironment)app.ApplicationServices.GetService(typeof(IHostEnvironment));
 
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), @"node_modules")),
+                        Path.Combine(environment.ContentRootPath, @"node_modules")),
                 RequestPath = new PathString("/node_modules")
             });
 
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                        Path.Combine(Directory.GetCurrentDirectory(), @"semantic")),
+                        Path.Combine(environment.ContentRootPath, @"semantic")),
                 RequestPath = new PathString("/semantic")
             });
             app.UseRouting();
