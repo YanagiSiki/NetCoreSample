@@ -65,37 +65,44 @@ namespace NetCoreSample
             var HangfireStorage = configurationHelper.GetValue("HangfireMySQL");
             if (HangfireStorage.IsNullOrEmpty())
                 HangfireStorage = Environment.GetEnvironmentVariable("HangfireMySQL");
-            services.AddHangfire(config =>
+
+            var IsHangfireEnable = Environment.GetEnvironmentVariable("IsHangfireEnable");
+            if (IsHangfireEnable?.ToLower() == "true")
             {
-                config.UseStorage(new MySqlStorage(HangfireStorage, new MySqlStorageOptions()))
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ServerCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RecurringJobCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RetriesCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.EnqueuedAndQueueCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ScheduledCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ProcessingCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.SucceededCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.FailedCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.DeletedCount)
-                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.AwaitingCount);
-            });
+                services.AddHangfire(config =>
+                            {
+                                config.UseStorage(new MySqlStorage(HangfireStorage, new MySqlStorageOptions()))
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ServerCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RecurringJobCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.RetriesCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.EnqueuedAndQueueCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ScheduledCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.ProcessingCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.SucceededCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.FailedCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.DeletedCount)
+                                    .UseDashboardMetric(Hangfire.Dashboard.DashboardMetrics.AwaitingCount);
+                            });
 
-            /*** 1.7.5以後可以改用以下寫法 ***/
-            services.AddHangfireServer(options =>
-            {
-                options.Queues = new[] { "critical", "default" };
+                /*** 1.7.5以後可以改用以下寫法 ***/
+                services.AddHangfireServer(options =>
+                {
+                    options.Queues = new[] { "critical", "default" };
 
-                var WorkerCount = configurationHelper.GetValue("HangfireWorkerCount");
-                if (WorkerCount.IsNullOrEmpty())
-                    WorkerCount = Environment.GetEnvironmentVariable("HangfireWorkerCount");
-                if (int.TryParse(WorkerCount, out int a))
-                    options.WorkerCount = a > 1 ? a : 1;
+                    var WorkerCount = configurationHelper.GetValue("HangfireWorkerCount");
+                    if (WorkerCount.IsNullOrEmpty())
+                        WorkerCount = Environment.GetEnvironmentVariable("HangfireWorkerCount");
+                    if (int.TryParse(WorkerCount, out int a))
+                        options.WorkerCount = a > 1 ? a : 1;
 
-                var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
-                if (HangfireServerName.IsNullOrEmpty())
-                    HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
-                options.ServerName = HangfireServerName;
-            });
+                    var HangfireServerName = configurationHelper.GetValue("HangfireServerName");
+                    if (HangfireServerName.IsNullOrEmpty())
+                        HangfireServerName = Environment.GetEnvironmentVariable("HangfireServerName");
+                    options.ServerName = HangfireServerName;
+                });
+            }
+
+
             services.AddMvc().AddRazorRuntimeCompilation();
             Log.Logger = new LoggerConfiguration()
                            .ReadFrom.Configuration(Configuration)
