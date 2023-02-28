@@ -4,15 +4,15 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section Header{    
-    <link rel="stylesheet" href="~/node_modules/simplemde/dist/simplemde.min.css">
-    <link rel="stylesheet" href="~/css/typeaheadjs.css" >
-    <link rel="stylesheet" href="~/node_modules/highlight.js/styles/atom-one-light.css">
-    <link rel="stylesheet" href="~/css/markdown-custom.css" />
-    <link rel="stylesheet" href="~/node_modules/github-markdown-css/github-markdown.css" />
-    <link rel="stylesheet" href="~/semantic/dist/components/dropdown.min.css" />
-    <link rel="stylesheet" href="~/semantic/dist/components/search.min.css" />
-    <link rel="stylesheet" href="~/semantic/dist/components/transition.min.css" />
+@section Header{
+<link rel="stylesheet" href="~/node_modules/simplemde/dist/simplemde.min.css">
+<link rel="stylesheet" href="~/css/typeaheadjs.css">
+<link rel="stylesheet" href="~/node_modules/highlight.js/styles/atom-one-light.css">
+<link rel="stylesheet" href="~/css/markdown-custom.css" />
+<link rel="stylesheet" href="~/node_modules/github-markdown-css/github-markdown.css" />
+<link rel="stylesheet" href="~/node_modules/fomantic-ui/dist/components/dropdown.min.css" />
+<link rel="stylesheet" href="~/node_modules/fomantic-ui/dist/components/search.min.css" />
+<link rel="stylesheet" href="~/node_modules/fomantic-ui/dist/components/transition.min.css" />
 }
 <br>
 <div class="row">
@@ -21,7 +21,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Post" asp-route-postTitle="@Model.PostId">Post</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Post"
+                        asp-route-postTitle="@Model.PostId">Post</a></li>
                 <li class="breadcrumb-item active"><a>Edit - @Model.PostTitle</a></li>
             </ol>
         </nav>
@@ -31,7 +32,7 @@
         <h2>Edit</h2>
         <hr />
     </div>
-    
+
     <div class="col-md-12">
         <form asp-action="Edit" method="post" id="form">
             <input asp-for="PostId" type="hidden">
@@ -39,11 +40,11 @@
             <div class="form-group">
                 <input class="form-control" placeholder="Enter PostTitle" asp-for="PostTitle">
             </div>
-            <textarea asp-for="PostContent" ></textarea>
+            <textarea asp-for="PostContent"></textarea>
             <br>
 
             <div class="ui sub" id="js-alltags">
-                <select  class="ui search dropdown"></select>
+                <select class="ui search dropdown"></select>
                 <button type="button" class="btn btn-outline-success">Add Tag</button>
             </div>
 
@@ -58,11 +59,9 @@
     </div>
 </div>
 
-@section Scripts{    
-    <script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
-    <script src="~/semantic/dist/semantic.min.js"></script>
-    <script type="module" src="~/js/edit.js"></script>
-    
+@section Scripts{
+<script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
+<script src="~/node_modules/fomantic-ui/dist/semantic.min.js"></script>
+<script type="module" src="~/js/edit.js"></script>
+
 }
-
-
