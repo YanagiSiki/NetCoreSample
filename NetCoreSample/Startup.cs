@@ -157,13 +157,17 @@ namespace NetCoreSample
             app.UseAuthorization();
             app.UseCookiePolicy();
 
-            app.UseHangfireDashboard(
-                pathMatch: "/hangfire",
-                options: new DashboardOptions()
-                { // 使用自訂的認證過濾器
-                    Authorization = new[] { new HangfireAuthorizeFilter() }
-                }
-            );
+            var IsHangfireEnable = Environment.GetEnvironmentVariable("IsHangfireEnable");
+            if (IsHangfireEnable?.ToLower() == "true")
+            {
+                app.UseHangfireDashboard(
+                                pathMatch: "/hangfire",
+                                options: new DashboardOptions()
+                                { // 使用自訂的認證過濾器
+                                    Authorization = new[] { new HangfireAuthorizeFilter() }
+                                }
+                            );
+            }
 
             app.UseEndpoints(endpoints =>
             {
