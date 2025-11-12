@@ -45,8 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="node_modules/**" CopyToOutputDirectory="Always" />
-    <Content Include="semantic/dist/**" CopyToOutputDirectory="Always" />
+     <!-- <Content Include="wwwroot/dist/**" CopyToOutputDirectory="Always" /> -->
     <!-- <Compile Remove="UnitTest\**" /> -->
   </ItemGroup>
 

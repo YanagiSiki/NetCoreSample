@@ -1,8 +1,8 @@
+import * as $ from 'jquery';
 export module tool {
     export function alertErrorMessage(errorMessage: string) {
         $('#_ErrorFlashMessage').append(`<div class="alert alert-danger">
                                         <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                        <strong>Error!</strong> ${errorMessage}
                                     </div>`)
 
     }

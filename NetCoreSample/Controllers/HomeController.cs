@@ -77,7 +77,7 @@ namespace NetCoreSample.Controllers
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
-                if (tmp.IsNotNull())_.PostContent = tmp;
+                if (tmp.IsNotNull()) _.PostContent = tmp;
             });
             return View(Posts);
         }
@@ -86,19 +86,23 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         public IActionResult Post(string postTitle)
         {
-            if (postTitle.IsNullOrEmpty())throw new Exception("Page Not Found");
+            if (postTitle.IsNullOrEmpty()) throw new Exception("Page Not Found");
             int PostId;
             Post Post;
 
-            if (int.TryParse(postTitle, out PostId))
+            // 解碼 URL 參數
+            var decodedTitle = System.Net.WebUtility.UrlDecode(postTitle);
+
+            if (int.TryParse(decodedTitle, out PostId))
             {
                 Post = _dbContext.Post.FirstOrDefault(_ => _.PostId == PostId);
                 if (Post == null)
                     throw new Exception("Post Not Found");
-                return RedirectToAction("Post", new { postTitle = Post.PostTitle });
+                // 將標題進行編碼，避免特殊字元出錯
+                return RedirectToAction("Post", new { postTitle = System.Net.WebUtility.UrlEncode(Post.PostTitle) });
             }
 
-            Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == postTitle);
+            Post = _dbContext.Post.FirstOrDefault(_ => _.PostTitle == decodedTitle);
             if (Post == null)
                 throw new Exception("Post Not Found");
             string UserId = HttpContext.User.Claims.FirstOrDefault(_ => _.Type == "UserId")?.Value;
@@ -140,8 +144,8 @@ namespace NetCoreSample.Controllers
                 {
                     // PostId = 1,
                     PostTitle = "PostTitle",
-                        PostContent = "# This is H1! \r\n PostContent",
-                        //PostTags = PostTags
+                    PostContent = "# This is H1! \r\n PostContent",
+                    //PostTags = PostTags
                 });
             }
 
@@ -167,7 +171,7 @@ namespace NetCoreSample.Controllers
         [AllowAnonymous]
         public IActionResult Tag(int tagId, int page)
         {
-            if (tagId == 0 || _dbContext.Tag.All(_ => _.TagId != tagId))throw new Exception("Tag Not Found");
+            if (tagId == 0 || _dbContext.Tag.All(_ => _.TagId != tagId)) throw new Exception("Tag Not Found");
             page = page > 0 ? page : 1;
             ViewBag.Tag = _dbContext.Tag.Where(_ => _.TagId == tagId).FirstOrDefault();
             // ViewBag.PageRange = 2;            
@@ -179,7 +183,7 @@ namespace NetCoreSample.Controllers
             Posts.ForEach(_ =>
             {
                 var tmp = _.PostContent.Split("<!--more-->\n").First();
-                if (tmp.IsNotNull())_.PostContent = tmp;
+                if (tmp.IsNotNull()) _.PostContent = tmp;
             });
             ViewBag.CurrentPage = page;
             ViewBag.TotalPage = Math.Ceiling((double)TotalPostCount / 5);
@@ -196,11 +200,11 @@ namespace NetCoreSample.Controllers
             {
                 StartInfo = new ProcessStartInfo
                 {
-                FileName = "/bin/bash",
-                Arguments = $"-c \"{escapedArgs}\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
                 }
             };
             process.Start();

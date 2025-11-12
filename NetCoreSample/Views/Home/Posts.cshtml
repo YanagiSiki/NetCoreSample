@@ -4,11 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
-    <link rel="stylesheet" href="~/node_modules/simplemde/dist/simplemde.min.css">
+  <link rel="stylesheet" href="~/dist/css/simplemde.min.css">
     <link rel="stylesheet" href="~/css/typeaheadjs.css" >
-    <link rel="stylesheet" href="~/node_modules/highlight.js/styles/atom-one-light.css">
+  <link rel="stylesheet" href="~/dist/css/atom-one-light.css">
     <link rel="stylesheet" href="~/css/markdown-custom.css" />
-    <link rel="stylesheet" href="~/node_modules/github-markdown-css/github-markdown.css" />
+  <link rel="stylesheet" href="~/dist/css/github-markdown.css" />
 }
 @{
   if(@Model != null){
@@ -23,7 +23,7 @@
           <input type="hidden" class="PostContent" data-contant="@item.PostContent">
           @* <p class="text-right">@item.PostTitle</p> *@
           <p class="text-right"><em>編輯於 @item.PostDate.ToString("yyyy/MM/dd/ HH:mm")</em></p>
-          <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-postTitle="@item.PostTitle" class="btn btn-success float-right">ReadMore</a>
+          <a asp-area="" asp-controller="Home" asp-action="Post" asp-route-postTitle="@System.Net.WebUtility.UrlEncode(item.PostTitle)" class="btn btn-success float-right">ReadMore</a>
         </div>
       </div>
     }
@@ -35,7 +35,7 @@
 <div id="page" data-currentpage="@ViewBag.CurrentPage" data-totalpage="@ViewBag.TotalPage" data-pagerange="@ViewBag.PageRange" data-url="/Home/posts"></div>
 
 @section Scripts{    
-    <script src="~/node_modules/simplemde/dist/simplemde.min.js"></script>
+  <script src="~/dist/js/simplemde.min.js"></script>
     <script type="module" src="~/js/index.js"></script>
     <script type="module" src="~/js/pagination.js"></script>
 }

@@ -1,10 +1,11 @@
+import * as $ from 'jquery';
 import {tool} from './tool.js';
+import {sortNumber} from './pagination.js';
 
 (function (w) {
     let postid = $('#PostId').val();
     let $postcontainer = $('#PostContent');
     let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
-    let $deletePost = () => $.post('/PostApi/DeletePost', { "postId": postid });
 
     let $tags = $('#js-tags');
 
@@ -31,6 +32,8 @@ import {tool} from './tool.js';
             tool.alertErrorMessage(error.responseText)
         });
         
+    // 宣告 $deletePost
+    const $deletePost = () => $.post('/PostApi/DeletePost', { postId: postid });
     $('#deletebtn').click(() => { 
         $deletePost().done((sucess)=>{
             tool.alertSuccessMessage(sucess);

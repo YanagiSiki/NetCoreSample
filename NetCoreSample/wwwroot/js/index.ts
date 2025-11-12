@@ -6,7 +6,6 @@
             element: $postcontainer[0]
         });
         
-        $postcontainer.prev('.Page').append($simplemde.markdown($postcontainer.data('contant')));
 
         $simplemde.toTextArea();
         $simplemde = null;

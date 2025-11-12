@@ -1,4 +1,4 @@
-function sortNumber(a, b) {
+export function sortNumber(a, b) {
 	return a - b;
 }
 (function (w) {

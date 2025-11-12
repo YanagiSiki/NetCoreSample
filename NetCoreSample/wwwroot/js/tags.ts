@@ -1,3 +1,4 @@
+import * as $ from 'jquery';
 import {tool} from './tool.js';
 
 (function (w) {
@@ -5,9 +6,9 @@ import {tool} from './tool.js';
 
     $getTags()
         .done((PostCountOfTag: Array<PostCountOfTag>) => {
-            tool.appendBadgeAndCount(PostCountOfTag);
+            // TODO: 處理標籤資料
         })
         .fail((error) => {
-            tool.alertErrorMessage(error.responseText)
-        })
-}(window));
+            tool.alertErrorMessage(error.responseText);
+        });
+})(window);

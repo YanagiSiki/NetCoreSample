@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     @RenderSection("Header", false)
     <title>@ViewData["Title"] - NetCoreSample</title>
@@ -34,11 +34,11 @@
             </footer>
         </div>
     </div>
-    <script src="~/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="~/node_modules/jquery-serializejson/jquery.serializejson.min.js"></script>
-    <script src="~/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/node_modules/highlight.js/lib/highlight.js"></script>
-    <script src="~/node_modules/highlightjs-line-numbers.js/dist/highlightjs-line-numbers.min.js"></script>
+    <script src="~/dist/js/jquery.min.js"></script>
+    <script src="~/dist/js/jquery.serializejson.min.js"></script>
+    <script src="~/dist/js/bootstrap.min.js"></script>
+    <script src="~/dist/js/highlight.js"></script>
+    <script src="~/dist/js/highlightjs-line-numbers.min.js"></script>
     <script src="~/js/site.js"></script>
     <script type="module" src="~/js/tool.js"></script>
     <script src="https://kit.fontawesome.com/2b7ec31136.js"
@@ -52,6 +52,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-160274425-1');
     </script>
+        <script src="~/dist/js/semantic.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 

@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": ";AAAA;;wDAEwD;AACxD,AAAA,cAAc,CAAC;EACX,WAAW,EAAE,uBAAuB;CAcvC;;AAfD,AAWQ,cAXM,CAMV,KAAK,CAKD,aAAa,CAAA;EACT,KAAK,EAAE,IAAI;CACd",
-    "sources": [
-        "markdown-custom.scss"
-    ],
-    "names": [],
-    "file": "markdown-custom.css"
-}
+{"version":3,"sourceRoot":"","sources":["markdown-custom.scss"],"names":[],"mappings":";AAAA;AAAA;AAAA;AAGA;EACI;;AAUI;EACI","file":"markdown-custom.css"}

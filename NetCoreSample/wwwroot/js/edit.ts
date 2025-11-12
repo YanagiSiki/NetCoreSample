@@ -1,9 +1,9 @@
+import * as $ from 'jquery';
+
 import { tool } from "./tool.js";
 
 (function (w) {
     let postid = $('#PostId').val();
-    let $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
-    let $getAllTags = () => $.get('/PostApi/GetAllTags');
     let $alltags = $('#js-alltags');
     let $tags = $('#js-tags');
 
@@ -20,20 +20,24 @@ import { tool } from "./tool.js";
         spellChecker: false,
     });
 
-    $.when($getTagsOfPost(), $getAllTags())
-        .done((result1, result2) => {
-            let tags: Array<Tag> = result1[0];
-            let alltags: Array<Tag> = result2[0];
+        // 宣告 $getTagsOfPost, $getAllTags
+        const $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+        const $getAllTags = () => $.get('/TagApi/GetTags');
 
-            tool.appendBadge(tags, true);
-            $tags.data('tags', tags);
+        $.when($getTagsOfPost(), $getAllTags())
+            .done((result1, result2) => {
+                let tags: Array<Tag> = result1[0];
+                let alltags: Array<Tag> = result2[0];
 
-            tool.createTypeheadOfAllTags(alltags);
-            $alltags.data('alltags', alltags);
-        })
-        .fail((error) => {
-            tool.alertErrorMessage(error.responseText)
-        });
+                tool.appendBadge(tags, true);
+                $tags.data('tags', tags);
+
+                tool.createTypeheadOfAllTags(alltags);
+                $alltags.data('alltags', alltags);
+            })
+            .fail((error) => {
+                tool.alertErrorMessage(error.responseText)
+            });
 
 
     $alltags.on('click', '.btn', function () {

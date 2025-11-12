@@ -11,11 +11,13 @@ RUN dotnet restore
 RUN apt-get update && \
     apt-get install -y wget && \
     apt-get install -y gnupg2 && \
-    wget -qO- https://deb.nodesource.com/setup_18.x | bash - && \
+    wget -qO- https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y build-essential nodejs
-RUN npm install -s --ignore-scripts
-# RUN npm install -g gulp bower
-# RUN bower install --allow-root
+
+# 安裝前端依賴並打包
+RUN npm install
+RUN npm run build 
+RUN npx tsc && npx sass wwwroot/css:wwwroot/css
 
 RUN dotnet publish -c Release -o out
 
