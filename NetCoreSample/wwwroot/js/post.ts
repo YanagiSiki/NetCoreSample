@@ -1,6 +1,8 @@
-import * as $ from 'jquery';
-import {tool} from './tool.js';
-import {sortNumber} from './pagination.js';
+import { tool } from './tool.js';
+import { sortNumber } from './pagination.js';
+import type { Tag } from "./declaration.d.ts";
+// import SimpleMDE from 'simplemde';
+
 
 (function (w) {
     let postid = $('#PostId').val();
@@ -31,18 +33,18 @@ import {sortNumber} from './pagination.js';
         .fail((error) => {
             tool.alertErrorMessage(error.responseText)
         });
-        
+
     // 宣告 $deletePost
     const $deletePost = () => $.post('/PostApi/DeletePost', { postId: postid });
-    $('#deletebtn').click(() => { 
-        $deletePost().done((sucess)=>{
+    $('#deletebtn').click(() => {
+        $deletePost().done((sucess) => {
             tool.alertSuccessMessage(sucess);
             setTimeout(function () {
                 $(location).attr('href', '/')
             }, 1000);
         })
-        .fail((error) => {
-            tool.alertErrorMessage(error.responseText)
-        });
+            .fail((error) => {
+                tool.alertErrorMessage(error.responseText)
+            });
     });
 }(window));

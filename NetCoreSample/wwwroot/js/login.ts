@@ -1,5 +1,3 @@
-import * as $ from 'jquery';
-
 import { tool } from "./tool.js";
 
 (function (w) {

@@ -1,6 +1,6 @@
-import * as $ from 'jquery';
-
+// import SimpleMDE from 'simplemde';
 import { tool } from "./tool.js";
+import type { Tag } from "./declaration.d.ts";
 
 (function (w) {
     let postid = $('#PostId').val();
@@ -20,24 +20,24 @@ import { tool } from "./tool.js";
         spellChecker: false,
     });
 
-        // 宣告 $getTagsOfPost, $getAllTags
-        const $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
-        const $getAllTags = () => $.get('/TagApi/GetTags');
+    // 宣告 $getTagsOfPost, $getAllTags
+    const $getTagsOfPost = () => $.get('/PostApi/GetTagsOfPost', { postId: postid });
+    const $getAllTags = () => $.get('/TagApi/GetTags');
 
-        $.when($getTagsOfPost(), $getAllTags())
-            .done((result1, result2) => {
-                let tags: Array<Tag> = result1[0];
-                let alltags: Array<Tag> = result2[0];
+    $.when($getTagsOfPost(), $getAllTags())
+        .done((result1, result2) => {
+            let tags: Array<Tag> = result1[0];
+            let alltags: Array<Tag> = result2[0];
 
-                tool.appendBadge(tags, true);
-                $tags.data('tags', tags);
+            tool.appendBadge(tags, true);
+            $tags.data('tags', tags);
 
-                tool.createTypeheadOfAllTags(alltags);
-                $alltags.data('alltags', alltags);
-            })
-            .fail((error) => {
-                tool.alertErrorMessage(error.responseText)
-            });
+            tool.createTypeheadOfAllTags(alltags);
+            $alltags.data('alltags', alltags);
+        })
+        .fail((error) => {
+            tool.alertErrorMessage(error.responseText)
+        });
 
 
     $alltags.on('click', '.btn', function () {

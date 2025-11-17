@@ -1,4 +1,4 @@
-import * as $ from 'jquery';
+import type { PostCountOfTag } from "./declaration.d.ts";
 import {tool} from './tool.js';
 
 (function (w) {
@@ -6,7 +6,7 @@ import {tool} from './tool.js';
 
     $getTags()
         .done((PostCountOfTag: Array<PostCountOfTag>) => {
-            // TODO: 處理標籤資料
+            tool.appendBadgeAndCount(PostCountOfTag);
         })
         .fail((error) => {
             tool.alertErrorMessage(error.responseText);

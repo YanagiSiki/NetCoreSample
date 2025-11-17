@@ -1,8 +1,10 @@
-import * as $ from 'jquery';
+// import SimpleMDE from 'simplemde';
+import type { Tag, PostCountOfTag } from "./declaration.d.ts";
 export module tool {
     export function alertErrorMessage(errorMessage: string) {
         $('#_ErrorFlashMessage').append(`<div class="alert alert-danger">
                                         <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                        <strong>Error!</strong> ${errorMessage}
                                     </div>`)
 
     }
