@@ -23,7 +23,7 @@ declare interface Tag {
     TagId: number;
     TagName: string;
 }
-declare interface PostCountOfTag {
+declare interface Tags {
     Tag: Tag;
     Count: number;
 }

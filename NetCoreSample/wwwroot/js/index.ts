@@ -5,8 +5,8 @@
         let $simplemde = new SimpleMDE({
             element: $postcontainer[0]
         });
-        
-    $postcontainer.prev('.Page').append((SimpleMDE as any).markdown($postcontainer.data('contant')));
+
+        $postcontainer.prev('.Page').append($simplemde.markdown($postcontainer.data('contant')));
 
         $simplemde.toTextArea();
         $simplemde = null;

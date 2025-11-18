@@ -1,5 +1,5 @@
 // import SimpleMDE from 'simplemde';
-import type { Tag, PostCountOfTag } from "./declaration.d.ts";
+import type { Tag, Tags } from "./declaration.d.ts";
 export module tool {
     export function alertErrorMessage(errorMessage: string) {
         $('#_ErrorFlashMessage').append(`<div class="alert alert-danger">
@@ -65,7 +65,7 @@ export module tool {
         });
     }
 
-    export function appendBadgeAndCount(PostCountOfTag: Array<PostCountOfTag>) {
+    export function appendBadgeAndCount(PostCountOfTag: Array<Tags>) {
         var $container = $('#js-postCountofTag');
         PostCountOfTag.forEach(t => {
             $container.append(`<a href='/Home/Tag/${t.Tag.TagId}' class='badge badge-success'>${t.Tag.TagName}(${t.Count})</a>`);
@@ -104,11 +104,12 @@ export module tool {
         $tags.data('tags', _tags);
     }
 
-    export function createTypeheadOfAllTags(tags: Array<Tag>) {
+    export function createTypeheadOfAllTags(tags: Array<Tags>) {
         let dropdownValue = tags.map((value, index) => {
+            debugger;
             return {
-                name: value.TagName,
-                value: value.TagName
+                name: value.Tag.TagName,
+                value: value.Tag.TagName
             }
         });
 

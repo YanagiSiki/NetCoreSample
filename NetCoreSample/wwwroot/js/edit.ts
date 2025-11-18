@@ -1,6 +1,6 @@
 // import SimpleMDE from 'simplemde';
 import { tool } from "./tool.js";
-import type { Tag } from "./declaration.d.ts";
+import type { Tag, Tags } from "./declaration.d.ts";
 
 (function (w) {
     let postid = $('#PostId').val();
@@ -27,7 +27,7 @@ import type { Tag } from "./declaration.d.ts";
     $.when($getTagsOfPost(), $getAllTags())
         .done((result1, result2) => {
             let tags: Array<Tag> = result1[0];
-            let alltags: Array<Tag> = result2[0];
+            let alltags: Array<Tags> = result2[0];
 
             tool.appendBadge(tags, true);
             $tags.data('tags', tags);
