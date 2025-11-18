@@ -9,9 +9,8 @@ RUN dotnet restore
 # REF by https://stackoverflow.com/questions/45880460/enable-docker-support-for-angular-project
 # REF by http://kevintsengtw.blogspot.com/2018/08/aspnet-core-21-docker-image-nodejs.html
 RUN apt-get update && \
-    apt-get install -y wget && \
-    apt-get install -y gnupg2 && \
-    wget -qO- https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
     apt-get install -y build-essential nodejs
 
 # 安裝前端依賴並打包
