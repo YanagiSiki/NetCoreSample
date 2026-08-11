@@ -2,6 +2,46 @@
 
 ---
 
+## .github 資料夾結構與說明
+
+- **agents/**
+  - `api-design-expert.agent.md`：API 設計與文件產生專家代理人
+  - `code-review-expert.agent.md`：自動偵測程式變更並依技能/指引進行 code review 的專家代理人
+  - `csharp-expert.agent.md`：.NET/C# 專家，協助開發、審查、除錯
+  - `doc-generator-expert.agent.md`：自動產生/維護專案文件與 .github 結構摘要的專家代理人
+  - `meta-agentic-project-scaffold.agent.md`：協助專案流程與工作流建立的 meta agent
+  - `test-expert.agent.md`：測試策略、單元/整合/自動化測試專家代理人
+
+- **instructions/**
+  - `code-review.instructions.md`：專案 code review 檢查重點與結構規範
+  - `containerization-docker-best-practices.instructions.md`：Docker/容器化最佳實踐與審查重點
+  - `csharp-development.instructions.md`：C# 開發規範與審查重點
+  - `doc-structure-collector.instructions.md`：自動產生/更新 .github 結構說明的指引
+  - `performance-optimization-best-practices.instructions.md`：效能優化最佳實踐與審查重點
+  - `secure-coding-owasp.instructions.md`：安全開發與 OWASP 檢查重點
+
+- **prompts/**
+  - `code-review.prompt.md`：Code review 步驟與審查提示
+  - `create-implementation-plan.prompt.md`：產生實作計畫的提示
+  - `doc-structure-collector.prompt.md`：自動產生/更新 .github 結構說明的提示
+  - `dotnet-csharp-best-practices.prompt.md`：.NET/C# 最佳實踐審查提示
+  - `project-workflow-documentation-generator.prompt.md`：產生專案流程與架構文件的提示
+  - `readme-generator.prompt.md`：產生/更新 README.md 的提示
+  - `test-strategy.prompt.md`：測試策略撰寫提示
+
+- **skills/**
+  - `api-controller.skill.md`：API Controller 分層與設計技能
+  - `api-design-best-practices.skill.md`：API 設計最佳實踐技能
+  - `code-review-checklist.skill.md`：Code review 檢查清單技能
+  - `dbcontext-multi.skill.md`：多 DbContext 設計技能
+  - `doc-structure-collector.skill.md`：自動產生/更新 .github 結構說明技能
+  - `dockerization.skill.md`：Docker 化與乾淨建置技能
+  - `frontend-assets.skill.md`：前端資產管理與建置技能
+
+- `copilot-instructions.md`：Copilot 與自動化代理人整合說明
+
+---
+
 ## 前端編譯/資源流程
 
 1. 安裝依賴（只需一次）
@@ -27,10 +67,13 @@
      npx sass --watch wwwroot/css:wwwroot/css
      ```
 4. 複製第三方 JS/CSS 到 wwwroot/dist（每次有第三方套件更新時執行）
+
    ```powershell
    npm run build
    ```
+
    - 只會將 node_modules 內指定的 JS/CSS 複製到 wwwroot/dist，不會打包 JS/CSS。
+
 5. .cshtml 檔案引用方式：
    ```html
    <script src="~/dist/js/semantic.min.js"></script>

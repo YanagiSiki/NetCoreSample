@@ -27,7 +27,14 @@ namespace NetCoreSample.Models
             Console.WriteLine(dbUrl);
             if (dbUrl.IsNullOrEmpty()) throw new Exception("資料庫連線失敗");
             var serverVersion = new MariaDbServerVersion(new Version(10, 3, 23));
-            optionsBuilder.UseMySql(dbUrl, serverVersion);
+            optionsBuilder.UseMySql(dbUrl, serverVersion, options =>
+            {
+                /*** 加入暫時性失敗的重試機制，避免資料庫暫時中斷時拋出例外 ***/
+                options.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null);
+            });
             /*** https://ohke.hateblo.jp/entry/2017/03/03/000000 ***/
             var loggerFactory = new LoggerFactory();
             optionsBuilder.UseLoggerFactory(loggerFactory);
